@@ -9,8 +9,8 @@
 			text: "Weberescu nu a construit doar un site web; au arhitecturat o realitate digitală. Măiestria lor în animație și meticulozitatea sunt de neegalat.",
 		},
 		{
-			name: "Marcus Thorne",
-			role: "Fondator, Nexal",
+			name: "Peiu Laurențiu",
+			role: "Fondator, Cabane A-Frame Svinița",
 			text: "Colaborarea cu ei a fost ca și cum am fi lucrat cu o versiune viitoare a noastră. Calitate fără compromisuri și execuție neobosită.",
 		},
 		{
