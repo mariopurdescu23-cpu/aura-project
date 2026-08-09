@@ -82,7 +82,7 @@
 
 <section
     id="agency"
-    class="w-full h-[100dvh] flex flex-col items-center justify-center relative overflow-hidden text-center pt-24 pb-12"
+    class="w-full h-[100svh] flex flex-col items-center justify-center relative overflow-hidden text-center pt-24 pb-12"
 >
     <!-- Cinematic Backing -->
     <div
@@ -92,7 +92,7 @@
         <img
             src="/ascii-art.gif"
             alt="Ascii art background"
-            class="w-full h-[100dvh] object-cover mix-blend-screen opacity-[0.65] block"
+            class="w-full h-[100svh] object-cover mix-blend-screen opacity-[0.65] block"
         />
         <div
             class="absolute inset-0 bg-linear-to-b from-[#050505]/40 via-[#050505]/10 to-[#050505]"
