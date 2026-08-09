@@ -29,7 +29,7 @@
 
 <section
 	id="work"
-	class="w-full bg-[#050505] text-white py-32 border-t border-white/10 min-h-screen"
+	class="w-full bg-[#050505] text-white py-32 border-t border-white/10 min-h-[100dvh]"
 >
 	<div
 		class="px-6 md:px-24 mb-24 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-6"
