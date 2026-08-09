@@ -13,6 +13,7 @@
 
     onMount(() => {
         gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.config({ ignoreMobileResize: true });
 
         // Inițializăm Lenis (Smooth Scrolling) — autoRaf DEZACTIVAT
         // intenționat: îl conducem manual prin gsap.ticker mai jos,
