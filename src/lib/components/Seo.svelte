@@ -3,7 +3,7 @@
 		title = "Weberescu — Software & Web Design",
 		description = "O agenție creativă de Software & Web Design cu sute de clienți mulțumiți!",
 		url = "https://weberescu.ro",
-		image = "/og-image.png",
+		image = "https://weberescu.ro/og-image.png",
 	} = $props();
 </script>
 
