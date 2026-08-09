@@ -1,7 +1,7 @@
 <script>
 	let {
 		title = "Weberescu — Software & Web Design",
-		description = "O agenție creativă de Software & Web Design cu sute de clienți mulțumiți!",
+		description = "Weberescu — Site-uri de prezentare, magazine online și SEO, făcute de la zero pentru afaceri din România. Prețuri clare, livrare rapidă.",
 		url = "https://weberescu.ro",
 		image = "https://weberescu.ro/og-image.png",
 	} = $props();
@@ -29,4 +29,20 @@
 	<meta property="twitter:title" content={title} />
 	<meta property="twitter:description" content={description} />
 	<meta property="twitter:image" content={image} />
+
+	<script type="application/ld+json">
+{JSON.stringify({
+	"@context": "https://schema.org",
+	"@type": "ProfessionalService",
+	"name": "Weberescu",
+	"url": "https://weberescu.ro",
+	"email": "contact@weberescu.ro",
+	"description": description,
+	"image": image,
+	"priceRange": "2400 RON - 7500 RON",
+	"areaServed": "RO",
+	"serviceType": ["Web Design", "Dezvoltare Site-uri", "Magazine Online", "SEO"]
+})}
+</script>
+<link rel="canonical" href={url} />
 </svelte:head>
