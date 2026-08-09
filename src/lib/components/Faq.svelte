@@ -32,6 +32,22 @@
 		}
 	}
 </script>
+<svelte:head>
+	<script type="application/ld+json">
+	{JSON.stringify({
+		"@context": "https://schema.org",
+		"@type": "FAQPage",
+		"mainEntity": faqs.map((item) => ({
+			"@type": "Question",
+			"name": item.q,
+			"acceptedAnswer": {
+				"@type": "Answer",
+				"text": item.a
+			}
+		}))
+	})}
+	</script>
+</svelte:head>
 
 <section
 	id="faq"
