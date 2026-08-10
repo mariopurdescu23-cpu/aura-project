@@ -137,7 +137,7 @@
 					<a
 						href="#contact"
 						onclick={(e) => scrollToSection(e, "#contact")}
-						class="carousel-card group shrink-0 lg:shrink snap-start w-[75vw] sm:w-[45vw] lg:w-full h-[420px] md:h-[500px] rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-colors duration-500 relative flex flex-col justify-end p-6 md:p-8"
+						class="carousel-card group shrink-0 lg:shrink snap-start w-full sm:w-[45vw] lg:w-full h-[420px] md:h-[500px] rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-colors duration-500 relative flex flex-col justify-end p-6 md:p-8"
 					>
 						<svg
 							class="relative z-10 w-12 h-12 md:w-14 md:h-14 mb-4 text-white/40 transition-all duration-300"
@@ -227,6 +227,11 @@
 					</svg>
 				</button>
 			</div>
+			<p
+				class="lg:hidden text-center text-xs text-white/40 font-sans mt-4"
+			>
+				Apasă pe săgeți pentru a vedea mai multe servicii
+			</p>
 		</div>
 	</div>
 </section>
