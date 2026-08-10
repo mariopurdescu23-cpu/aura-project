@@ -3,7 +3,6 @@
 	import gsap from "gsap";
 	import ScrollTrigger from "gsap/ScrollTrigger";
 	import { scrollToSection } from "$lib/scrollTo.js";
-	import imgMobile from "$lib/assets/services/mobile-apps.jpg";
 
 	const services = [
 		{
@@ -26,7 +25,6 @@
 			icon: "M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z",
 			hoverColor: "#ef4444",
 			glow: "rgba(239,68,68,0.5)",
-			image: imgMobile,
 		},
 		{
 			title: "Aplicații web (CRM)",
@@ -47,6 +45,7 @@
 	let carouselRef = $state();
 	let sectionRef = $state();
 	let isAnimating = false;
+	let currentIndex = 0;
 
 	function scrollCarousel(direction) {
 		if (!carouselRef || isAnimating) return;
@@ -55,13 +54,19 @@
 			".carousel-card",
 		)?.offsetWidth;
 		const gap = 24;
-		const distance = direction * (cardWidth + gap);
+
+		// Navigăm pe index exact, nu pe distanță relativă față de poziția
+		// curentă — la capătul din dreapta, ultimul card nu se aliniază
+		// mereu perfect la un multiplu de (cardWidth+gap), iar scroll-ul
+		// relativ acumula acea eroare mică, dând un mic "glitch" la
+		// apăsarea săgeții înapoi. Cu index fix, ținta e mereu exactă.
+		currentIndex = Math.min(
+			Math.max(currentIndex + direction, 0),
+			services.length - 1,
+		);
 
 		const maxScroll = carouselRef.scrollWidth - carouselRef.clientWidth;
-		const target = Math.min(
-			Math.max(carouselRef.scrollLeft + distance, 0),
-			maxScroll,
-		);
+		const target = Math.min(currentIndex * (cardWidth + gap), maxScroll);
 
 		isAnimating = true;
 
@@ -139,7 +144,7 @@
 					<a
 						href="#contact"
 						onclick={(e) => scrollToSection(e, "#contact")}
-						class="carousel-card group shrink-0 lg:shrink snap-start w-[75vw] sm:w-[45vw] lg:w-full h-[420px] md:h-[500px] rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-colors duration-500 relative flex flex-col justify-end p-6 md:p-8"
+						class="carousel-card group shrink-0 lg:shrink snap-start w-[75vw] sm:w-[45vw] lg:w-full h-[420px] md:h-[500px] rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-colors duration-500 relative flex flex-col p-6 md:p-8"
 					>
 						{#if service.video}
 							<video
@@ -180,7 +185,7 @@
 						</svg>
 
 						<h4
-							class="relative z-10 text-xl md:text-2xl font-sans font-medium text-white mb-2"
+							class="relative z-10 text-xl md:text-2xl font-sans font-medium text-white mb-2 mt-auto"
 						>
 							{service.title}
 						</h4>
