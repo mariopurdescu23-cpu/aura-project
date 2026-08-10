@@ -1,30 +1,34 @@
 <script>
-	const works = [
-		{
-			id: "01",
-			name: "Cabane A-Frame Svinița",
-			category: "Site de Prezentare",
-			year: "2025",
-		},
-		{
-			id: "02",
-			name: "Seeker Romania",
-			category: "Platformă Interactivă",
-			year: "2025",
-		},
-		{
-			id: "03",
-			name: "Mystic Puff",
-			category: "Magazin Online",
-			year: "2024",
-		},
-		{
-			id: "04",
-			name: "Weberescu Engine",
-			category: "Platformă Open Source",
-			year: "2023",
-		},
-	];
+const works = [
+	{
+		id: "01",
+		name: "Cabane A-Frame Svinița",
+		category: "Site de Prezentare",
+		year: "2025",
+		url: "https://www.aframe-svinita.ro",
+	},
+	{
+		id: "02",
+		name: "Seeker Romania",
+		category: "Platformă Interactivă",
+		year: "2025",
+		url: "#",
+	},
+	{
+		id: "03",
+		name: "Mystic Puff",
+		category: "Magazin Online",
+		year: "2024",
+		url: "#",
+	},
+	{
+		id: "04",
+		name: "Weberescu Engine",
+		category: "Platformă Open Source",
+		year: "2023",
+		url: "#",
+	},
+];
 </script>
 
 <section
