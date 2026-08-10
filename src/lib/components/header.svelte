@@ -46,12 +46,12 @@
     }
 
     // Advanced Smooth Scroll Injection
-    function scrollTo(evt, id) {
+    function scrollTo(evt, id, offsetY = 40) {
         evt.preventDefault();
         if (isMenuOpen) toggleMenu();
         gsap.to(window, {
             duration: 1.5,
-            scrollTo: { y: id, offsetY: 40 },
+            scrollTo: { y: id, offsetY },
             ease: "expo.inOut",
         });
     }
@@ -231,7 +231,7 @@
             <a
                 bind:this={mobileLinksRef[1]}
                 href="#services"
-                onclick={(e) => scrollTo(e, "#services")}
+                onclick={(e) => scrollTo(e, "#services", -280)}
                 class="block text-4xl font-sans font-light text-white/80 hover:text-white transition-colors will-change-transform"
                 >Servicii</a
             >
