@@ -16,23 +16,29 @@
 	});
 
 	const brands = [
-		"Lumina",
-		"Ozone",
-		"Nexal",
-		"Weberescu",
-		"Vercel",
-		"Stripe",
-		"Linear",
-		"Figma",
-		"Lumina",
-		"Ozone",
-		"Nexal",
-		"Weberescu",
-		"Vercel",
-		"Stripe",
-		"Linear",
-		"Figma", // Duplicat pentru buclă infinită
+		{
+			name: "Cabane A-Frame Svinița",
+			mark: "M12 2L2 22h20L12 2zm0 5l6 12H6l6-12z",
+		},
+		{
+			name: "Seeker Romania",
+			mark: "M11 4a7 7 0 100 14 7 7 0 000-14zm10 18l-5.35-5.35",
+		},
+		{
+			name: "Lumina",
+			mark: "M12 2v3m0 14v3m10-10h-3M5 12H2m15.5-7.5l-2.1 2.1M6.6 17.4l-2.1 2.1m0-15l2.1 2.1m10.8 10.8l2.1 2.1M12 8a4 4 0 100 8 4 4 0 000-8z",
+		},
+		{
+			name: "Ozone",
+			mark: "M12 2a10 10 0 100 20 10 10 0 000-20zm0 5a5 5 0 110 10 5 5 0 010-10z",
+		},
+		{
+			name: "Nexal",
+			mark: "M12 2l8.66 5v10L12 22l-8.66-5V7L12 2zm0 5v10M3.34 7L12 12l8.66-5",
+		},
 	];
+	// Duplicăm lista pentru bucla infinită a marquee-ului
+	const brandsLoop = [...brands, ...brands];
 </script>
 
 <section
@@ -59,11 +65,24 @@
 			class="flex whitespace-nowrap will-change-transform w-fit"
 		>
 			<div class="flex gap-16 md:gap-32 px-8 md:px-16 items-center">
-				{#each brands as brand}
+				{#each brandsLoop as brand}
 					<div
-						class="text-2xl md:text-4xl font-serif text-white/30 hover:text-white transition-colors duration-700 cursor-pointer select-none"
+						class="flex items-center gap-3 md:gap-4 text-2xl md:text-4xl font-serif text-white/30 hover:text-white transition-colors duration-700 cursor-pointer select-none"
 					>
-						{brand}
+						<svg
+							class="w-6 h-6 md:w-8 md:h-8 shrink-0"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="1.5"
+								d={brand.mark}
+							/>
+						</svg>
+						{brand.name}
 					</div>
 				{/each}
 			</div>
