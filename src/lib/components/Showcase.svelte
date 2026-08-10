@@ -2,37 +2,54 @@
 	import { onMount } from "svelte";
 	import gsap from "gsap";
 	import ScrollTrigger from "gsap/ScrollTrigger";
-	import imgSitePrezentare from "$lib/assets/services/site-prezentare.jpg";
-	import imgMagazinOnline from "$lib/assets/services/magazin-online.jpg";
-	import imgSeoViteza from "$lib/assets/services/seo-viteza.jpg";
 
 	const services = [
 		{
-			title: "Site de Prezentare",
-			desc: "Design unic, nu șablon cumpărat. Structurat în jurul întrebărilor pe care le pun clienții tăi înainte să te sune, cu texte scrise împreună cu tine și administrare simplă, fără programator.",
+			title: "Website de prezentare",
+			desc: "Prezență online rapidă și modernă",
 			icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
-			image: imgSitePrezentare,
 		},
 		{
-			title: "Magazin Online",
-			desc: "De la pagina de produs până la plată. Un drum scurt spre checkout, gândit întâi pentru telefon, cu plată cu cardul și ramburs, curieri și facturare conectate.",
+			title: "Magazin online",
+			desc: "Vânzări online cu gestiune simplă a produselor",
 			icon: "M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z",
-			image: imgMagazinOnline,
 		},
 		{
-			title: "SEO & Viteză",
-			desc: "Un site frumos pe care nu-l găsește nimeni e o cheltuială. Ne ocupăm de structura tehnică, datele structurate, optimizarea pentru căutări locale și raportăm lunar, pe înțeles.",
-			icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
-			image: imgSeoViteza,
+			title: "Aplicații de mobil",
+			desc: "iOS și Android, native sau cross-platform",
+			icon: "M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z",
+		},
+		{
+			title: "Aplicații web (CRM)",
+			desc: "Soluții personalizate pentru gestionarea afacerii",
+			icon: "M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7",
+		},
+		{
+			title: "Design UI/UX și Branding",
+			desc: "Soluții complete de design",
+			icon: "M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h10a2 2 0 002-2v-4a2 2 0 00-2-2h-2.5",
 		},
 	];
 
-	let gridRef = $state();
+	let carouselRef = $state();
+	let sectionRef = $state();
+
+	function scrollCarousel(direction) {
+		if (!carouselRef) return;
+		const cardWidth = carouselRef.querySelector(
+			".carousel-card",
+		)?.offsetWidth;
+		const gap = 24;
+		carouselRef.scrollBy({
+			left: direction * (cardWidth + gap),
+			behavior: "smooth",
+		});
+	}
 
 	onMount(() => {
 		gsap.registerPlugin(ScrollTrigger);
 
-		const cards = gridRef.querySelectorAll(".service-grid-card");
+		const cards = carouselRef.querySelectorAll(".carousel-card");
 
 		gsap.fromTo(
 			cards,
@@ -40,11 +57,11 @@
 			{
 				y: 0,
 				autoAlpha: 1,
-				duration: 1.2,
-				stagger: 0.15,
+				duration: 1,
+				stagger: 0.1,
 				ease: "expo.out",
 				scrollTrigger: {
-					trigger: gridRef,
+					trigger: sectionRef,
 					start: "top 80%",
 				},
 			},
@@ -53,6 +70,7 @@
 </script>
 
 <section
+	bind:this={sectionRef}
 	id="services"
 	class="w-full bg-[#050505] text-white py-32 md:py-48 border-t border-white/5 relative z-10 overflow-hidden"
 >
@@ -61,89 +79,117 @@
 		class="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#3B82F6] opacity-[0.02] blur-[200px] rounded-full pointer-events-none"
 	></div>
 
-	<div
-		class="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col items-center"
-	>
+	<div class="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col items-center">
 		<span
-			class="text-xs font-mono text-white/30 uppercase tracking-widest mb-16 text-center tracking-[0.3em]"
-			>Trei Lucruri, Făcute Până la Capăt</span
+			class="text-xs font-mono text-white/30 uppercase tracking-widest mb-6 text-center tracking-[0.3em]"
+			>Ce Facem</span
 		>
-
-		<div
-			bind:this={gridRef}
-			class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 w-full"
+		<h3
+			class="text-3xl md:text-5xl font-serif text-center mb-16 text-white"
 		>
-			{#each services as service, i}
-				<div
-					class="service-grid-card group relative w-full h-[50vh] md:h-[65vh] lg:h-[75vh] rounded-3xl overflow-hidden border border-white/10 bg-[#0A0A0A] hover:bg-[#0A0A0A] transition-colors duration-700 cursor-default"
-				>
-					<!-- Background image -->
-					<img
-						src={service.image}
-						alt={service.title}
-						class="absolute inset-0 w-full h-full object-cover z-0 opacity-50 grayscale-[0.3] group-hover:opacity-70 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
-					/>
+			Website-uri, magazine online,<br class="hidden md:block" /> aplicații
+			și design
+		</h3>
 
-					<!-- Sleek gradient base -->
-					<div
-						class="absolute inset-0 bg-linear-to-t from-black via-black/50 to-black/20 z-10"
-					></div>
-
-					<!-- Hover Glow internal to card -->
-					<div
-						class="absolute -top-32 -left-32 w-96 h-96 bg-[#3B82F6] opacity-[0.03] group-hover:opacity-[0.12] blur-[100px] rounded-full transition-opacity duration-700 pointer-events-none z-0"
-					></div>
-
-					<!-- Huge background number mark -->
-					<div
-						class="absolute top-8 left-8 z-20 font-serif text-6xl text-white/5 group-hover:text-white/10 transition-colors duration-700"
+		<div class="relative w-full">
+			<div
+				bind:this={carouselRef}
+				class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+			>
+				{#each services as service}
+					<a
+						href="#contact"
+						class="carousel-card group shrink-0 snap-start w-[280px] md:w-[320px] aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 bg-white/[0.02] hover:border-white/25 hover:bg-white/[0.04] transition-colors duration-500 relative flex flex-col justify-end p-6"
 					>
-						0{i + 1}
-					</div>
-
-					<!-- Icon -->
-					<div
-						class="absolute top-8 right-8 z-20 text-white/20 group-hover:text-[#3B82F6] transition-colors duration-700 transform group-hover:scale-110"
-					>
-						<svg
-							class="w-8 h-8"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
+						<div
+							class="absolute top-6 left-6 w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-white/60 group-hover:text-[#3B82F6] group-hover:bg-[#3B82F6]/10 transition-colors duration-500"
 						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="1.5"
-								d={service.icon}
-							/>
-						</svg>
-					</div>
+							<svg
+								class="w-5 h-5"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="1.5"
+									d={service.icon}
+								/>
+							</svg>
+						</div>
 
-					<!-- Bottom Content Area -->
-					<div
-						class="absolute bottom-10 left-8 right-8 z-20 flex flex-col gap-6 transform-gpu transition-all duration-700 group-hover:-translate-y-4"
-					>
-						<h3
-							class="text-3xl lg:text-4xl xl:text-5xl font-serif text-white leading-tight tracking-tight"
+						<h4
+							class="text-xl md:text-2xl font-sans font-medium text-white mb-2"
 						>
 							{service.title}
-						</h3>
-
-						<!-- Expanding visual separator -->
-						<div
-							class="w-full h-px bg-white/20 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out"
-						></div>
-
-						<!-- Details revealed on hover (always visible on mobile but animated on desktop) -->
-						<p
-							class="text-sm md:text-base text-white/50 font-sans leading-relaxed md:opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out"
-						>
+						</h4>
+						<p class="text-sm text-white/40 font-sans leading-relaxed mb-4">
 							{service.desc}
 						</p>
-					</div>
-				</div>
-			{/each}
+						<span
+							class="inline-flex items-center gap-2 text-sm font-sans text-white/70 group-hover:text-white group-hover:gap-3 transition-all duration-300"
+						>
+							Află mai multe
+							<svg
+								class="w-4 h-4"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M17 8l4 4m0 0l-4 4m4-4H3"
+								/>
+							</svg>
+						</span>
+					</a>
+				{/each}
+			</div>
+
+			<!-- Nav arrows -->
+			<div class="flex justify-center gap-3 mt-8">
+				<button
+					onclick={() => scrollCarousel(-1)}
+					aria-label="Anterior"
+					class="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 transition-colors duration-300 cursor-pointer"
+				>
+					<svg
+						class="w-5 h-5"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M15 19l-7-7 7-7"
+						/>
+					</svg>
+				</button>
+				<button
+					onclick={() => scrollCarousel(1)}
+					aria-label="Următorul"
+					class="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 transition-colors duration-300 cursor-pointer"
+				>
+					<svg
+						class="w-5 h-5"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M9 5l7 7-7 7"
+						/>
+					</svg>
+				</button>
+			</div>
 		</div>
 	</div>
 </section>
