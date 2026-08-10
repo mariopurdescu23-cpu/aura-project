@@ -5,7 +5,7 @@
 	const packages = [
 		{
 			name: "Start",
-			price: "2.400 lei",
+			price: "1.000 lei",
 			desc: "Site de prezentare, 4–5 pagini",
 			features: [
 				"Design pe măsură",
@@ -17,7 +17,7 @@
 		},
 		{
 			name: "Complet",
-			price: "4.900 lei",
+			price: "2.400 lei",
 			desc: "Site extins, texte scrise de noi",
 			features: [
 				"Tot ce e în pachetul Start",
@@ -29,7 +29,7 @@
 		},
 		{
 			name: "Magazin",
-			price: "7.500 lei",
+			price: "5.000 lei",
 			desc: "Magazin online complet",
 			features: [
 				"Catalog și pagini de produs",

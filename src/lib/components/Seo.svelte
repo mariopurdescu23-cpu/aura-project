@@ -39,7 +39,7 @@
 	"email": "contact@weberescu.ro",
 	"description": description,
 	"image": image,
-	"priceRange": "2400 RON - 7500 RON",
+	"priceRange": "1000 RON - 5000 RON",
 	"areaServed": "RO",
 	"serviceType": ["Web Design", "Dezvoltare Site-uri", "Magazine Online", "SEO"]
 })}
