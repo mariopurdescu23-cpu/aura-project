@@ -132,9 +132,7 @@
             bind:this={descRef}
             class="text-lg md:text-2xl text-white/50 max-w-3xl mt-12 md:mt-8 font-sans font-light leading-relaxed mix-blend-difference px-4"
         >
-            Împingem limitele experiențelor web imersive, ale designului de
-            mișcare și ale realității digitale pentru branduri ambițioase la
-            nivel global.
+            Agenție de dezvoltare software și web design specializată în experiențe digitale imersive, dedicată brandurilor ambițioase care vizează piața globală.
         </p>
 
         <div
