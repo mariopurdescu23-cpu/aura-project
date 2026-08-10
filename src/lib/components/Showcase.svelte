@@ -54,19 +54,20 @@
 			".carousel-card",
 		)?.offsetWidth;
 		const gap = 24;
+		const step = cardWidth + gap;
 
-		// Navigăm pe index exact, nu pe distanță relativă față de poziția
-		// curentă — la capătul din dreapta, ultimul card nu se aliniază
-		// mereu perfect la un multiplu de (cardWidth+gap), iar scroll-ul
-		// relativ acumula acea eroare mică, dând un mic "glitch" la
-		// apăsarea săgeții înapoi. Cu index fix, ținta e mereu exactă.
+		// Resincronizăm indexul cu poziția reală de scroll — dacă
+		// utilizatorul a navigat manual (swipe), currentIndex ar rămâne
+		// neactualizat, iar săgeata ar sări la un loc greșit. Recalculăm
+		// mereu din scrollLeft real înainte de a aplica direcția.
+		const realIndex = Math.round(carouselRef.scrollLeft / step);
 		currentIndex = Math.min(
-			Math.max(currentIndex + direction, 0),
+			Math.max(realIndex + direction, 0),
 			services.length - 1,
 		);
 
 		const maxScroll = carouselRef.scrollWidth - carouselRef.clientWidth;
-		const target = Math.min(currentIndex * (cardWidth + gap), maxScroll);
+		const target = Math.min(currentIndex * step, maxScroll);
 
 		isAnimating = true;
 
@@ -138,7 +139,7 @@
 		<div class="relative w-full">
 			<div
 				bind:this={carouselRef}
-				class="flex lg:grid lg:grid-cols-5 gap-6 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [touch-action:pan-y] lg:[touch-action:auto]"
+				class="flex lg:grid lg:grid-cols-5 gap-6 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [touch-action:pan-x_pan-y] lg:[touch-action:auto]"
 			>
 				{#each services as service}
 					<a
@@ -260,7 +261,7 @@
 			<p
 				class="lg:hidden text-center text-xs text-white/40 font-sans mt-4"
 			>
-				Apasă pe săgeți pentru a vedea mai multe servicii
+				Apasă pe săgeți sau dă swipe pentru a vedea mai multe servicii
 			</p>
 		</div>
 	</div>
