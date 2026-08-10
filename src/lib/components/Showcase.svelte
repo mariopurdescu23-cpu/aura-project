@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 	import gsap from "gsap";
 	import ScrollTrigger from "gsap/ScrollTrigger";
+	import { scrollToSection } from "$lib/scrollTo.js";
 
 	const services = [
 		{
@@ -118,15 +119,18 @@
 			Website-uri, magazine online,<br class="hidden md:block" /> aplicații
 			și design
 		</h3>
+	</div>
 
+	<div class="w-full px-6 md:px-12">
 		<div class="relative w-full">
 			<div
 				bind:this={carouselRef}
-				class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+				class="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
 			>
 				{#each services as service}
 					<a
 						href="#contact"
+						onclick={(e) => scrollToSection(e, "#contact")}
 						class="carousel-card group shrink-0 snap-start w-[75vw] sm:w-[45vw] lg:w-[26vw] xl:w-[22rem] h-[420px] md:h-[500px] rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-colors duration-500 relative flex flex-col justify-end p-6 md:p-8"
 					>
 						<svg
@@ -222,8 +226,15 @@
 </section>
 
 <style>
-	.carousel-card:hover svg {
+	.carousel-card:hover svg,
+	.carousel-card:active svg {
 		color: var(--hover-color);
 		filter: drop-shadow(0 0 8px var(--hover-glow));
+	}
+
+	/* Pe touch, culoarea trebuie să apară aproape instant la atingere,
+	   nu abia după 300ms ca la hover pe desktop. */
+	.carousel-card:active svg {
+		transition-duration: 0.08s;
 	}
 </style>
