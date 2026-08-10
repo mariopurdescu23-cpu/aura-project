@@ -39,6 +39,7 @@
 			icon: "M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h10a2 2 0 002-2v-4a2 2 0 00-2-2h-2.5",
 			hoverColor: "#ec4899",
 			glow: "rgba(236,72,153,0.5)",
+			video: "/design-branding.mp4",
 		},
 	];
 
@@ -139,6 +140,20 @@
 						onclick={(e) => scrollToSection(e, "#contact")}
 						class="carousel-card group shrink-0 lg:shrink snap-start w-full sm:w-[45vw] lg:w-full h-[420px] md:h-[500px] rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-colors duration-500 relative flex flex-col justify-end p-6 md:p-8"
 					>
+						{#if service.video}
+							<video
+								src={service.video}
+								autoplay
+								muted
+								loop
+								playsinline
+								class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-40 transition-opacity duration-500 z-0 pointer-events-none"
+							></video>
+							<div
+								class="absolute inset-0 bg-linear-to-t from-black via-black/60 to-black/30 z-0 pointer-events-none"
+							></div>
+						{/if}
+
 						<svg
 							class="relative z-10 w-12 h-12 md:w-14 md:h-14 mb-4 text-white/40 transition-all duration-300"
 							style="--hover-color: {service.hoverColor}; --hover-glow: {service.glow};"
