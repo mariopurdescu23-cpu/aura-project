@@ -8,6 +8,10 @@
     import favicon from "$lib/assets/favicon-weberescu.png";
     import Header from "$lib/components/header.svelte";
     import Cursor from "$lib/components/Cursor.svelte";
+    import { dev } from "$app/environment";
+    import { injectAnalytics } from "@vercel/analytics/sveltekit";
+
+    injectAnalytics({ mode: dev ? "development" : "production" });
 
     let { children } = $props();
 
