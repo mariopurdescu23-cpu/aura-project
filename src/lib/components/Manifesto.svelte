@@ -4,7 +4,7 @@
 	import ScrollTrigger from "gsap/ScrollTrigger";
 
 	const paragraph =
-		"Credem că tărâmul digital nu ar trebui să fie o pânză statică, ci o realitate imersivă. Construim experiențe spațiale fără compromisuri, care redefinesc limitele interacțiunii umane, îmbinând precizia ingineriei de ultimă generație cu o poezie vizuală asumată.";
+		"Credem că un site bun nu e o broșură digitală, ci un instrument de vânzare. Construim site-uri de prezentare, magazine online și platforme web rapide, ușor de găsit pe Google și gândite să transforme vizitatorii în clienți — nu doar frumusețe fără rezultat, ci web design cu scop, pentru afaceri din România.";
 	const words = paragraph.split(" ");
 
 	let manifestoRef = $state();
@@ -22,7 +22,7 @@
 			scrollTrigger: {
 				trigger: manifestoRef,
 				start: "top 80%",
-				end: "bottom 50%",
+				end: "center center",
 				scrub: 1,
 			},
 		});
