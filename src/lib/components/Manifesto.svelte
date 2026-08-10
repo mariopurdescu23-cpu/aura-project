@@ -46,7 +46,7 @@
 			<!-- Words start muted and transition to white explicitly via GSAP for better contrast control -->
 			<span
 				class="word text-white/10 transition-colors duration-300 pointer-events-none"
-				>{word}</span
+				>{word} </span
 			>
 		{/each}
 	</p>
