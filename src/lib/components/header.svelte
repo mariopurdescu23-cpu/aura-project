@@ -231,7 +231,7 @@
             <a
                 bind:this={mobileLinksRef[1]}
                 href="#services"
-                onclick={(e) => scrollTo(e, "#services", -200)}
+                onclick={(e) => scrollTo(e, "#services", -170)}
                 class="block text-4xl font-sans font-light text-white/80 hover:text-white transition-colors will-change-transform"
                 >Servicii</a
             >
