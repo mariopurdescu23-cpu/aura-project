@@ -131,7 +131,7 @@
 		<div class="relative w-full">
 			<div
 				bind:this={carouselRef}
-				class="flex lg:grid lg:grid-cols-5 gap-6 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+				class="flex lg:grid lg:grid-cols-5 gap-6 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [touch-action:none] lg:[touch-action:auto]"
 			>
 				{#each services as service}
 					<a
