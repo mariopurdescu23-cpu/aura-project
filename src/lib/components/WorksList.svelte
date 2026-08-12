@@ -9,10 +9,10 @@ const works = [
 	},
 	{
 		id: "02",
-		name: "Seeker Romania",
+		name: "Cabinet de Psihologie Rodica Chiriches",
 		category: "Platformă Interactivă",
 		year: "2025",
-		url: "#",
+		url: "https://www.rodicachiriches.ro",
 	},
 	{
 		id: "03",
