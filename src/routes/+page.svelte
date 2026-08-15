@@ -1,28 +1,28 @@
 <script>
 	import Hero from "$lib/components/Hero.svelte";
 	import Manifesto from "$lib/components/Manifesto.svelte";
-	import Brands from "$lib/components/Brands.svelte";
-	import Showcase from "$lib/components/Showcase.svelte";
-	import Pricing from "$lib/components/Pricing.svelte";
-	import WorksList from "$lib/components/WorksList.svelte";
+	import Services from "$lib/components/Services.svelte";
+	import WorkShowcase from "$lib/components/WorkShowcase.svelte";
+	import Capabilities from "$lib/components/Capabilities.svelte";
+	import About from "$lib/components/About.svelte";
+	import Process from "$lib/components/Process.svelte";
 	import Testimonials from "$lib/components/Testimonials.svelte";
-	import Stats from "$lib/components/Stats.svelte";
-	import Faq from "$lib/components/Faq.svelte";
+	import Cta from "$lib/components/Cta.svelte";
 	import Footer from "$lib/components/Footer.svelte";
 	import Seo from "$lib/components/Seo.svelte";
 </script>
 
 <Seo />
 
-<div class="bg-[#050505] text-white">
+<div class="bg-white text-black">
 	<Hero />
 	<Manifesto />
-	<Brands />
-	<Showcase />
-	<WorksList />
-	<Pricing />
+	<Services />
+	<WorkShowcase />
+	<Capabilities />
+	<About />
+	<Process />
 	<Testimonials />
-	<Stats />
-	<Faq />
+	<Cta />
 	<Footer />
 </div>

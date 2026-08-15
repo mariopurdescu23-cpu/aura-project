@@ -6,7 +6,7 @@
     import "lenis/dist/lenis.css";
     import "./layout.css";
     import favicon from "$lib/assets/favicon-weberescu.png";
-    import Header from "$lib/components/header.svelte";
+    import Navbar from "$lib/components/Navbar.svelte";
     import Cursor from "$lib/components/Cursor.svelte";
     import { dev } from "$app/environment";
     import { injectAnalytics } from "@vercel/analytics/sveltekit";
@@ -56,14 +56,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet"
     />
 </svelte:head>
 
 <Cursor />
-<Header />
+<Navbar />
 
-<main class="app-wrapper">
+<main class="app-wrapper bg-white">
     {@render children()}
 </main>

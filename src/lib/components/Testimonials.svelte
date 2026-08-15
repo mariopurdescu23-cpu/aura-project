@@ -1,28 +1,25 @@
 <script>
-	import { onMount, onDestroy } from "svelte";
+	import { onMount } from "svelte";
 	import gsap from "gsap";
 
 	const feedbacks = [
 		{
-			name: "Sarah Jenkins",
-			role: "CMO, Lumina",
-			text: "Weberescu nu a construit doar un site web; au arhitecturat o realitate digitală. Măiestria lor în animație și meticulozitatea sunt de neegalat.",
+			role: "Founder, early-stage SaaS",
+			text: "They didn't just build us a website — they built the digital backbone of our company. Every decision was deliberate.",
 		},
 		{
-			name: "Peiu Laurențiu",
-			role: "Fondator, Cabane A-Frame Svinița",
-			text: "Colaborarea cu ei a fost ca și cum am fi lucrat cu o versiune viitoare a noastră. Calitate fără compromisuri și execuție neobosită.",
+			role: "Head of Product, B2B software",
+			text: "Working with them felt like adding a senior product team overnight. Fast, opinionated, and always for the right reasons.",
 		},
 		{
-			name: "Elena Rostova",
-			role: "VP Produs, Ozone",
-			text: "Ne-au redefinit complet identitatea de brand. Conversia și implicarea clienților au explodat imediat după transformare.",
+			role: "CMO, fintech startup",
+			text: "Meticulous, fast, and obsessed with the details that actually matter — not the ones that just look good in a deck.",
 		},
 	];
 
 	let currentIndex = $state(0);
 	let quoteRef = $state();
-	let nameRef = $state();
+	let roleRef = $state();
 	let isAnimating = false;
 	let timer;
 
@@ -30,7 +27,6 @@
 		if (isAnimating) return;
 		goToQuote((currentIndex + 1) % feedbacks.length);
 	}
-
 	function prevQuote() {
 		if (isAnimating) return;
 		goToQuote((currentIndex - 1 + feedbacks.length) % feedbacks.length);
@@ -38,11 +34,10 @@
 
 	function goToQuote(index) {
 		if (index === currentIndex || isAnimating) return;
-
 		isAnimating = true;
 		if (timer) clearInterval(timer);
 
-		gsap.to([quoteRef, nameRef], {
+		gsap.to([quoteRef, roleRef], {
 			autoAlpha: 0,
 			y: 10,
 			duration: 0.5,
@@ -50,7 +45,7 @@
 			onComplete: () => {
 				currentIndex = index;
 				gsap.fromTo(
-					[quoteRef, nameRef],
+					[quoteRef, roleRef],
 					{ autoAlpha: 0, y: -10 },
 					{
 						autoAlpha: 1,
@@ -68,88 +63,55 @@
 		});
 	}
 
-	// Swipe pe touch — stânga = următorul, dreapta = anteriorul
 	let touchStartX = 0;
 	let touchStartY = 0;
-
 	function handleTouchStart(e) {
 		touchStartX = e.touches[0].clientX;
 		touchStartY = e.touches[0].clientY;
 	}
-
 	function handleTouchEnd(e) {
-		const touchEndX = e.changedTouches[0].clientX;
-		const touchEndY = e.changedTouches[0].clientY;
-		const deltaX = touchEndX - touchStartX;
-		const deltaY = touchEndY - touchStartY;
-
-		// Ignorăm dacă mișcarea e mai degrabă verticală (scroll normal)
-		// sau prea mică ca să conteze drept swipe intenționat
-		if (Math.abs(deltaX) < 40 || Math.abs(deltaX) < Math.abs(deltaY)) return;
-
-		if (deltaX < 0) {
-			nextQuote();
-		} else {
-			prevQuote();
-		}
+		const dx = e.changedTouches[0].clientX - touchStartX;
+		const dy = e.changedTouches[0].clientY - touchStartY;
+		if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+		dx < 0 ? nextQuote() : prevQuote();
 	}
 
 	onMount(() => {
 		timer = setInterval(nextQuote, 6000);
-		return () => {
-			if (timer) clearInterval(timer);
-		};
+		return () => timer && clearInterval(timer);
 	});
 </script>
 
 <section
 	id="testimonials"
-	class="w-full bg-[#050505] text-white py-32 md:py-48 flex items-center justify-center relative overflow-hidden border-t border-white/5"
+	class="w-full bg-[#EDE9FE] text-black py-32 md:py-48 flex items-center justify-center relative overflow-hidden"
 >
-	<!-- Extremely soft background glow -->
 	<div
-		class="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-[500px] bg-[#3B82F6]/5 blur-[200px] rounded-full pointer-events-none"
-	></div>
-
-	<div
-		class="max-w-5xl mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center text-center touch-pan-y"
+		class="max-w-4xl mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center text-center touch-pan-y"
+		role="group"
+		aria-label="Client testimonials"
 		ontouchstart={handleTouchStart}
 		ontouchend={handleTouchEnd}
 	>
-		<span
-			class="text-xs font-mono text-white/30 uppercase tracking-widest mb-16"
-			>Vocile Clienților</span
-		>
+		<span class="font-display text-8xl md:text-[10rem] leading-none text-[#5B21F5]/20 mb-4 select-none">"</span>
 
-		<h3
+		<blockquote
 			bind:this={quoteRef}
-			class="text-3xl md:text-5xl lg:text-6xl font-serif text-white/90 leading-[1.3] md:leading-[1.2] tracking-tight mb-16 flex items-center justify-center will-change-transform h-[200px] md:h-auto"
+			class="font-display text-2xl md:text-4xl leading-[1.35] tracking-tight mb-12 flex items-center justify-center will-change-transform min-h-[160px] md:min-h-[140px] -mt-16 m-0"
 		>
-			"{feedbacks[currentIndex].text}"
-		</h3>
+			{feedbacks[currentIndex].text}
+		</blockquote>
 
-		<div
-			bind:this={nameRef}
-			class="flex flex-col items-center gap-3 will-change-transform"
-		>
-			<h4
-				class="text-white font-medium text-sm md:text-base uppercase tracking-widest"
-			>
-				{feedbacks[currentIndex].name}
-			</h4>
-			<span class="text-sm font-sans text-white/40"
-				>{feedbacks[currentIndex].role}</span
-			>
+		<div bind:this={roleRef} class="flex flex-col items-center gap-1 will-change-transform">
+			<span class="text-sm font-mono text-black/50 uppercase tracking-widest">{feedbacks[currentIndex].role}</span>
 		</div>
 
-		<!-- Pagination Dots -->
-		<div class="flex gap-4 mt-16">
+		<div class="flex gap-4 mt-14">
 			{#each feedbacks as _, i}
 				<button
-					class="w-2 h-2 rounded-full transition-all duration-500 cursor-pointer {currentIndex ===
-					i
-						? 'bg-white scale-125'
-						: 'bg-white/20 hover:bg-white/50'}"
+					class="w-2 h-2 rounded-full transition-all duration-500 cursor-pointer {currentIndex === i
+						? 'bg-[#5B21F5] scale-125'
+						: 'bg-black/15 hover:bg-black/40'}"
 					aria-label="Go to slide {i + 1}"
 					onclick={() => goToQuote(i)}
 				></button>

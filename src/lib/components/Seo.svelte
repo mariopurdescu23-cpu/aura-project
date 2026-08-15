@@ -1,7 +1,7 @@
 <script>
 	let {
-		title = "Weberescu — Software & Web Design",
-		description = "Weberescu — Site-uri de prezentare, magazine online și SEO, făcute de la zero pentru afaceri din România. Prețuri clare, livrare rapidă.",
+		title = "Weberescu — Software, Web Design & Digital Products",
+		description = "Weberescu is an independent digital studio designing and building software, websites and digital products for ambitious companies. Based in Europe, working globally.",
 		url = "https://weberescu.ro",
 		image = "https://weberescu.ro/og-image.png",
 	} = $props();
@@ -13,7 +13,7 @@
 	<meta name="title" content={title} />
 	<meta name="description" content={description} />
 	<meta name="robots" content="index, follow" />
-	<meta name="theme-color" content="#050505" />
+	<meta name="theme-color" content="#ffffff" />
 	<meta name="author" content="Weberescu" />
 
 	<!-- Open Graph / Facebook -->
@@ -39,9 +39,15 @@
 	"email": "contact@weberescu.ro",
 	"description": description,
 	"image": image,
-	"priceRange": "1000 RON - 5000 RON",
-	"areaServed": "RO",
-	"serviceType": ["Web Design", "Dezvoltare Site-uri", "Magazine Online", "SEO"]
+	"areaServed": "Europe",
+	"serviceType": [
+		"Software Development",
+		"Web Design",
+		"UI/UX Design",
+		"SaaS Development",
+		"AI Integrations",
+		"Digital Products"
+	]
 })}
 </script>
 <link rel="canonical" href={url} />
