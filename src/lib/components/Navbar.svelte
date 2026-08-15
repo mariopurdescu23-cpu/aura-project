@@ -5,6 +5,9 @@
 	import Logo from "./logo.svelte";
 	import Menu from "@lucide/svelte/icons/menu";
 	import X from "@lucide/svelte/icons/x";
+	import ChevronDown from "@lucide/svelte/icons/chevron-down";
+	import Check from "@lucide/svelte/icons/check";
+	import { t, lang, setLang } from "$lib/i18n/index.js";
 
 	let headerRef = $state();
 	let navItemsRef = $state([]);
@@ -59,6 +62,10 @@
 		});
 	}
 
+	function pickLang(value) {
+		setLang(value);
+	}
+
 	onMount(() => {
 		gsap.registerPlugin(ScrollToPlugin);
 		let mm = gsap.matchMedia();
@@ -83,15 +90,17 @@
 
 				tl.to(headerRef, {
 					width: isMobile ? "calc(100% - 2rem)" : "100%",
-					maxWidth: "880px",
+					maxWidth: "920px",
 					opacity: 1,
 					duration: 1.2,
 					ease: "expo.inOut",
-				}).to(
-					logoRef,
-					{ autoAlpha: 1, y: 0, scale: 1, duration: 1.2, ease: "expo.out" },
-					"-=0.2",
-				);
+				})
+					.set(headerRef, { overflow: "visible" })
+					.to(
+						logoRef,
+						{ autoAlpha: 1, y: 0, scale: 1, duration: 1.2, ease: "expo.out" },
+						"-=0.2",
+					);
 
 				if (isDesktop) {
 					tl.to(
@@ -152,28 +161,63 @@
 	<div id="nav" class="absolute left-1/2 -translate-x-1/2 hidden md:block">
 		<ul class="flex space-x-8 text-sm font-medium text-black/60">
 			<li bind:this={navItemsRef[0]}>
-				<a href="#work" onclick={(e) => scrollTo(e, "#work")} class="hover:text-black transition-colors">Work</a>
+				<a href="#work" onclick={(e) => scrollTo(e, "#work")} class="hover:text-black transition-colors">{$t.nav.work}</a>
 			</li>
 			<li bind:this={navItemsRef[1]}>
-				<a href="#services" onclick={(e) => scrollTo(e, "#services")} class="hover:text-black transition-colors">Services</a>
+				<a href="#services" onclick={(e) => scrollTo(e, "#services")} class="hover:text-black transition-colors">{$t.nav.services}</a>
 			</li>
 			<li bind:this={navItemsRef[2]}>
-				<a href="#about" onclick={(e) => scrollTo(e, "#about")} class="hover:text-black transition-colors">About</a>
+				<a href="#about" onclick={(e) => scrollTo(e, "#about")} class="hover:text-black transition-colors">{$t.nav.about}</a>
 			</li>
 			<li bind:this={navItemsRef[3]}>
-				<a href="#contact" onclick={(e) => scrollTo(e, "#contact")} class="hover:text-black transition-colors">Contact</a>
+				<a href="#contact" onclick={(e) => scrollTo(e, "#contact")} class="hover:text-black transition-colors">{$t.nav.contact}</a>
 			</li>
 		</ul>
 	</div>
 
 	<!-- Right Controls -->
-	<div bind:this={iconsRef} class="flex space-x-1 sm:space-x-3 items-center z-50">
+	<div bind:this={iconsRef} class="flex space-x-1 sm:space-x-2 items-center z-50">
+		<!-- Language selector — desktop only, opens on hover -->
+		<div class="hidden md:block relative group/lang h-full">
+			<button
+				class="flex items-center gap-1 h-full px-3 text-sm font-medium text-black/60 hover:text-black transition-colors cursor-pointer"
+			>
+				<span>{$t.nav.language}</span>
+				<ChevronDown class="w-3.5 h-3.5 transition-transform duration-300 group-hover/lang:rotate-180" />
+			</button>
+
+			<div
+				class="absolute top-full right-0 pt-3 w-40 opacity-0 invisible translate-y-1 group-hover/lang:opacity-100 group-hover/lang:visible group-hover/lang:translate-y-0 transition-all duration-300"
+			>
+				<div class="bg-white border border-black/10 rounded-2xl shadow-[0_20px_50px_rgba(10,10,10,0.12)] p-1.5">
+					<button
+						onclick={() => pickLang("ro")}
+						class="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl text-sm transition-colors cursor-pointer {$lang === 'ro'
+							? 'text-[#5B21F5] font-medium bg-[#5B21F5]/[0.06]'
+							: 'text-black/70 hover:bg-black/5'}"
+					>
+						{$t.nav.langRO}
+						{#if $lang === "ro"}<Check class="w-3.5 h-3.5" />{/if}
+					</button>
+					<button
+						onclick={() => pickLang("en")}
+						class="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl text-sm transition-colors cursor-pointer {$lang === 'en'
+							? 'text-[#5B21F5] font-medium bg-[#5B21F5]/[0.06]'
+							: 'text-black/70 hover:bg-black/5'}"
+					>
+						{$t.nav.langEN}
+						{#if $lang === "en"}<Check class="w-3.5 h-3.5" />{/if}
+					</button>
+				</div>
+			</div>
+		</div>
+
 		<a
 			href="#contact"
 			onclick={(e) => scrollTo(e, "#contact")}
-			data-cursor-label="Let's talk"
+			data-cursor-label={$t.cta.label}
 			class="hidden md:flex items-center justify-center text-sm font-medium bg-[#5B21F5] text-white hover:bg-[#0A0A0A] transition-colors duration-300 px-6 py-2 rounded-full"
-			>Start a project</a
+			>{$t.nav.cta}</a
 		>
 		<button
 			onclick={toggleMenu}
@@ -191,20 +235,20 @@
 <!-- Mobile full-screen overlay -->
 <div
 	bind:this={mobileMenuRef}
-	class="fixed inset-0 z-40 bg-white flex flex-col justify-center invisible opacity-0 px-10 overflow-hidden"
+	class="fixed inset-0 z-40 bg-white flex flex-col justify-center invisible opacity-0 px-8 sm:px-10 overflow-hidden"
 >
 	<div
 		class="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#5B21F5] opacity-[0.08] blur-[100px] rounded-full pointer-events-none"
 	></div>
 
-	<ul class="flex flex-col space-y-8 text-left relative z-10">
+	<ul class="flex flex-col space-y-5 sm:space-y-7 text-left relative z-10">
 		<li class="overflow-hidden">
 			<a
 				bind:this={mobileLinksRef[0]}
 				href="#work"
 				onclick={(e) => scrollTo(e, "#work")}
-				class="block text-5xl font-display font-medium text-black/80 hover:text-black transition-colors will-change-transform"
-				>Work</a
+				class="block text-[13vw] sm:text-5xl font-display font-medium text-black/80 hover:text-black transition-colors will-change-transform"
+				>{$t.nav.work}</a
 			>
 		</li>
 		<li class="overflow-hidden">
@@ -212,8 +256,8 @@
 				bind:this={mobileLinksRef[1]}
 				href="#services"
 				onclick={(e) => scrollTo(e, "#services", -170)}
-				class="block text-5xl font-display font-medium text-black/80 hover:text-black transition-colors will-change-transform"
-				>Services</a
+				class="block text-[13vw] sm:text-5xl font-display font-medium text-black/80 hover:text-black transition-colors will-change-transform"
+				>{$t.nav.services}</a
 			>
 		</li>
 		<li class="overflow-hidden">
@@ -221,8 +265,8 @@
 				bind:this={mobileLinksRef[2]}
 				href="#about"
 				onclick={(e) => scrollTo(e, "#about")}
-				class="block text-5xl font-display font-medium text-black/80 hover:text-black transition-colors will-change-transform"
-				>About</a
+				class="block text-[13vw] sm:text-5xl font-display font-medium text-black/80 hover:text-black transition-colors will-change-transform"
+				>{$t.nav.about}</a
 			>
 		</li>
 		<li class="overflow-hidden">
@@ -230,23 +274,46 @@
 				bind:this={mobileLinksRef[3]}
 				href="#contact"
 				onclick={(e) => scrollTo(e, "#contact")}
-				class="block text-5xl font-display font-medium text-black/80 hover:text-black transition-colors will-change-transform"
-				>Contact</a
+				class="block text-[13vw] sm:text-5xl font-display font-medium text-black/80 hover:text-black transition-colors will-change-transform"
+				>{$t.nav.contact}</a
 			>
 		</li>
-		<li class="overflow-hidden mt-4 pt-8 border-t border-black/10">
+		<li class="overflow-hidden mt-2 pt-6 border-t border-black/10">
 			<a
 				bind:this={mobileLinksRef[4]}
 				href="#contact"
 				onclick={(e) => scrollTo(e, "#contact")}
-				class="inline-block text-xl font-sans text-[#5B21F5] font-medium hover:text-black transition-colors will-change-transform"
-				>Start a project &rarr;</a
+				class="inline-block text-lg sm:text-xl font-sans text-[#5B21F5] font-medium hover:text-black transition-colors will-change-transform"
+				>{$t.nav.cta} &rarr;</a
 			>
 		</li>
 	</ul>
 
+	<!-- Mobile language toggle -->
+	<div class="relative z-10 mt-10 pt-6 border-t border-black/10 flex items-center gap-3">
+		<span class="text-xs font-mono text-black/40 uppercase tracking-widest">{$t.nav.language}</span>
+		<div class="flex items-center gap-1.5 bg-black/5 rounded-full p-1">
+			<button
+				onclick={() => pickLang("ro")}
+				class="px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer {$lang === 'ro'
+					? 'bg-[#5B21F5] text-white'
+					: 'text-black/50'}"
+			>
+				RO
+			</button>
+			<button
+				onclick={() => pickLang("en")}
+				class="px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer {$lang === 'en'
+					? 'bg-[#5B21F5] text-white'
+					: 'text-black/50'}"
+			>
+				EN
+			</button>
+		</div>
+	</div>
+
 	<div
-		class="absolute bottom-10 left-10 flex gap-6 text-xs font-mono text-black/40 uppercase tracking-widest relative z-10"
+		class="relative z-10 mt-8 flex gap-6 text-xs font-mono text-black/40 uppercase tracking-widest"
 	>
 		<a href="https://instagram.com/weberescu">Instagram</a>
 		<a href="https://www.facebook.com/profile.php?id=61592492747692">Facebook</a>

@@ -10,12 +10,15 @@
     import Cursor from "$lib/components/Cursor.svelte";
     import { dev } from "$app/environment";
     import { injectAnalytics } from "@vercel/analytics/sveltekit";
+    import { initLang } from "$lib/i18n/index.js";
 
     injectAnalytics({ mode: dev ? "development" : "production" });
 
     let { children } = $props();
 
     onMount(() => {
+        initLang();
+
         gsap.registerPlugin(ScrollTrigger);
         ScrollTrigger.config({ ignoreMobileResize: true });
 

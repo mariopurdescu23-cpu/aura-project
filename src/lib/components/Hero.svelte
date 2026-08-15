@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 	import gsap from "gsap";
 	import { scrollToSection } from "$lib/scrollTo.js";
+	import { t } from "$lib/i18n/index.js";
 
 	let lines = $state([]);
 	let metaTop = $state();
@@ -91,8 +92,8 @@
 		bind:this={metaTop}
 		class="relative z-10 w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 font-mono text-[11px] md:text-xs uppercase tracking-widest text-black/40"
 	>
-		<span>Software / Design / Digital Products</span>
-		<span>Independent studio — based in Europe, working globally</span>
+		<span>{$t.hero.metaLeft}</span>
+		<span>{$t.hero.metaRight}</span>
 	</div>
 
 	<!-- Headline -->
@@ -101,14 +102,14 @@
 			class="font-display font-medium leading-[0.86] tracking-tight text-black text-[16vw] md:text-[8.4vw] max-w-[95vw]"
 		>
 			<div class="overflow-hidden pb-2">
-				<div bind:this={lines[0]} class="will-change-transform">SOFTWARE</div>
+				<div bind:this={lines[0]} class="will-change-transform">{$t.hero.line1}</div>
 			</div>
 			<div class="overflow-hidden pb-2">
-				<div bind:this={lines[1]} class="will-change-transform">SHOULD FEEL</div>
+				<div bind:this={lines[1]} class="will-change-transform">{$t.hero.line2}</div>
 			</div>
 			<div class="overflow-hidden pb-2">
 				<div bind:this={lines[2]} class="will-change-transform font-serif-italic text-[#5B21F5]">
-					different.
+					{$t.hero.line3}
 				</div>
 			</div>
 		</h1>
@@ -121,32 +122,31 @@
 				bind:this={descRef}
 				class="text-base md:text-lg text-black/55 font-sans font-light leading-relaxed"
 			>
-				We design and build digital products for ambitious companies —
-				software, web platforms, and the systems behind them.
+				{$t.hero.desc}
 			</p>
 
 			<div bind:this={ctaContainer} class="mt-8 flex flex-wrap gap-4">
 				<a
 					href="#contact"
 					onclick={(e) => scrollToSection(e, "#contact")}
-					data-cursor-label="Let's talk"
+					data-cursor-label={$t.cta.label}
 					class="magnetic-btn px-8 py-4 bg-[#0A0A0A] text-white rounded-full font-sans font-medium hover:bg-[#5B21F5] transition-colors duration-500 cursor-pointer text-center text-sm"
 				>
-					Start a project →
+					{$t.hero.ctaPrimary}
 				</a>
 				<a
 					href="#work"
 					onclick={(e) => scrollToSection(e, "#work")}
-					data-cursor-label="View work"
+					data-cursor-label={$t.hero.ctaSecondary}
 					class="px-8 py-4 bg-transparent text-black border border-black/15 rounded-full font-sans font-medium hover:border-black/40 transition-all duration-500 cursor-pointer text-center text-sm"
 				>
-					View our work
+					{$t.hero.ctaSecondary}
 				</a>
 			</div>
 		</div>
 
 		<div bind:this={scrollCue} class="hidden sm:flex flex-col items-center gap-3 text-black/30">
-			<span class="text-[10px] font-mono uppercase tracking-widest [writing-mode:vertical-lr]">Scroll</span>
+			<span class="text-[10px] font-mono uppercase tracking-widest [writing-mode:vertical-lr]">{$t.hero.scroll}</span>
 			<span class="w-px h-16 bg-black/15 relative overflow-hidden">
 				<span class="absolute top-0 left-0 w-full h-4 bg-[#5B21F5] scroll-line"></span>
 			</span>

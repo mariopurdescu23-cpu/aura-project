@@ -4,7 +4,6 @@
 
 	let cursorRef = $state();
 	let labelRef = $state();
-	let labelTextRef = $state();
 	let isTouchDevice = $state(false);
 	let isActive = $state(false);
 	let labelText = $state("");
@@ -33,11 +32,22 @@
 			yToLabel(e.clientY);
 		};
 
+		// The dot is always solid brand purple with a white halo ring, so it
+		// reads cleanly against any section (white, black, or purple itself)
+		// without relying on mix-blend-mode — that trick used to invert to a
+		// muddy green whenever the cursor sat over a purple element (the navbar
+		// CTA, the hero orb, etc). Killing in-flight tweens on hover/leave
+		// avoids a fast hover→leave→hover sweep leaving a stale animation to
+		// finish later and snap the cursor back to the wrong state.
+		const HOVER_PROPS = "scale,backgroundColor,boxShadow";
+
 		const handleHover = (e) => {
 			const label = e.currentTarget.dataset.cursorLabel;
 
 			if (label) {
 				labelText = label;
+				gsap.killTweensOf(cursorRef, "autoAlpha");
+				gsap.killTweensOf(labelRef, "scale,autoAlpha");
 				gsap.to(cursorRef, { autoAlpha: 0, duration: 0.2 });
 				gsap.to(labelRef, {
 					scale: 1,
@@ -48,10 +58,11 @@
 				return;
 			}
 
+			gsap.killTweensOf(cursorRef, HOVER_PROPS);
 			gsap.to(cursorRef, {
-				scale: 3.5,
-				background: "rgba(91,33,245,0.12)",
-				border: "1px solid rgba(91,33,245,0.6)",
+				scale: 3,
+				backgroundColor: "rgba(91,33,245,0.12)",
+				boxShadow: "0 0 0 1.5px rgba(91,33,245,0.9)",
 				duration: 0.3,
 				ease: "expo.out",
 			});
@@ -59,15 +70,18 @@
 
 		const handleLeave = (e) => {
 			if (e.currentTarget.dataset.cursorLabel) {
+				gsap.killTweensOf(labelRef, "scale,autoAlpha");
+				gsap.killTweensOf(cursorRef, "autoAlpha");
 				gsap.to(labelRef, { scale: 0.4, autoAlpha: 0, duration: 0.3, ease: "power2.in" });
 				gsap.to(cursorRef, { autoAlpha: 1, duration: 0.3 });
 				return;
 			}
 
+			gsap.killTweensOf(cursorRef, HOVER_PROPS);
 			gsap.to(cursorRef, {
 				scale: 1,
-				background: "white",
-				border: "0px solid transparent",
+				backgroundColor: "#5B21F5",
+				boxShadow: "0 0 0 3px rgba(255,255,255,0.85), 0 2px 10px rgba(10,10,10,0.15)",
 				duration: 0.3,
 				ease: "expo.out",
 			});
@@ -112,7 +126,8 @@
 {#if !isTouchDevice}
 	<div
 		bind:this={cursorRef}
-		class="fixed top-0 left-0 w-5 h-5 bg-white mix-blend-difference rounded-full pointer-events-none z-[999] opacity-0 invisible transform-gpu"
+		class="fixed top-0 left-0 w-3 h-3 bg-[#5B21F5] rounded-full pointer-events-none z-[999] opacity-0 invisible transform-gpu"
+		style="box-shadow: 0 0 0 3px rgba(255,255,255,0.85), 0 2px 10px rgba(10,10,10,0.15);"
 	></div>
 
 	<div

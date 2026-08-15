@@ -2,29 +2,9 @@
 	import { onMount } from "svelte";
 	import gsap from "gsap";
 	import ScrollTrigger from "gsap/ScrollTrigger";
+	import { t } from "$lib/i18n/index.js";
 
-	const steps = [
-		{
-			n: "01",
-			title: "Discover",
-			desc: "We start by understanding the business, not just the brief — goals, constraints, and what success actually looks like.",
-		},
-		{
-			n: "02",
-			title: "Design",
-			desc: "Concepts, art direction and interface design, refined in tight loops until the direction feels obviously right.",
-		},
-		{
-			n: "03",
-			title: "Build",
-			desc: "Production-grade engineering, in the open — staging links, weekly check-ins, no black box until launch.",
-		},
-		{
-			n: "04",
-			title: "Launch",
-			desc: "We ship, measure, and stay close for the weeks after — the first version is a start, not a finish line.",
-		},
-	];
+	let steps = $derived($t.process.steps);
 
 	let sectionRef = $state();
 	let lineRef = $state();
@@ -66,12 +46,12 @@
 	});
 </script>
 
-<section bind:this={sectionRef} class="w-full bg-[#F7F7F8] text-black py-28 md:py-40 relative overflow-hidden">
+<section bind:this={sectionRef} class="w-full bg-[#F7F7F8] text-black py-24 md:py-40 relative overflow-hidden">
 	<div class="max-w-7xl mx-auto px-6 md:px-12">
-		<div class="mb-20 md:mb-28">
-			<span class="text-xs font-mono text-black/40 uppercase tracking-widest mb-6 block">Process</span>
+		<div class="mb-16 md:mb-28">
+			<span class="text-xs font-mono text-black/40 uppercase tracking-widest mb-6 block">{$t.process.label}</span>
 			<h2 class="font-display text-4xl md:text-6xl leading-tight max-w-2xl">
-				Four steps.<br /><span class="font-serif-italic text-black/40">No surprises.</span>
+				{$t.process.title1}<br /><span class="font-serif-italic text-black/40">{$t.process.title2}</span>
 			</h2>
 		</div>
 
@@ -82,7 +62,7 @@
 				class="absolute left-[15px] md:left-[19px] top-2 bottom-2 w-px bg-[#5B21F5] origin-top scale-y-0"
 			></div>
 
-			<div class="flex flex-col gap-16 md:gap-20">
+			<div class="flex flex-col gap-12 md:gap-20">
 				{#each steps as step, i}
 					<div bind:this={stepRefs[i]} class="relative pl-14 md:pl-20">
 						<div

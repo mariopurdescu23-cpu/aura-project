@@ -1,21 +1,9 @@
 <script>
 	import { onMount } from "svelte";
 	import gsap from "gsap";
+	import { t } from "$lib/i18n/index.js";
 
-	const feedbacks = [
-		{
-			role: "Founder, early-stage SaaS",
-			text: "They didn't just build us a website — they built the digital backbone of our company. Every decision was deliberate.",
-		},
-		{
-			role: "Head of Product, B2B software",
-			text: "Working with them felt like adding a senior product team overnight. Fast, opinionated, and always for the right reasons.",
-		},
-		{
-			role: "CMO, fintech startup",
-			text: "Meticulous, fast, and obsessed with the details that actually matter — not the ones that just look good in a deck.",
-		},
-	];
+	let feedbacks = $derived($t.testimonials.feedbacks);
 
 	let currentIndex = $state(0);
 	let quoteRef = $state();

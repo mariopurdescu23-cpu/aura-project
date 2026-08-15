@@ -4,27 +4,19 @@
 	let { dark = false } = $props();
 </script>
 
-<div id="Logo" class="flex items-center gap-2.5">
+<div id="Logo" class="flex items-center gap-2">
 	<img
 		src={mark}
-		alt="Weberescu"
-		class="h-7 w-auto object-contain select-none"
+		alt=""
+		class="h-6 md:h-7 w-auto object-contain select-none"
 		draggable="false"
 	/>
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		height="24"
-		viewBox="0 0 165 30"
-		fill="none"
-		id="logotype"
+	<span
+		class="font-display font-bold uppercase leading-none select-none text-base md:text-lg {dark
+			? 'text-white'
+			: 'text-[#0A0A0A]'}"
+		style="letter-spacing: -0.01em;"
 	>
-		<text
-			x="0"
-			y="24"
-			font-family="'Space Grotesk', sans-serif"
-			font-weight="600"
-			font-size="23"
-			fill={dark ? "#ffffff" : "#0a0a0a"}>Weberescu</text
-		>
-	</svg>
+		Weberescu
+	</span>
 </div>

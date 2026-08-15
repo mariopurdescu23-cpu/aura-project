@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from "svelte";
 	import gsap from "gsap";
+	import { t } from "$lib/i18n/index.js";
 
 	const CONTACT_EMAIL = "contact@weberescu.ro";
 	const GMAIL_COMPOSE_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${CONTACT_EMAIL}`;
@@ -57,12 +58,12 @@
 	></div>
 
 	<div class="relative z-10 flex flex-col items-center text-center px-6">
-		<span class="text-xs font-mono text-white/40 uppercase tracking-widest mb-10">Start a project</span>
+		<span class="text-xs font-mono text-white/40 uppercase tracking-widest mb-8 md:mb-10">{$t.cta.label}</span>
 
 		<h2 class="font-display font-medium leading-[0.9] tracking-tight text-[13vw] md:text-[7vw]">
-			LET'S MAKE<br />
-			SOMETHING<br />
-			<span class="font-serif-italic text-[#a78bfa]">unforgettable.</span>
+			{$t.cta.line1}<br />
+			{$t.cta.line2}<br />
+			<span class="font-serif-italic text-[#a78bfa]">{$t.cta.line3}</span>
 		</h2>
 
 		<a
@@ -70,15 +71,15 @@
 			href={isDesktop ? GMAIL_COMPOSE_URL : `mailto:${CONTACT_EMAIL}`}
 			target={isDesktop ? "_blank" : undefined}
 			rel={isDesktop ? "noopener noreferrer" : undefined}
-			data-cursor-label="Let's talk"
-			class="magnetic-btn mt-16 inline-flex items-center gap-3 px-10 py-6 rounded-full bg-white text-black font-sans font-medium text-lg hover:bg-[#5B21F5] hover:text-white transition-colors duration-500 cursor-pointer will-change-transform"
+			data-cursor-label={$t.cta.label}
+			class="magnetic-btn mt-12 md:mt-16 inline-flex items-center gap-3 px-8 md:px-10 py-5 md:py-6 rounded-full bg-white text-black font-sans font-medium text-base md:text-lg hover:bg-[#5B21F5] hover:text-white transition-colors duration-500 cursor-pointer will-change-transform"
 		>
-			Start a project
+			{$t.cta.button}
 			<span class="text-2xl">→</span>
 		</a>
 
 		<p class="mt-10 text-white/40 font-sans text-sm">
-			Or write to <a href={`mailto:${CONTACT_EMAIL}`} class="text-white/70 hover:text-white underline underline-offset-4">{CONTACT_EMAIL}</a>
+			{$t.cta.note} <a href={`mailto:${CONTACT_EMAIL}`} class="text-white/70 hover:text-white underline underline-offset-4">{CONTACT_EMAIL}</a>
 		</p>
 	</div>
 </section>

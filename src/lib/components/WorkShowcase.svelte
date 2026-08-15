@@ -7,74 +7,19 @@
 	import imgOrbit from "$lib/assets/work/orbit.jpg";
 	import imgMono from "$lib/assets/work/mono.jpg";
 	import imgArc from "$lib/assets/work/arc.jpg";
+	import { t } from "$lib/i18n/index.js";
 
-	const projects = [
-		{
-			id: "01",
-			name: "NOVA",
-			category: "SaaS Platform",
-			year: "2026",
-			desc: "Multi-tenant analytics platform with real-time dashboards, rebuilt for a company scaling past its first 10,000 users.",
-			tech: "Svelte · Node · PostgreSQL",
-			image: imgNova,
-			height: "h-[62vh] md:h-[78vh]",
-			colStart: "md:col-start-1",
-			colSpan: "md:col-span-7",
-			offsetTop: "",
-		},
-		{
-			id: "02",
-			name: "LUMA",
-			category: "Fintech Experience",
-			year: "2025",
-			desc: "An investment product redesigned around clarity and trust — fewer numbers on screen, more confidence in the decision.",
-			tech: "Next.js · TypeScript · Figma",
-			image: imgLuma,
-			height: "h-[52vh] md:h-[60vh]",
-			colStart: "md:col-start-6",
-			colSpan: "md:col-span-7",
-			offsetTop: "md:mt-24",
-		},
-		{
-			id: "03",
-			name: "ORBIT",
-			category: "AI Product",
-			year: "2025",
-			desc: "A conversational AI assistant embedded across a SaaS suite, trained to answer with the product's own data.",
-			tech: "Python · OpenAI · React",
-			image: imgOrbit,
-			height: "h-[58vh] md:h-[70vh]",
-			colStart: "md:col-start-1",
-			colSpan: "md:col-span-6",
-			offsetTop: "md:mt-32",
-		},
-		{
-			id: "04",
-			name: "MONO",
-			category: "E-commerce Platform",
-			year: "2024",
-			desc: "A headless commerce experience built for scale, with a checkout fast enough to keep up with a viral launch.",
-			tech: "SvelteKit · Shopify · GSAP",
-			image: imgMono,
-			height: "h-[50vh] md:h-[58vh]",
-			colStart: "md:col-start-7",
-			colSpan: "md:col-span-6",
-			offsetTop: "md:mt-4",
-		},
-		{
-			id: "05",
-			name: "ARC",
-			category: "Digital Product",
-			year: "2024",
-			desc: "A design system and full product suite for a hardware startup shipping its first consumer device.",
-			tech: "Figma · React · Three.js",
-			image: imgArc,
-			height: "h-[60vh] md:h-[74vh]",
-			colStart: "md:col-start-3",
-			colSpan: "md:col-span-8",
-			offsetTop: "md:mt-28",
-		},
+	// Layout-only data (images, sizing, asymmetric grid placement) stays
+	// static — only the copy (name/category/desc/tech/year) is translated.
+	const layout = [
+		{ image: imgNova, height: "h-[62vh] md:h-[78vh]", colStart: "md:col-start-1", colSpan: "md:col-span-7", offsetTop: "" },
+		{ image: imgLuma, height: "h-[52vh] md:h-[60vh]", colStart: "md:col-start-6", colSpan: "md:col-span-7", offsetTop: "md:mt-24" },
+		{ image: imgOrbit, height: "h-[58vh] md:h-[70vh]", colStart: "md:col-start-1", colSpan: "md:col-span-6", offsetTop: "md:mt-32" },
+		{ image: imgMono, height: "h-[50vh] md:h-[58vh]", colStart: "md:col-start-7", colSpan: "md:col-span-6", offsetTop: "md:mt-4" },
+		{ image: imgArc, height: "h-[60vh] md:h-[74vh]", colStart: "md:col-start-3", colSpan: "md:col-span-8", offsetTop: "md:mt-28" },
 	];
+
+	let projects = $derived($t.work.projects.map((p, i) => ({ ...p, ...layout[i] })));
 
 	let cardRefs = $state([]);
 	let imgRefs = $state([]);
@@ -114,25 +59,24 @@
 	}
 </script>
 
-<section id="work" class="w-full bg-white text-black py-28 md:py-40 relative">
+<section id="work" class="w-full bg-white text-black py-24 md:py-40 relative">
 	<div
-		class="px-6 md:px-12 max-w-7xl mx-auto mb-20 md:mb-28 flex flex-col md:flex-row justify-between items-start md:items-end gap-6"
+		class="px-6 md:px-12 max-w-7xl mx-auto mb-14 md:mb-28 flex flex-col md:flex-row justify-between items-start md:items-end gap-6"
 	>
-		<h2 class="font-display text-5xl md:text-8xl tracking-tight leading-[0.95]">
-			Selected<br /><span class="font-serif-italic text-black/35">work.</span>
+		<h2 class="font-display text-6xl sm:text-7xl md:text-8xl tracking-tight leading-[0.95]">
+			{$t.work.title1}<br /><span class="font-serif-italic text-black/35">{$t.work.title2}</span>
 		</h2>
-		<p class="text-black/50 font-sans max-w-sm text-lg leading-relaxed pb-2">
-			A handful of the products, platforms and experiences we've shipped.
-			Illustrative work — hover for detail.
+		<p class="text-black/50 font-sans max-w-sm text-base md:text-lg leading-relaxed pb-2">
+			{$t.work.desc}
 		</p>
 	</div>
 
-	<div class="px-4 md:px-8 max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-x-6 gap-y-24 md:gap-y-6">
+	<div class="px-4 md:px-8 max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-x-6 gap-y-16 md:gap-y-6">
 		{#each projects as project, i}
 			<a
 				href="#contact"
 				bind:this={cardRefs[i]}
-				data-cursor-label="View project"
+				data-cursor-label={$t.work.viewProject}
 				onmousemove={(e) => handleMove(e, i)}
 				onmouseleave={() => handleLeave(i)}
 				class="group col-span-1 {project.colSpan} {project.colStart} {project.offsetTop} block cursor-pointer"
@@ -176,13 +120,13 @@
 		{/each}
 	</div>
 
-	<div class="flex justify-center mt-24">
+	<div class="flex justify-center mt-16 md:mt-24">
 		<a
 			href="#contact"
 			onclick={(e) => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
 			class="px-8 py-4 rounded-full border border-black/15 text-black/70 hover:bg-black hover:text-white hover:border-black transition-colors duration-500 font-sans text-sm font-medium"
 		>
-			Start your project →
+			{$t.work.cta}
 		</a>
 	</div>
 </section>
