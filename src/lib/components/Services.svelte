@@ -30,6 +30,7 @@
 		$t.services.items.map((s, i) => ({ ...s, image: images[i], sources: sources[i] })),
 	);
 	let cardsRef = $state([]);
+	let innerRef = $state([]);
 	let dimRef = $state([]);
 	let sectionRef = $state();
 
@@ -66,9 +67,30 @@
 		// synchronously on every raw scroll event. Still reads as
 		// immediate/tight at 0.3s, but decouples the animation's update
 		// rate from the raw input event rate.
+		//
+		// The scale tween targets `innerRef[i]` (the card's inner rounded
+		// box), not `cardsRef[i]` (the `position: sticky` wrapper itself).
+		// Writing a `transform` directly onto a sticky element is a known
+		// WebKit/Safari fault line: the browser has to keep recomputing
+		// that element's stuck offset against its containing block on
+		// every scroll tick, and doing that to an element whose transform
+		// is *also* changing every tick makes Safari's sticky/compositor
+		// bookkeeping visibly disagree with itself mid-scroll — the
+		// element's position briefly snaps to an earlier or later state
+		// before correcting, which reads as exactly the double-take/bounce
+		// reported on a real iPhone right at the Services→Work handoff (the
+		// last sticky card unsticking while its scale tween is still live).
+		// Confirmed frame-by-frame in the screen recording sent over: the
+		// page's visible content flips back to an earlier scroll position
+		// and forward again twice in under a second, right as that card
+		// leaves. Keeping `position: sticky` on a plain, untransformed
+		// wrapper and animating a transform-only child instead removes the
+		// conflict entirely — sticky positioning is computed from a stable
+		// element, and GSAP is free to scale the child however it wants.
 		cardsRef.forEach((card, i) => {
 			if (i === cardsRef.length - 1) return;
-			gsap.to(card, {
+			const target = innerRef[i] || card;
+			gsap.to(target, {
 				scale: 0.94,
 				ease: "none",
 				scrollTrigger: {
@@ -110,12 +132,12 @@
 		{#each services as service, i}
 			<div
 				bind:this={cardsRef[i]}
-				class="sticky top-[72px] md:top-[88px] mb-5 md:mb-6 origin-top will-change-transform"
+				class="sticky top-[72px] md:top-[88px] mb-5 md:mb-6"
 				style="z-index: {i + 1};"
 			>
 				<div
-					class="group rounded-[24px] md:rounded-[36px] bg-white border border-black/8 shadow-[0_30px_80px_rgba(10,10,10,0.08)] px-6 md:px-16 py-10 md:py-16 min-h-[58dvh] md:min-h-[64dvh] flex flex-col justify-between overflow-hidden relative isolate"
-					style="transform: translateZ(0);"
+					bind:this={innerRef[i]}
+					class="group rounded-[24px] md:rounded-[36px] bg-white border border-black/8 shadow-[0_30px_80px_rgba(10,10,10,0.08)] px-6 md:px-16 py-10 md:py-16 min-h-[58dvh] md:min-h-[64dvh] flex flex-col justify-between overflow-hidden relative isolate origin-top will-change-transform"
 				>
 					<!-- Hover-only glow, so it is desktop-only: on touch it can never be
 					     shown, but a 340px box with an 80px blur still sat in every
