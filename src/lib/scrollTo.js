@@ -30,9 +30,15 @@ import { prefersReducedMotion } from "./motion.js";
  */
 
 // px/second the travel aims for; distance is divided by this to get a duration.
-const TARGET_SPEED = 6000;
-const MIN_DURATION = 0.7;
-const MAX_DURATION = 2.0;
+// Retuned slower/more cinematic on request: a short hop (e.g. one section
+// down) used to clamp to a snappy 0.7s minimum, which read as "instant" for
+// anything closer than ~4200px. Raising the floor and lowering the target
+// speed means even adjacent-section clicks get a visible, deliberate glide
+// instead of feeling like a cut, while the 2.8s ceiling keeps the longest
+// jump (top to Contact) from dragging.
+const TARGET_SPEED = 3600;
+const MIN_DURATION = 1.1;
+const MAX_DURATION = 2.8;
 
 // easeInOutSine — gentlest symmetric curve, lowest velocity peak.
 const easeInOutSine = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
