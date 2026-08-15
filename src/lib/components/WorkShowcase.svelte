@@ -1,7 +1,4 @@
 <script>
-	import { onMount } from "svelte";
-	import gsap from "gsap";
-	import ScrollTrigger from "gsap/ScrollTrigger";
 	import imgCabana from "$lib/assets/work/cabana-svinita.jpg";
 	import imgRodica from "$lib/assets/work/rodica-chiriches.jpg";
 	import imgSeeker from "$lib/assets/work/seeker.jpg";
@@ -9,7 +6,6 @@
 	import { fillPress } from "$lib/actions/fillPress.js";
 	import { scrollToSection } from "$lib/scrollTo.js";
 	import { t } from "$lib/i18n/index.js";
-	import { prefersReducedMotion } from "$lib/motion.js";
 	import { workSources } from "$lib/images.js";
 
 	// Layout-only data (images, sizing, asymmetric grid placement) stays
@@ -28,35 +24,15 @@
 
 	let projects = $derived($t.work.projects.map((p, i) => ({ ...p, ...layout[i] })));
 
-	let cardRefs = $state([]);
-
-	onMount(() => {
-		// Cards are visible in the markup; the tween only hides them to reveal
-		// them again, so skipping it needs no cleanup.
-		if (prefersReducedMotion()) return;
-
-		gsap.registerPlugin(ScrollTrigger);
-
-		cardRefs.forEach((card) => {
-			if (!card) return;
-			gsap.fromTo(
-				card,
-				{ y: 80, autoAlpha: 0 },
-				{
-					y: 0,
-					autoAlpha: 1,
-					duration: 1.1,
-					ease: "power3.out",
-					scrollTrigger: { trigger: card, start: "top 88%" },
-				},
-			);
-		});
-	});
-
-	// Note: the project images used to shift slightly on mousemove (a small
-	// parallax effect). Removed — it could visibly drift on its own on fast
-	// mouse movement / rapid enter-leave sequences, which read as a bug.
-	// The images now stay put; only the CSS group-hover scale remains.
+	// This section used to reveal each card with a scroll-triggered GSAP
+	// fade/slide-up, plus a CSS scale-up on hover/tap. Both are gone: on a
+	// real phone the reveal tween was firing on cards well below the
+	// Services→Work handoff that was already glitching (see Services.svelte),
+	// and made that stretch of the page feel like it was fighting itself.
+	// Removed rather than tuned — the cards are static now, always at their
+	// final state, nothing here writes to transform/opacity on scroll or on
+	// touch. Simpler and steadier beats a subtler version of the same class
+	// of bug.
 </script>
 
 <section id="work" class="w-full bg-white text-black py-24 md:py-40 relative">
@@ -77,7 +53,6 @@
 				href={project.url}
 				target="_blank"
 				rel="noopener noreferrer"
-				bind:this={cardRefs[i]}
 				data-cursor-label={$t.work.viewProject}
 				class="group col-span-1 {project.colSpan} {project.colStart} {project.offsetTop} block cursor-pointer"
 			>
@@ -85,6 +60,13 @@
 					<picture class="contents">
 						<source type="image/avif" srcset={project.sources.avif} sizes={SIZES} />
 						<source type="image/webp" srcset={project.sources.webp} sizes={SIZES} />
+						<!-- Static on purpose: this used to scale up on hover/tap
+						     (group-hover:scale-110). On iOS Safari a tap can leave
+						     :hover "stuck" on until the user taps elsewhere, so the
+						     image could end up permanently zoomed-in/cropped-looking
+						     on mobile — reported as part of the Work section "breaking".
+						     The image no longer moves at all; scale-105 stays only to
+						     cover the 112%-oversized crop box below, not as motion. -->
 						<img
 							src={project.image}
 							alt="{project.name} — {project.category}"
@@ -92,7 +74,7 @@
 							height="1200"
 							loading="lazy"
 							decoding="async"
-							class="absolute inset-0 w-[112%] h-[112%] -left-[6%] -top-[6%] object-cover scale-105 group-hover:scale-110 transition-transform duration-700 group-hover:will-change-transform"
+							class="absolute inset-0 w-[112%] h-[112%] -left-[6%] -top-[6%] object-cover scale-105"
 						/>
 					</picture>
 					<!-- On mobile there's no hover, so this overlay (and the tags below)
