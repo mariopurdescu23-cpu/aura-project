@@ -3,10 +3,9 @@
  *
  * `prefersReducedMotion()` — the CSS media query in layout.css only neutralises
  * CSS animations and transitions. GSAP writes inline styles and drives its own
- * ticker, so it never sees that rule; every entrance tween, ScrollTrigger and
- * the Lenis smooth-scroll kept running for someone who explicitly asked their
- * OS for less motion. Components check this and jump straight to the final
- * state instead.
+ * ticker, so it never sees that rule; every entrance tween and ScrollTrigger
+ * kept running for someone who explicitly asked their OS for less motion.
+ * Components check this and jump straight to the final state instead.
  *
  * `pauseWhenHidden()` — decorative loops (`repeat: -1`) keep the compositor
  * committing a frame 60 times a second forever, even when the element they

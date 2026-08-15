@@ -23,6 +23,26 @@
 
 		gsap.registerPlugin(ScrollTrigger);
 
+		// The line's scrub went through two earlier bindings, both wrong for
+		// the same underlying reason: "start: top X%, end: bottom X%" (or
+		// two same-X% triggers) on a container maps the scrub to exactly
+		// that container's own pixel height — nothing more. On mobile, all
+		// 4 steps together measure only ~650px tall against an ~840px
+		// viewport, and their headings sit only ~520px apart. That means
+		// step 1 and step 4 both cross any given viewport-percentage
+		// threshold within a few hundred pixels of each other — so tying
+		// the line's start/end to "step 1 becomes current" → "step 4
+		// becomes current" still only bought a few hundred pixels of scroll
+		// budget, and the line still raced to full almost immediately.
+		//
+		// The fix: give the line the full, natural reading distance instead
+		// of a percentage-derived one — start as the first step's block
+		// begins entering from the bottom of the viewport (`top bottom`),
+		// end once the last step's block has fully scrolled past the top
+		// (`bottom top`). That's the entire scroll distance from "step 1 is
+		// not yet visible" to "step 4 has been completely read and passed"
+		// — proportional to how much the user actually has to scroll
+		// through the content, not to an arbitrary container edge.
 		gsap.fromTo(
 			lineRef,
 			{ scaleY: 0 },
@@ -31,9 +51,10 @@
 				ease: "none",
 				transformOrigin: "top",
 				scrollTrigger: {
-					trigger: sectionRef,
-					start: "top 70%",
-					end: "bottom 60%",
+					trigger: stepRefs[0],
+					start: "top bottom",
+					endTrigger: stepRefs[stepRefs.length - 1],
+					end: "bottom top",
 					scrub: 0.6,
 				},
 			},
