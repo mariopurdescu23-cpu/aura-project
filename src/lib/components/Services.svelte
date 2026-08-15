@@ -15,16 +15,24 @@
 
 	let services = $derived($t.services.items.map((s, i) => ({ ...s, image: images[i] })));
 	let cardsRef = $state([]);
+	let dimRef = $state([]);
 	let sectionRef = $state();
 
 	onMount(() => {
 		gsap.registerPlugin(ScrollTrigger);
 
+		// The "previous card recedes as the next one covers it" effect used to
+		// be done with a CSS `filter: brightness()` tween on the whole card.
+		// `filter` on an element that also has `overflow: hidden` + rounded
+		// corners + its own transformed/hover-animated children (the photo)
+		// is a known trigger for compositing glitches in some browsers — the
+		// layer can flash solid black while repainting, especially on hover.
+		// A plain opacity-based dark scrim avoids `filter` entirely and gives
+		// the same visual result safely.
 		cardsRef.forEach((card, i) => {
 			if (i === cardsRef.length - 1) return;
 			gsap.to(card, {
 				scale: 0.94,
-				filter: "brightness(0.85)",
 				ease: "none",
 				scrollTrigger: {
 					trigger: card,
@@ -33,6 +41,18 @@
 					scrub: true,
 				},
 			});
+			if (dimRef[i]) {
+				gsap.to(dimRef[i], {
+					opacity: 0.18,
+					ease: "none",
+					scrollTrigger: {
+						trigger: card,
+						start: "top 88px",
+						end: "bottom top",
+						scrub: true,
+					},
+				});
+			}
 		});
 	});
 </script>
@@ -57,10 +77,15 @@
 				style="z-index: {i + 1};"
 			>
 				<div
-					class="group rounded-[24px] md:rounded-[36px] bg-white border border-black/8 shadow-[0_30px_80px_rgba(10,10,10,0.08)] px-6 md:px-16 py-10 md:py-16 min-h-[58vh] md:min-h-[64vh] flex flex-col justify-between overflow-hidden relative"
+					class="group rounded-[24px] md:rounded-[36px] bg-white border border-black/8 shadow-[0_30px_80px_rgba(10,10,10,0.08)] px-6 md:px-16 py-10 md:py-16 min-h-[58vh] md:min-h-[64vh] flex flex-col justify-between overflow-hidden relative isolate"
+					style="transform: translateZ(0);"
 				>
 					<div
 						class="absolute -top-24 -right-24 w-[340px] h-[340px] rounded-full bg-[#5B21F5] opacity-0 group-hover:opacity-[0.06] blur-[80px] transition-opacity duration-700 pointer-events-none"
+					></div>
+					<div
+						bind:this={dimRef[i]}
+						class="absolute inset-0 bg-[#0A0A0A] opacity-0 pointer-events-none z-30"
 					></div>
 
 					<div class="flex justify-between items-start relative z-10">
@@ -73,12 +98,13 @@
 					<!-- Visual panel -->
 					<div class="relative z-10 flex justify-center md:justify-end my-6 md:my-4">
 						<div
-							class="w-full md:w-[36%] md:max-w-[300px] aspect-[16/9] md:aspect-[4/5] rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(10,10,10,0.12)]"
+							class="w-full md:w-[36%] md:max-w-[300px] aspect-[16/9] md:aspect-[4/5] rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(10,10,10,0.12)] isolate"
+							style="transform: translateZ(0);"
 						>
 							<img
 								src={service.image}
 								alt=""
-								class="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700 will-change-transform"
+								class="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700 will-change-transform transform-gpu"
 							/>
 						</div>
 					</div>
