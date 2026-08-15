@@ -48,6 +48,24 @@
 		// layer can flash solid black while repainting, especially on hover.
 		// A plain opacity-based dark scrim avoids `filter` entirely and gives
 		// the same visual result safely.
+		// `scrub: true` (no number) ties the tween 1:1 to the raw scroll
+		// event stream — every single scroll event forces GSAP to recompute
+		// and write style/transform synchronously, no matter how often they
+		// fire. Native scrolling can dispatch far more of those events per
+		// visual frame than the page's old Lenis-driven scroll ever did
+		// (Lenis's lerp damping incidentally rate-limited how fast the
+		// "current" scroll value could change, which also rate-limited how
+		// often this fired). With native scroll now the only driver, that
+		// unsmoothed scrub is what showed up as card animation lag/jank on
+		// real devices, worse the longer a scroll gesture ran.
+		//
+		// `scrub: 0.3` is the fix already used elsewhere in this codebase
+		// (Process's line: 0.6, Manifesto's word colour: 1) — GSAP
+		// interpolates the tween's value toward the scroll-driven target
+		// over that many seconds using its own ticker, instead of writing
+		// synchronously on every raw scroll event. Still reads as
+		// immediate/tight at 0.3s, but decouples the animation's update
+		// rate from the raw input event rate.
 		cardsRef.forEach((card, i) => {
 			if (i === cardsRef.length - 1) return;
 			gsap.to(card, {
@@ -57,7 +75,7 @@
 					trigger: card,
 					start: "top 88px",
 					end: "bottom top",
-					scrub: true,
+					scrub: 0.3,
 				},
 			});
 			if (dimRef[i]) {
@@ -68,7 +86,7 @@
 						trigger: card,
 						start: "top 88px",
 						end: "bottom top",
-						scrub: true,
+						scrub: 0.3,
 					},
 				});
 			}
