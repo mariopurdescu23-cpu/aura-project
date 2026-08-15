@@ -7,6 +7,8 @@
 	import X from "@lucide/svelte/icons/x";
 	import ChevronDown from "@lucide/svelte/icons/chevron-down";
 	import Check from "@lucide/svelte/icons/check";
+	import { fade } from "svelte/transition";
+	import { fillPress } from "$lib/actions/fillPress.js";
 	import { t, lang, setLang } from "$lib/i18n/index.js";
 
 	let headerRef = $state();
@@ -56,9 +58,9 @@
 		evt.preventDefault();
 		if (isMenuOpen) toggleMenu();
 		gsap.to(window, {
-			duration: 1.5,
+			duration: 2.2,
 			scrollTo: { y: id, offsetY },
-			ease: "expo.inOut",
+			ease: "power3.inOut",
 		});
 	}
 
@@ -235,77 +237,89 @@
 <!-- Mobile full-screen overlay -->
 <div
 	bind:this={mobileMenuRef}
-	class="fixed inset-0 z-40 bg-white flex flex-col justify-center invisible opacity-0 px-8 sm:px-10 overflow-hidden"
+	class="fixed inset-0 z-40 bg-[#0A0A0A]/95 flex flex-col justify-center invisible opacity-0 px-8 sm:px-10 overflow-hidden"
 >
 	<div
-		class="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#5B21F5] opacity-[0.08] blur-[100px] rounded-full pointer-events-none"
+		class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#7C3AED] opacity-[0.16] blur-[100px] rounded-full pointer-events-none"
 	></div>
 
-	<ul class="flex flex-col space-y-5 sm:space-y-7 text-left relative z-10">
-		<li class="overflow-hidden">
-			<a
-				bind:this={mobileLinksRef[0]}
-				href="#work"
-				onclick={(e) => scrollTo(e, "#work")}
-				class="block text-[13vw] sm:text-5xl font-display font-medium text-black/80 hover:text-black transition-colors will-change-transform"
-				>{$t.nav.work}</a
-			>
-		</li>
-		<li class="overflow-hidden">
-			<a
-				bind:this={mobileLinksRef[1]}
-				href="#services"
-				onclick={(e) => scrollTo(e, "#services", -170)}
-				class="block text-[13vw] sm:text-5xl font-display font-medium text-black/80 hover:text-black transition-colors will-change-transform"
-				>{$t.nav.services}</a
-			>
-		</li>
-		<li class="overflow-hidden">
-			<a
-				bind:this={mobileLinksRef[2]}
-				href="#about"
-				onclick={(e) => scrollTo(e, "#about")}
-				class="block text-[13vw] sm:text-5xl font-display font-medium text-black/80 hover:text-black transition-colors will-change-transform"
-				>{$t.nav.about}</a
-			>
-		</li>
-		<li class="overflow-hidden">
-			<a
-				bind:this={mobileLinksRef[3]}
-				href="#contact"
-				onclick={(e) => scrollTo(e, "#contact")}
-				class="block text-[13vw] sm:text-5xl font-display font-medium text-black/80 hover:text-black transition-colors will-change-transform"
-				>{$t.nav.contact}</a
-			>
-		</li>
-		<li class="overflow-hidden mt-2 pt-6 border-t border-black/10">
-			<a
-				bind:this={mobileLinksRef[4]}
-				href="#contact"
-				onclick={(e) => scrollTo(e, "#contact")}
-				class="inline-block text-lg sm:text-xl font-sans text-[#5B21F5] font-medium hover:text-black transition-colors will-change-transform"
-				>{$t.nav.cta} &rarr;</a
-			>
-		</li>
-	</ul>
+	{#key $lang}
+		<ul
+			in:fade={{ duration: 260, delay: 130 }}
+			out:fade={{ duration: 130 }}
+			class="flex flex-col space-y-5 sm:space-y-7 text-left relative z-10"
+		>
+			<li class="overflow-hidden">
+				<a
+					bind:this={mobileLinksRef[0]}
+					href="#work"
+					onclick={(e) => scrollTo(e, "#work")}
+					use:fillPress
+					class="block text-[13vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
+					>{$t.nav.work}</a
+				>
+			</li>
+			<li class="overflow-hidden">
+				<a
+					bind:this={mobileLinksRef[1]}
+					href="#services"
+					onclick={(e) => scrollTo(e, "#services", -170)}
+					use:fillPress
+					class="block text-[13vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
+					>{$t.nav.services}</a
+				>
+			</li>
+			<li class="overflow-hidden">
+				<a
+					bind:this={mobileLinksRef[2]}
+					href="#about"
+					onclick={(e) => scrollTo(e, "#about")}
+					use:fillPress
+					class="block text-[13vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
+					>{$t.nav.about}</a
+				>
+			</li>
+			<li class="overflow-hidden">
+				<a
+					bind:this={mobileLinksRef[3]}
+					href="#contact"
+					onclick={(e) => scrollTo(e, "#contact")}
+					use:fillPress
+					class="block text-[13vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
+					>{$t.nav.contact}</a
+				>
+			</li>
+			<li class="overflow-hidden mt-2 pt-6 border-t border-white/10">
+				<a
+					bind:this={mobileLinksRef[4]}
+					href="#contact"
+					onclick={(e) => scrollTo(e, "#contact")}
+					use:fillPress
+					class="inline-block text-lg sm:text-xl font-sans text-[#a78bfa] font-medium hover:text-white transition-colors will-change-transform px-3 -mx-3 py-1 rounded-full"
+					>{$t.nav.cta} &rarr;</a
+				>
+			</li>
+		</ul>
+	{/key}
 
-	<!-- Mobile language toggle -->
-	<div class="relative z-10 mt-10 pt-6 border-t border-black/10 flex items-center gap-3">
-		<span class="text-xs font-mono text-black/40 uppercase tracking-widest">{$t.nav.language}</span>
-		<div class="flex items-center gap-1.5 bg-black/5 rounded-full p-1">
+	<!-- Mobile language toggle — kept outside the {#key} fade above so tapping
+	     RO/EN gives instant feedback instead of waiting on a crossfade. -->
+	<div class="relative z-10 mt-10 pt-6 border-t border-white/10 flex items-center gap-3">
+		<span class="text-xs font-mono text-white/40 uppercase tracking-widest">{$t.nav.language}</span>
+		<div class="flex items-center gap-1.5 bg-white/10 rounded-full p-1">
 			<button
 				onclick={() => pickLang("ro")}
-				class="px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer {$lang === 'ro'
+				class="px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors duration-300 cursor-pointer {$lang === 'ro'
 					? 'bg-[#5B21F5] text-white'
-					: 'text-black/50'}"
+					: 'text-white/50'}"
 			>
 				RO
 			</button>
 			<button
 				onclick={() => pickLang("en")}
-				class="px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer {$lang === 'en'
+				class="px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors duration-300 cursor-pointer {$lang === 'en'
 					? 'bg-[#5B21F5] text-white'
-					: 'text-black/50'}"
+					: 'text-white/50'}"
 			>
 				EN
 			</button>
@@ -313,10 +327,10 @@
 	</div>
 
 	<div
-		class="relative z-10 mt-8 flex gap-6 text-xs font-mono text-black/40 uppercase tracking-widest"
+		class="relative z-10 mt-8 flex gap-6 text-xs font-mono text-white/40 uppercase tracking-widest"
 	>
-		<a href="https://instagram.com/weberescu">Instagram</a>
-		<a href="https://www.facebook.com/profile.php?id=61592492747692">Facebook</a>
+		<a href="https://instagram.com/weberescu" class="hover:text-white/70 transition-colors">Instagram</a>
+		<a href="https://www.facebook.com/profile.php?id=61592492747692" class="hover:text-white/70 transition-colors">Facebook</a>
 	</div>
 </div>
 

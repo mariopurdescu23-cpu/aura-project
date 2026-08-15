@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 	import gsap from "gsap";
 	import { scrollToSection } from "$lib/scrollTo.js";
+	import { fillPress } from "$lib/actions/fillPress.js";
 	import { t } from "$lib/i18n/index.js";
 
 	let lines = $state([]);
@@ -129,6 +130,7 @@
 				<a
 					href="#contact"
 					onclick={(e) => scrollToSection(e, "#contact")}
+					use:fillPress
 					data-cursor-label={$t.cta.label}
 					class="magnetic-btn px-8 py-4 bg-[#0A0A0A] text-white rounded-full font-sans font-medium hover:bg-[#5B21F5] transition-colors duration-500 cursor-pointer text-center text-sm"
 				>
@@ -137,6 +139,7 @@
 				<a
 					href="#work"
 					onclick={(e) => scrollToSection(e, "#work")}
+					use:fillPress
 					data-cursor-label={$t.hero.ctaSecondary}
 					class="px-8 py-4 bg-transparent text-black border border-black/15 rounded-full font-sans font-medium hover:border-black/40 transition-all duration-500 cursor-pointer text-center text-sm"
 				>

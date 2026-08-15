@@ -6,6 +6,8 @@
 	import imgRodica from "$lib/assets/work/rodica-chiriches.jpg";
 	import imgSeeker from "$lib/assets/work/seeker.jpg";
 	import imgMysticpuff from "$lib/assets/work/mysticpuff.jpg";
+	import { fillPress } from "$lib/actions/fillPress.js";
+	import { scrollToSection } from "$lib/scrollTo.js";
 	import { t } from "$lib/i18n/index.js";
 
 	// Layout-only data (images, sizing, asymmetric grid placement) stays
@@ -74,16 +76,22 @@
 						alt="{project.name} — {project.category}"
 						class="absolute inset-0 w-[112%] h-[112%] -left-[6%] -top-[6%] object-cover scale-105 group-hover:scale-110 transition-transform duration-700 will-change-transform"
 					/>
+					<!-- On mobile there's no hover, so this overlay (and the tags below)
+					     stay permanently visible; on desktop it still only shows on hover. -->
 					<div
-						class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+						class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500"
 					></div>
 					<div
-						class="absolute bottom-0 left-0 right-0 p-6 md:p-8 translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500"
+						class="absolute bottom-0 left-0 right-0 p-6 md:p-8 translate-y-0 md:translate-y-6 opacity-100 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-500 flex items-center justify-between gap-3"
 					>
 						<span class="text-white text-sm font-mono uppercase tracking-widest">{project.tech}</span>
+						<span
+							class="md:hidden flex-shrink-0 inline-flex items-center gap-1.5 text-white text-xs font-mono uppercase tracking-widest bg-[#5B21F5] rounded-full px-3 py-1.5"
+							>{$t.work.viewProject} →</span
+						>
 					</div>
 					<span
-						class="absolute top-5 right-5 md:top-6 md:right-6 text-xs font-mono uppercase tracking-widest text-white bg-[#5B21F5] rounded-full px-3 py-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+						class="absolute top-5 right-5 md:top-6 md:right-6 text-xs font-mono uppercase tracking-widest text-white bg-[#5B21F5] rounded-full px-3 py-1.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500"
 						>{project.year}</span
 					>
 				</div>
@@ -109,7 +117,8 @@
 	<div class="flex justify-center mt-16 md:mt-24">
 		<a
 			href="#contact"
-			onclick={(e) => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }); }}
+			onclick={(e) => scrollToSection(e, "#contact")}
+			use:fillPress
 			class="px-8 py-4 rounded-full border border-black/15 text-black/70 hover:bg-black hover:text-white hover:border-black transition-colors duration-500 font-sans text-sm font-medium"
 		>
 			{$t.work.cta}

@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from "svelte";
 	import gsap from "gsap";
+	import { fillPress } from "$lib/actions/fillPress.js";
 	import { t } from "$lib/i18n/index.js";
 
 	const CONTACT_EMAIL = "contact@weberescu.ro";
@@ -71,6 +72,7 @@
 			href={isDesktop ? GMAIL_COMPOSE_URL : `mailto:${CONTACT_EMAIL}`}
 			target={isDesktop ? "_blank" : undefined}
 			rel={isDesktop ? "noopener noreferrer" : undefined}
+			use:fillPress
 			data-cursor-label={$t.cta.label}
 			class="magnetic-btn mt-12 md:mt-16 inline-flex items-center gap-3 px-8 md:px-10 py-5 md:py-6 rounded-full bg-white text-black font-sans font-medium text-base md:text-lg hover:bg-[#5B21F5] hover:text-white transition-colors duration-500 cursor-pointer will-change-transform"
 		>

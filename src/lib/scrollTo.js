@@ -12,8 +12,8 @@ export function scrollToSection(evt, id, offset = 40) {
 	}
 
 	gsap.to(window, {
-		duration: 1.5,
+		duration: 2.2,
 		scrollTo: { y: id, offsetY: offset },
-		ease: "expo.inOut",
+		ease: "power3.inOut",
 	});
 }
