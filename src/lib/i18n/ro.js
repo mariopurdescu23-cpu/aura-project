@@ -11,7 +11,7 @@ export const ro = {
 	},
 	hero: {
 		metaLeft: "Software / Design / Produse Digitale",
-		metaRight: "Peste 15 ani în software și design — cu sediul în Europa, activ global",
+		metaRight: "Agenție de software și design — cu sediul în Europa, activ global",
 		line1: "SOFTWARE",
 		line2: "SE SIMTE",
 		line3: "diferit.",

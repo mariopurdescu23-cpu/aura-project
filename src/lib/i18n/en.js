@@ -11,7 +11,7 @@ export const en = {
 	},
 	hero: {
 		metaLeft: "Software / Design / Digital Products",
-		metaRight: "15+ years in software & design — based in Europe, working globally",
+		metaRight: "Software & design agency — based in Europe, working globally",
 		line1: "SOFTWARE",
 		line2: "SHOULD FEEL",
 		line3: "different.",

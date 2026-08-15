@@ -13,10 +13,10 @@
 	// Layout-only data (images, sizing, asymmetric grid placement) stays
 	// static — only the copy (name/category/desc/tech/year/url) is translated.
 	const layout = [
-		{ image: imgCabana, height: "h-[62vh] md:h-[78vh]", colStart: "md:col-start-1", colSpan: "md:col-span-7", offsetTop: "" },
-		{ image: imgRodica, height: "h-[52vh] md:h-[60vh]", colStart: "md:col-start-6", colSpan: "md:col-span-7", offsetTop: "md:mt-24" },
-		{ image: imgSeeker, height: "h-[58vh] md:h-[70vh]", colStart: "md:col-start-1", colSpan: "md:col-span-6", offsetTop: "md:mt-32" },
-		{ image: imgMysticpuff, height: "h-[54vh] md:h-[62vh]", colStart: "md:col-start-7", colSpan: "md:col-span-6", offsetTop: "md:mt-4" },
+		{ image: imgCabana, height: "h-[62dvh] md:h-[78dvh]", colStart: "md:col-start-1", colSpan: "md:col-span-7", offsetTop: "" },
+		{ image: imgRodica, height: "h-[52dvh] md:h-[60dvh]", colStart: "md:col-start-6", colSpan: "md:col-span-7", offsetTop: "md:mt-24" },
+		{ image: imgSeeker, height: "h-[58dvh] md:h-[70dvh]", colStart: "md:col-start-1", colSpan: "md:col-span-6", offsetTop: "md:mt-32" },
+		{ image: imgMysticpuff, height: "h-[54dvh] md:h-[62dvh]", colStart: "md:col-start-7", colSpan: "md:col-span-6", offsetTop: "md:mt-4" },
 	];
 
 	let projects = $derived($t.work.projects.map((p, i) => ({ ...p, ...layout[i] })));

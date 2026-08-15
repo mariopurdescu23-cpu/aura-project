@@ -77,7 +77,7 @@
 				style="z-index: {i + 1};"
 			>
 				<div
-					class="group rounded-[24px] md:rounded-[36px] bg-white border border-black/8 shadow-[0_30px_80px_rgba(10,10,10,0.08)] px-6 md:px-16 py-10 md:py-16 min-h-[58vh] md:min-h-[64vh] flex flex-col justify-between overflow-hidden relative isolate"
+					class="group rounded-[24px] md:rounded-[36px] bg-white border border-black/8 shadow-[0_30px_80px_rgba(10,10,10,0.08)] px-6 md:px-16 py-10 md:py-16 min-h-[58dvh] md:min-h-[64dvh] flex flex-col justify-between overflow-hidden relative isolate"
 					style="transform: translateZ(0);"
 				>
 					<div

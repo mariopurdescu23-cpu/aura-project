@@ -237,17 +237,20 @@
 <!-- Mobile full-screen overlay -->
 <div
 	bind:this={mobileMenuRef}
-	class="fixed inset-0 z-40 bg-[#0A0A0A]/95 flex flex-col justify-center invisible opacity-0 px-8 sm:px-10 overflow-hidden"
+	class="fixed inset-0 z-40 bg-[#0A0A0A]/95 flex flex-col justify-center invisible opacity-0 px-8 sm:px-10 pt-16 overflow-hidden"
 >
+	<!-- The blurred glow is desktop-only: a 100px CSS blur is expensive to
+	     repaint, and combined with the clip-path open/close animation it
+	     made the menu visibly laggy on phones. -->
 	<div
-		class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#7C3AED] opacity-[0.16] blur-[100px] rounded-full pointer-events-none"
+		class="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#7C3AED] opacity-[0.16] blur-[100px] rounded-full pointer-events-none"
 	></div>
 
 	{#key $lang}
 		<ul
 			in:fade={{ duration: 260, delay: 130 }}
 			out:fade={{ duration: 130 }}
-			class="flex flex-col space-y-5 sm:space-y-7 text-left relative z-10"
+			class="flex flex-col space-y-4 sm:space-y-7 text-left relative z-10"
 		>
 			<li class="overflow-hidden">
 				<a
@@ -255,7 +258,7 @@
 					href="#work"
 					onclick={(e) => scrollTo(e, "#work")}
 					use:fillPress
-					class="block text-[13vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
+					class="block text-[11vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
 					>{$t.nav.work}</a
 				>
 			</li>
@@ -265,7 +268,7 @@
 					href="#services"
 					onclick={(e) => scrollTo(e, "#services", -170)}
 					use:fillPress
-					class="block text-[13vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
+					class="block text-[11vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
 					>{$t.nav.services}</a
 				>
 			</li>
@@ -275,7 +278,7 @@
 					href="#about"
 					onclick={(e) => scrollTo(e, "#about")}
 					use:fillPress
-					class="block text-[13vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
+					class="block text-[11vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
 					>{$t.nav.about}</a
 				>
 			</li>
@@ -285,7 +288,7 @@
 					href="#contact"
 					onclick={(e) => scrollTo(e, "#contact")}
 					use:fillPress
-					class="block text-[13vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
+					class="block text-[11vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
 					>{$t.nav.contact}</a
 				>
 			</li>

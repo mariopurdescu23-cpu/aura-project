@@ -75,7 +75,7 @@
 <section
 	bind:this={heroRef}
 	id="hero"
-	class="w-full min-h-screen flex flex-col justify-between relative overflow-hidden bg-white pt-32 md:pt-36 pb-10 px-6 md:px-12"
+	class="w-full min-h-[100dvh] flex flex-col justify-between relative overflow-hidden bg-white pt-32 md:pt-36 pb-10 px-6 md:px-12"
 >
 	<!-- Signature purple visual element -->
 	<div

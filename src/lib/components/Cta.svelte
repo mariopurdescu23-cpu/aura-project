@@ -50,7 +50,7 @@
 <section
 	bind:this={sectionRef}
 	id="contact"
-	class="w-full bg-[#0A0A0A] text-white min-h-screen flex flex-col items-center justify-center relative overflow-hidden py-32"
+	class="w-full bg-[#0A0A0A] text-white min-h-[100dvh] flex flex-col items-center justify-center relative overflow-hidden py-32"
 >
 	<div
 		bind:this={glowRef}
