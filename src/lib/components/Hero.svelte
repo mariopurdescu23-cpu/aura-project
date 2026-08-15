@@ -102,10 +102,30 @@
 	});
 </script>
 
+<!--
+	`min-h-[100svh]` here (and the `svh` used the same way in Cta, Services'
+	cards, and WorkShowcase's grid heights) used to be `dvh`. `dvh` tracks
+	the browser's *current* UI chrome state — on mobile, scrolling down
+	hides the address bar/bottom toolbar and the viewport (and every
+	`dvh`-sized box) grows; scrolling back up shows the chrome again and
+	everything shrinks back. That resize happens mid-scroll, on real
+	devices, on every up/down direction change — not from any bug in this
+	page's own JS. Every box sized with `dvh` was physically changing
+	height as a side effect of scroll direction, which shifted the whole
+	document's layout and every ScrollTrigger position computed against
+	it, at the exact moments (chrome showing/hiding on a direction change)
+	this was reported worst — the "teleport near the browser's bottom bar"
+	on real phones. `svh` ("small viewport height") is fixed to the
+	viewport's smallest possible size, as if the chrome were always shown,
+	so these boxes no longer resize while scrolling at all. Trade-off: a
+	sliver of extra space can appear below a full-height section once the
+	chrome is actually hidden — far cheaper than the page's layout moving
+	under the user's finger.
+-->
 <section
 	bind:this={heroRef}
 	id="hero"
-	class="w-full min-h-[100dvh] flex flex-col justify-between relative overflow-hidden bg-white pt-32 md:pt-36 pb-10 px-6 md:px-12"
+	class="w-full min-h-[100svh] flex flex-col justify-between relative overflow-hidden bg-white pt-32 md:pt-36 pb-10 px-6 md:px-12"
 >
 	<!-- Signature purple visual element -->
 	<div

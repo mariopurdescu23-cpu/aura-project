@@ -11,10 +11,10 @@
 	// Layout-only data (images, sizing, asymmetric grid placement) stays
 	// static — only the copy (name/category/desc/tech/year/url) is translated.
 	const layout = [
-		{ image: imgCabana, sources: workSources("cabana-svinita"), height: "h-[62dvh] md:h-[78dvh]", colStart: "md:col-start-1", colSpan: "md:col-span-7", offsetTop: "" },
-		{ image: imgRodica, sources: workSources("rodica-chiriches"), height: "h-[52dvh] md:h-[60dvh]", colStart: "md:col-start-6", colSpan: "md:col-span-7", offsetTop: "md:mt-24" },
-		{ image: imgSeeker, sources: workSources("seeker"), height: "h-[58dvh] md:h-[70dvh]", colStart: "md:col-start-1", colSpan: "md:col-span-6", offsetTop: "md:mt-32" },
-		{ image: imgMysticpuff, sources: workSources("mysticpuff"), height: "h-[54dvh] md:h-[62dvh]", colStart: "md:col-start-7", colSpan: "md:col-span-6", offsetTop: "md:mt-4" },
+		{ image: imgCabana, sources: workSources("cabana-svinita"), height: "h-[62svh] md:h-[78svh]", colStart: "md:col-start-1", colSpan: "md:col-span-7", offsetTop: "" },
+		{ image: imgRodica, sources: workSources("rodica-chiriches"), height: "h-[52svh] md:h-[60svh]", colStart: "md:col-start-6", colSpan: "md:col-span-7", offsetTop: "md:mt-24" },
+		{ image: imgSeeker, sources: workSources("seeker"), height: "h-[58svh] md:h-[70svh]", colStart: "md:col-start-1", colSpan: "md:col-span-6", offsetTop: "md:mt-32" },
+		{ image: imgMysticpuff, sources: workSources("mysticpuff"), height: "h-[54svh] md:h-[62svh]", colStart: "md:col-start-7", colSpan: "md:col-span-6", offsetTop: "md:mt-4" },
 	];
 
 	// The image box is roughly half the 1600px grid on desktop and full-bleed

@@ -137,7 +137,7 @@
 			>
 				<div
 					bind:this={innerRef[i]}
-					class="group rounded-[24px] md:rounded-[36px] bg-white border border-black/8 shadow-[0_30px_80px_rgba(10,10,10,0.08)] px-6 md:px-16 py-10 md:py-16 min-h-[58dvh] md:min-h-[64dvh] flex flex-col justify-between overflow-hidden relative isolate origin-top will-change-transform"
+					class="group rounded-[24px] md:rounded-[36px] bg-white border border-black/8 shadow-[0_30px_80px_rgba(10,10,10,0.08)] px-6 md:px-16 py-10 md:py-16 min-h-[58svh] md:min-h-[64svh] flex flex-col justify-between overflow-hidden relative isolate origin-top will-change-transform"
 				>
 					<!-- Hover-only glow, so it is desktop-only: on touch it can never be
 					     shown, but a 340px box with an 80px blur still sat in every
