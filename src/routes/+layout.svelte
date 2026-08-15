@@ -20,7 +20,35 @@
         initLang();
 
         gsap.registerPlugin(ScrollTrigger);
-        ScrollTrigger.config({ ignoreMobileResize: true });
+
+        // `ignoreMobileResize: true` sounds like "never refresh from the
+        // mobile toolbar showing/hiding," but reading GSAP's own source
+        // (node_modules/gsap/ScrollTrigger.js) shows it's actually a
+        // threshold: on touch devices it only skips the refresh if the
+        // window height changed by LESS than 25% of the viewport. Depending
+        // on the phone, the combined address bar + bottom toolbar can eat
+        // more of the screen than that — so the built-in guard alone still
+        // let a toolbar show/hide trigger a full `ScrollTrigger.refresh()`
+        // on some devices. A refresh mid-gesture recomputes every trigger's
+        // start/end pixel positions; if any shifted, every scrub'd tween's
+        // progress gets recalculated against the new positions at the
+        // *same* scrollY — which snaps the scrubbed value (Process's line,
+        // Services' card scale, Manifesto's word colour) to wherever that
+        // new math says it should be. The document didn't jump; the
+        // scroll-linked animation did, which reads the same to the eye.
+        //
+        // `autoRefreshEvents` here removes "resize" from the list of
+        // events that trigger ScrollTrigger's own automatic refresh
+        // entirely — no threshold, no guessing, it simply never fires from
+        // a window resize. We still need the real, non-toolbar-driven case
+        // (rotating the phone, resizing a desktop window) to refresh — that
+        // is handled explicitly below by comparing widths, since a toolbar
+        // showing/hiding only ever changes `innerHeight`, never
+        // `innerWidth`.
+        ScrollTrigger.config({
+            ignoreMobileResize: true,
+            autoRefreshEvents: "visibilitychange,DOMContentLoaded,load",
+        });
 
         // Scroll architecture, compared directly against
         // github.com/mariopurdescu23-cpu/rodicachiriches (a site with no
@@ -75,6 +103,24 @@
         document.fonts?.ready?.then(refreshTriggers);
         window.addEventListener("load", refreshTriggers, { once: true });
 
+        // Real resize handling, owned outright instead of left to GSAP's
+        // built-in (and, per above, insufficient) heuristic: a mobile
+        // toolbar showing/hiding changes `window.innerHeight` and nothing
+        // else — `innerWidth` is untouched, because the toolbar overlays
+        // the same-width viewport rather than narrowing it. An actual
+        // resize that should recompute trigger positions (rotating the
+        // phone, resizing a desktop window, folding/unfolding a device)
+        // always changes width. So: only refresh when width changes: never
+        // reacts to a toolbar-only height change, always reacts to a real
+        // one, no threshold, no per-device numbers.
+        let lastWidth = window.innerWidth;
+        const onResize = () => {
+            if (window.innerWidth === lastWidth) return;
+            lastWidth = window.innerWidth;
+            ScrollTrigger.refresh();
+        };
+        window.addEventListener("resize", onResize, { passive: true });
+
         // Deep-link entry (Instagram bio link, a shared "#services" URL,
         // etc.): the browser already jumps to the target element natively
         // before hydration — that part is free and correct, same as
@@ -119,6 +165,7 @@
         return () => {
             removeHashSync?.();
             window.removeEventListener("load", refreshTriggers);
+            window.removeEventListener("resize", onResize);
         };
     });
 </script>
