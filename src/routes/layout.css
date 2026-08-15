@@ -30,6 +30,17 @@ html,
 body {
 	overflow-x: hidden;
 	width: 100%;
+	/* Chrome (and only Chrome — this is why Safari was already fine) turns
+	   on "scroll anchoring" by default: whenever it detects a layout shift
+	   above the viewport, it silently adjusts scrollY on its own to try to
+	   keep the same content visually in place. That's a second, independent
+	   system nudging scroll position outside of anything this page's own
+	   code does — GSAP/ScrollTrigger already own scroll-linked positioning
+	   end to end, so Chrome's own "helpful" correction on top of that is
+	   exactly the kind of second authority this whole scroll rework has
+	   been about removing. Turning it off is the standard, one-line way to
+	   opt out (there is no equivalent JS flag to fight this with instead). */
+	overflow-anchor: none;
 }
 body {
 	font-family: var(--font-sans);
