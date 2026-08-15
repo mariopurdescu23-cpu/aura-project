@@ -20,7 +20,6 @@
 	let projects = $derived($t.work.projects.map((p, i) => ({ ...p, ...layout[i] })));
 
 	let cardRefs = $state([]);
-	let imgRefs = $state([]);
 
 	onMount(() => {
 		gsap.registerPlugin(ScrollTrigger);
@@ -41,20 +40,10 @@
 		});
 	});
 
-	function handleMove(e, i) {
-		const img = imgRefs[i];
-		if (!img || window.innerWidth < 768) return;
-		const rect = e.currentTarget.getBoundingClientRect();
-		const relX = (e.clientX - rect.left) / rect.width - 0.5;
-		const relY = (e.clientY - rect.top) / rect.height - 0.5;
-		gsap.to(img, { x: relX * 24, y: relY * 24, duration: 0.9, ease: "power3.out" });
-	}
-
-	function handleLeave(i) {
-		const img = imgRefs[i];
-		if (!img) return;
-		gsap.to(img, { x: 0, y: 0, duration: 0.7, ease: "power3.out" });
-	}
+	// Note: the project images used to shift slightly on mousemove (a small
+	// parallax effect). Removed — it could visibly drift on its own on fast
+	// mouse movement / rapid enter-leave sequences, which read as a bug.
+	// The images now stay put; only the CSS group-hover scale remains.
 </script>
 
 <section id="work" class="w-full bg-white text-black py-24 md:py-40 relative">
@@ -77,13 +66,10 @@
 				rel="noopener noreferrer"
 				bind:this={cardRefs[i]}
 				data-cursor-label={$t.work.viewProject}
-				onmousemove={(e) => handleMove(e, i)}
-				onmouseleave={() => handleLeave(i)}
 				class="group col-span-1 {project.colSpan} {project.colStart} {project.offsetTop} block cursor-pointer"
 			>
 				<div class="relative overflow-hidden rounded-2xl {project.height} bg-[#F7F7F8]">
 					<img
-						bind:this={imgRefs[i]}
 						src={project.image}
 						alt="{project.name} — {project.category}"
 						class="absolute inset-0 w-[112%] h-[112%] -left-[6%] -top-[6%] object-cover scale-105 group-hover:scale-110 transition-transform duration-700 will-change-transform"

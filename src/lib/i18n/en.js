@@ -11,7 +11,7 @@ export const en = {
 	},
 	hero: {
 		metaLeft: "Software / Design / Digital Products",
-		metaRight: "Independent studio — based in Europe, working globally",
+		metaRight: "15+ years in software & design — based in Europe, working globally",
 		line1: "SOFTWARE",
 		line2: "SHOULD FEEL",
 		line3: "different.",
@@ -169,18 +169,18 @@ export const en = {
 	},
 	about: {
 		label: "About",
-		headline: ["SMALL TEAM.", "BIG DIGITAL", "energy."],
-		desc: "Weberescu is an independent studio for companies who take their product seriously. We work in small, senior teams — no account managers, no hand-offs, no dilution between the deck that sells the work and the people who actually build it.",
+		headline: ["15 YEARS.", "100+ PROJECTS", "delivered."],
+		desc: "Weberescu is an established software and design agency with over 15 years in the industry and 100+ projects delivered for ambitious companies. We bring the process, depth and reliability of a full-scale studio — senior teams, proven delivery, and the experience to see every project through end to end.",
 		principles: [
 			{ n: "01", title: "Craft over speed", desc: "We'd rather ship a week later and get it right." },
 			{ n: "02", title: "Design and code together", desc: "The same people who design it help build it." },
 			{ n: "03", title: "No filler, no fluff", desc: "Every screen, sentence and animation earns its place." },
 		],
 		stats: [
-			{ label: "Projects delivered", value: 12, suffix: "+", isNumber: true },
-			{ label: "Years of craft", value: 7, suffix: "+", isNumber: true },
+			{ label: "Projects delivered", value: 100, suffix: "+", isNumber: true },
+			{ label: "Years of experience", value: 15, suffix: "+", isNumber: true },
 			{ label: "In-house delivery", value: 100, suffix: "%", isNumber: true },
-			{ label: "Curiosity", value: "∞", suffix: "", isNumber: false },
+			{ label: "Client satisfaction", value: 98, suffix: "%", isNumber: true },
 		],
 	},
 	process: {
@@ -235,7 +235,7 @@ export const en = {
 		note: "Or write to",
 	},
 	footer: {
-		desc: "Independent digital studio designing and building software, websites and digital products.",
+		desc: "Software and web design agency with 15+ years of experience, designing and building digital products for ambitious companies.",
 		booking: "Booking Q4 2026",
 		navigate: "Navigate",
 		studio: "Studio",

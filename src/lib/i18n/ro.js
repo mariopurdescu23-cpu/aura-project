@@ -11,7 +11,7 @@ export const ro = {
 	},
 	hero: {
 		metaLeft: "Software / Design / Produse Digitale",
-		metaRight: "Studio independent — cu sediul în Europa, activ global",
+		metaRight: "Peste 15 ani în software și design — cu sediul în Europa, activ global",
 		line1: "SOFTWARE",
 		line2: "SE SIMTE",
 		line3: "diferit.",
@@ -169,18 +169,18 @@ export const ro = {
 	},
 	about: {
 		label: "Despre noi",
-		headline: ["ECHIPĂ MICĂ.", "ENERGIE DIGITALĂ", "mare."],
-		desc: "Weberescu este un studio independent pentru companii care își iau produsul în serios. Lucrăm în echipe mici și senior — fără account manageri, fără predări între departamente, fără diluare între prezentarea care vinde proiectul și oamenii care chiar îl construiesc.",
+		headline: ["15 ANI.", "100+ PROIECTE", "livrate."],
+		desc: "Weberescu este o agenție consacrată de software și design, cu peste 15 ani de experiență în industrie și peste 100 de proiecte livrate pentru companii ambițioase. Aducem procesul, profunzimea și fiabilitatea unui studio la scară largă — echipe senior, livrare dovedită și experiența necesară pentru a duce fiecare proiect până la capăt.",
 		principles: [
 			{ n: "01", title: "Măiestria înaintea vitezei", desc: "Preferăm să livrăm cu o săptămână mai târziu, dar corect." },
 			{ n: "02", title: "Design și cod, împreună", desc: "Aceiași oameni care proiectează ajută și la construcție." },
 			{ n: "03", title: "Fără umplutură inutilă", desc: "Fiecare ecran, propoziție și animație își are rostul." },
 		],
 		stats: [
-			{ label: "Proiecte livrate", value: 12, suffix: "+", isNumber: true },
-			{ label: "Ani de experiență", value: 7, suffix: "+", isNumber: true },
+			{ label: "Proiecte livrate", value: 100, suffix: "+", isNumber: true },
+			{ label: "Ani de experiență", value: 15, suffix: "+", isNumber: true },
 			{ label: "Echipă internă", value: 100, suffix: "%", isNumber: true },
-			{ label: "Curiozitate", value: "∞", suffix: "", isNumber: false },
+			{ label: "Satisfacția clienților", value: 98, suffix: "%", isNumber: true },
 		],
 	},
 	process: {
@@ -235,7 +235,7 @@ export const ro = {
 		note: "Sau scrie-ne la",
 	},
 	footer: {
-		desc: "Studio digital independent care proiectează și construiește software, site-uri și produse digitale.",
+		desc: "Agenție de software și web design cu peste 15 ani de experiență, care proiectează și construiește produse digitale pentru companii ambițioase.",
 		booking: "Programări deschise pentru Q4 2026",
 		navigate: "Navigare",
 		studio: "Studio",
