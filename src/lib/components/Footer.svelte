@@ -7,7 +7,7 @@
 <footer class="w-full bg-[#0A0A0A] text-white pt-16 md:pt-20 pb-10 relative overflow-hidden border-t border-white/10">
 	<div class="px-6 md:px-24 max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 md:gap-4 mb-16 md:mb-20 relative z-10">
 		<div class="col-span-2 md:col-span-1 flex flex-col gap-6">
-			<div class="opacity-90"><Logo dark={true} /></div>
+			<div><Logo dark={true} /></div>
 			<p class="text-white/40 font-sans text-sm leading-relaxed max-w-xs">
 				{$t.footer.desc}
 			</p>

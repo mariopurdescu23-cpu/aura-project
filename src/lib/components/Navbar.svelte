@@ -183,7 +183,7 @@
 				class="flex items-center gap-1 h-full px-3 text-sm font-medium text-black/60 hover:text-black transition-colors cursor-pointer"
 			>
 				<span>{$t.nav.language}</span>
-				<ChevronDown class="w-3.5 h-3.5 transition-transform duration-300 group-hover/lang:rotate-180" />
+				<ChevronDown class="w-3.5 h-3.5 rotate-180 transition-transform duration-300 group-hover/lang:rotate-0" />
 			</button>
 
 			<div

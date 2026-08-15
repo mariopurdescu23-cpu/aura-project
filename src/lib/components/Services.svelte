@@ -4,8 +4,16 @@
 	import ScrollTrigger from "gsap/ScrollTrigger";
 	import ArrowUpRight from "@lucide/svelte/icons/arrow-up-right";
 	import { t } from "$lib/i18n/index.js";
+	import imgSoftware from "$lib/assets/services/software-development.jpg";
+	import imgWebDesign from "$lib/assets/services/web-design.jpg";
+	import imgUiUx from "$lib/assets/services/ui-ux.jpg";
+	import imgSaas from "$lib/assets/services/saas-platforms.jpg";
+	import imgAi from "$lib/assets/services/ai-automation.jpg";
+	import imgDigitalProducts from "$lib/assets/services/digital-products.jpg";
 
-	let services = $derived($t.services.items);
+	const images = [imgSoftware, imgWebDesign, imgUiUx, imgSaas, imgAi, imgDigitalProducts];
+
+	let services = $derived($t.services.items.map((s, i) => ({ ...s, image: images[i] })));
 	let cardsRef = $state([]);
 	let sectionRef = $state();
 
@@ -49,7 +57,7 @@
 				style="z-index: {i + 1};"
 			>
 				<div
-					class="group rounded-[24px] md:rounded-[36px] bg-white border border-black/8 shadow-[0_30px_80px_rgba(10,10,10,0.08)] px-6 md:px-16 py-10 md:py-20 min-h-[58vh] md:min-h-[64vh] flex flex-col justify-between overflow-hidden relative"
+					class="group rounded-[24px] md:rounded-[36px] bg-white border border-black/8 shadow-[0_30px_80px_rgba(10,10,10,0.08)] px-6 md:px-16 py-10 md:py-16 min-h-[58vh] md:min-h-[64vh] flex flex-col justify-between overflow-hidden relative"
 				>
 					<div
 						class="absolute -top-24 -right-24 w-[340px] h-[340px] rounded-full bg-[#5B21F5] opacity-0 group-hover:opacity-[0.06] blur-[80px] transition-opacity duration-700 pointer-events-none"
@@ -62,7 +70,20 @@
 						/>
 					</div>
 
-					<div class="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-8 mt-10">
+					<!-- Visual panel -->
+					<div class="relative z-10 flex justify-center md:justify-end my-6 md:my-4">
+						<div
+							class="w-full md:w-[36%] md:max-w-[300px] aspect-[16/9] md:aspect-[4/5] rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(10,10,10,0.12)]"
+						>
+							<img
+								src={service.image}
+								alt=""
+								class="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700 will-change-transform"
+							/>
+						</div>
+					</div>
+
+					<div class="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-8">
 						<h3 class="font-display text-4xl md:text-7xl leading-[0.95] max-w-xl">
 							{service.title}
 						</h3>

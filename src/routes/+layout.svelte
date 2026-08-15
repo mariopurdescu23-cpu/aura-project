@@ -6,6 +6,7 @@
     import "lenis/dist/lenis.css";
     import "./layout.css";
     import favicon from "$lib/assets/favicon-weberescu.png";
+    import appleTouchIcon from "$lib/assets/favicon-apple-touch.png";
     import Navbar from "$lib/components/Navbar.svelte";
     import Cursor from "$lib/components/Cursor.svelte";
     import { dev } from "$app/environment";
@@ -56,6 +57,7 @@
 
 <svelte:head>
     <link rel="icon" type="image/png" href={favicon} />
+    <link rel="apple-touch-icon" href={appleTouchIcon} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
