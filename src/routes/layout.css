@@ -1,0 +1,119 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+/* --- GLOBAL DESIGN SYSTEM — WHITE x PURPLE x BLACK --- */
+:root {
+	/* Type */
+	--font-display: 'Space Grotesk', 'Inter', sans-serif;
+	--font-sans: 'Inter', sans-serif;
+	--font-serif: 'Instrument Serif', serif;
+
+	/* Palette */
+	--color-white: #ffffff;
+	--color-offwhite: #f7f7f8;
+	--color-black: #0a0a0a;
+	--color-purple: #5b21f5;
+	--color-purple-electric: #7c3aed;
+	--color-lavender: #ede9fe;
+
+	--color-bg-base: #ffffff;
+	--color-text-primary: #0a0a0a;
+	--color-text-secondary: rgba(10, 10, 10, 0.55);
+	--color-text-muted: rgba(10, 10, 10, 0.35);
+
+	--color-border: rgba(10, 10, 10, 0.1);
+	--color-accent: #5b21f5;
+}
+
+html,
+body {
+	overflow-x: hidden;
+	width: 100%;
+}
+body {
+	font-family: var(--font-sans);
+	color: var(--color-text-primary);
+	background-color: var(--color-bg-base);
+	margin: 0;
+	padding: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+.display-text {
+	font-family: var(--font-display);
+	font-weight: 500;
+	letter-spacing: -0.03em;
+	margin-top: 0;
+}
+
+.font-serif-italic {
+	font-family: var(--font-serif);
+	font-style: italic;
+	font-weight: 400;
+	letter-spacing: -0.01em;
+}
+
+button,
+input,
+textarea {
+	font-family: var(--font-sans);
+}
+
+::selection {
+	background: var(--color-purple);
+	color: var(--color-white);
+}
+
+.app-wrapper {
+	position: relative;
+	width: 100%;
+	min-height: 100vh;
+}
+
+/* --- Press-to-fill button effect ---
+   Buttons that only reveal their purple accent on CSS :hover never get
+   that feedback on touch devices. `.btn-fill` (paired with the fillPress
+   action) sweeps a purple circle out from the exact point pressed/tapped,
+   covering the button and turning the label white, then releases back —
+   giving a deliberate, visible "turns purple" moment on tap, not just an
+   instant color swap. */
+.btn-fill {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+}
+.btn-fill::before {
+	content: '';
+	position: absolute;
+	inset: -2px;
+	z-index: -1;
+	background: var(--color-purple);
+	clip-path: circle(0% at var(--fill-x, 50%) var(--fill-y, 50%));
+	transition: clip-path 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+	pointer-events: none;
+}
+.btn-fill.is-filled::before {
+	clip-path: circle(150% at var(--fill-x, 50%) var(--fill-y, 50%));
+}
+.btn-fill.is-filled {
+	color: #fff !important;
+	border-color: var(--color-purple) !important;
+	transition: color 0.4s ease 0.05s, border-color 0.4s ease 0.05s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
+}
