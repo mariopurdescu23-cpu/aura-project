@@ -237,13 +237,13 @@
 <!-- Mobile full-screen overlay -->
 <div
 	bind:this={mobileMenuRef}
-	class="fixed inset-0 z-40 bg-[#0A0A0A]/95 flex flex-col justify-center invisible opacity-0 px-8 sm:px-10 pt-16 overflow-hidden"
+	class="fixed inset-0 z-40 bg-white/95 backdrop-blur-xl flex flex-col justify-center invisible opacity-0 px-8 sm:px-10 pt-16 overflow-hidden"
 >
 	<!-- The blurred glow is desktop-only: a 100px CSS blur is expensive to
 	     repaint, and combined with the clip-path open/close animation it
 	     made the menu visibly laggy on phones. -->
 	<div
-		class="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#7C3AED] opacity-[0.16] blur-[100px] rounded-full pointer-events-none"
+		class="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#7C3AED] opacity-[0.10] blur-[100px] rounded-full pointer-events-none"
 	></div>
 
 	{#key $lang}
@@ -258,7 +258,7 @@
 					href="#work"
 					onclick={(e) => scrollTo(e, "#work")}
 					use:fillPress
-					class="block text-[11vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
+					class="block text-[11vw] sm:text-5xl font-display font-medium text-[#0A0A0A] hover:text-[#5B21F5] transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
 					>{$t.nav.work}</a
 				>
 			</li>
@@ -268,7 +268,7 @@
 					href="#services"
 					onclick={(e) => scrollTo(e, "#services", -170)}
 					use:fillPress
-					class="block text-[11vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
+					class="block text-[11vw] sm:text-5xl font-display font-medium text-[#0A0A0A] hover:text-[#5B21F5] transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
 					>{$t.nav.services}</a
 				>
 			</li>
@@ -278,7 +278,7 @@
 					href="#about"
 					onclick={(e) => scrollTo(e, "#about")}
 					use:fillPress
-					class="block text-[11vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
+					class="block text-[11vw] sm:text-5xl font-display font-medium text-[#0A0A0A] hover:text-[#5B21F5] transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
 					>{$t.nav.about}</a
 				>
 			</li>
@@ -288,17 +288,17 @@
 					href="#contact"
 					onclick={(e) => scrollTo(e, "#contact")}
 					use:fillPress
-					class="block text-[11vw] sm:text-5xl font-display font-medium text-white/85 hover:text-white transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
+					class="block text-[11vw] sm:text-5xl font-display font-medium text-[#0A0A0A] hover:text-[#5B21F5] transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
 					>{$t.nav.contact}</a
 				>
 			</li>
-			<li class="overflow-hidden mt-2 pt-6 border-t border-white/10">
+			<li class="overflow-hidden mt-2 pt-6 border-t border-black/10">
 				<a
 					bind:this={mobileLinksRef[4]}
 					href="#contact"
 					onclick={(e) => scrollTo(e, "#contact")}
 					use:fillPress
-					class="inline-block text-lg sm:text-xl font-sans text-[#a78bfa] font-medium hover:text-white transition-colors will-change-transform px-3 -mx-3 py-1 rounded-full"
+					class="inline-block text-lg sm:text-xl font-sans text-[#5B21F5] font-medium hover:text-[#0A0A0A] transition-colors will-change-transform px-3 -mx-3 py-1 rounded-full"
 					>{$t.nav.cta} &rarr;</a
 				>
 			</li>
@@ -307,14 +307,14 @@
 
 	<!-- Mobile language toggle — kept outside the {#key} fade above so tapping
 	     RO/EN gives instant feedback instead of waiting on a crossfade. -->
-	<div class="relative z-10 mt-10 pt-6 border-t border-white/10 flex items-center gap-3">
-		<span class="text-xs font-mono text-white/40 uppercase tracking-widest">{$t.nav.language}</span>
-		<div class="flex items-center gap-1.5 bg-white/10 rounded-full p-1">
+	<div class="relative z-10 mt-10 pt-6 border-t border-black/10 flex items-center gap-3">
+		<span class="text-xs font-mono text-black/40 uppercase tracking-widest">{$t.nav.language}</span>
+		<div class="flex items-center gap-1.5 bg-black/5 rounded-full p-1">
 			<button
 				onclick={() => pickLang("ro")}
 				class="px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors duration-300 cursor-pointer {$lang === 'ro'
 					? 'bg-[#5B21F5] text-white'
-					: 'text-white/50'}"
+					: 'text-black/50'}"
 			>
 				RO
 			</button>
@@ -322,7 +322,7 @@
 				onclick={() => pickLang("en")}
 				class="px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors duration-300 cursor-pointer {$lang === 'en'
 					? 'bg-[#5B21F5] text-white'
-					: 'text-white/50'}"
+					: 'text-black/50'}"
 			>
 				EN
 			</button>
@@ -330,10 +330,10 @@
 	</div>
 
 	<div
-		class="relative z-10 mt-8 flex gap-6 text-xs font-mono text-white/40 uppercase tracking-widest"
+		class="relative z-10 mt-8 flex gap-6 text-xs font-mono text-black/40 uppercase tracking-widest"
 	>
-		<a href="https://instagram.com/weberescu" class="hover:text-white/70 transition-colors">Instagram</a>
-		<a href="https://www.facebook.com/profile.php?id=61592492747692" class="hover:text-white/70 transition-colors">Facebook</a>
+		<a href="https://instagram.com/weberescu" class="hover:text-[#5B21F5] transition-colors">Instagram</a>
+		<a href="https://www.facebook.com/profile.php?id=61592492747692" class="hover:text-[#5B21F5] transition-colors">Facebook</a>
 	</div>
 </div>
 
