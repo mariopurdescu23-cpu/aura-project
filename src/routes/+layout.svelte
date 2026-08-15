@@ -84,21 +84,64 @@
         };
         gsap.ticker.add(update);
 
-        gsap.ticker.lagSmoothing(0);
+        // `gsap.ticker.lagSmoothing(0)` was here before, disabling GSAP's
+        // built-in protection against long stalls — NOT just for Lenis, for
+        // every GSAP-ticker-driven thing on the page. Without it, if the main
+        // thread stalls for any reason (heavy raster/paint work, a GC pause,
+        // the tab losing focus, or just a slower CPU — an iPhone under load
+        // stalls far more often than a desktop), the ticker hands the *next*
+        // tick a raw, uncapped elapsed time. That flows straight into
+        // `lenis.raf(time * 1000)`, and Lenis's damping (`damp()`) is
+        // mathematically stable for any deltaTime — it always converges — but
+        // a large-enough deltaTime converges almost entirely *in one step*.
+        // The physics is "correct" (it's heading to the right place) but the
+        // eye sees a bunch of frames get silently skipped and the page
+        // arrive somewhere new in a single jump: a teleport, generated from
+        // a stale/oversized deltaTime rather than a smooth run of frames.
+        // This is a real, structural cause — and it explains why it's worse
+        // on iPhone specifically (weaker CPU, more/longer stalls) while
+        // still reproducible on desktop (any stall triggers it, just less
+        // often). Leaving lag smoothing at GSAP's own default restores its
+        // built-in, purpose-made handling for exactly this failure mode —
+        // this is not a homemade timeout, it's un-disabling the library's
+        // own safeguard.
 
         // Anchor navigation goes through this same instance, so scrolling has
         // exactly one authority instead of GSAP and Lenis both writing scroll.
         registerLenis(lenis);
 
+        // Layout stabilization after load: every section component creates
+        // its own ScrollTrigger instances in its own onMount, and each one
+        // computes its start/end pixel positions from the layout AT THAT
+        // MOMENT. Two of the page's webfonts (Space Grotesk, Instrument
+        // Serif) load with `font-display: swap`, so headings reflow once
+        // they arrive — after every trigger's boundaries were already
+        // computed against the fallback font's metrics. Nothing tells
+        // ScrollTrigger to recompute after that reflow, so its cached
+        // trigger positions silently drift out of sync with the actual
+        // layout — which shows up as scroll-linked animations (the Services
+        // stack, the Process timeline, Manifesto's word colour) snapping or
+        // jumping out of step with where the user has actually scrolled to.
+        // This reproduces on *any* fresh load, hash or not — including a
+        // bare "weberescu.ro" open from Instagram — which is why the
+        // previous fix (scoped to `location.hash`) didn't cover it.
+        //
+        // Fix: refresh once fonts are ready, and again once everything
+        // (including images) has loaded. `ScrollTrigger.refresh()` is cheap
+        // and safe to call any time — it just recomputes existing triggers,
+        // it doesn't create or destroy anything.
+        const refreshTriggers = () => ScrollTrigger.refresh();
+        document.fonts?.ready?.then(refreshTriggers);
+        window.addEventListener("load", refreshTriggers, { once: true });
+
         // Deep-link entry (Instagram bio link, a shared "#services" URL, etc.):
         // the browser jumps to the target element natively, before hydration
         // and before images/fonts have finished loading — against a layout
-        // that's still settling (webfont swap reflows text; a few sections
-        // still don't have every dimension pinned). Lenis's constructor reads
-        // whatever `scrollY` the browser landed on as its own reference point,
-        // so if the page reflows afterward, Lenis's internal target silently
-        // drifts out of sync with where the section actually ended up — and
-        // the first scroll input "jumps" while the two reconcile.
+        // that's still settling. Lenis's constructor reads whatever `scrollY`
+        // the browser landed on as its own reference point, so if the page
+        // reflows afterward, Lenis's internal target silently drifts out of
+        // sync with where the section actually ended up — and the first
+        // scroll input "jumps" while the two reconcile.
         //
         // Fix: re-run the same jump once layout has actually settled (fonts
         // ready, then again on window `load` once images are in), so Lenis's
@@ -138,6 +181,7 @@
 
         return () => {
             removeHashSync?.();
+            window.removeEventListener("load", refreshTriggers);
             registerLenis(null);
             gsap.ticker.remove(update);
             lenis.destroy();
