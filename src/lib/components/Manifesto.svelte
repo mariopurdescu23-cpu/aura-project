@@ -2,6 +2,7 @@
 	import gsap from "gsap";
 	import ScrollTrigger from "gsap/ScrollTrigger";
 	import { t } from "$lib/i18n/index.js";
+	import { prefersReducedMotion } from "$lib/motion.js";
 
 	let manifestoRef = $state();
 
@@ -20,6 +21,14 @@
 		const spans = Array.from(manifestoRef.querySelectorAll(".word"));
 		const normal = spans.filter((s) => !currentAccents.includes(s.dataset.word));
 		const accent = spans.filter((s) => currentAccents.includes(s.dataset.word));
+
+		// Words ship at `text-black/10` and are coloured in by the scrub. With
+		// no animation they would stay unreadable, so paint the end state.
+		if (prefersReducedMotion()) {
+			gsap.set(normal, { color: "#0a0a0a" });
+			gsap.set(accent, { color: "#5B21F5" });
+			return;
+		}
 
 		const trigger = {
 			trigger: manifestoRef,

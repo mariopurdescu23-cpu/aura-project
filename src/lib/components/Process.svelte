@@ -3,6 +3,7 @@
 	import gsap from "gsap";
 	import ScrollTrigger from "gsap/ScrollTrigger";
 	import { t } from "$lib/i18n/index.js";
+	import { prefersReducedMotion } from "$lib/motion.js";
 
 	let steps = $derived($t.process.steps);
 
@@ -11,6 +12,15 @@
 	let stepRefs = $state([]);
 
 	onMount(() => {
+		// The timeline rail ships as `scale-y-0` and the step blocks as
+		// `autoAlpha: 0`, so with animations skipped they have to be put into
+		// their finished state by hand or the section renders half-empty.
+		if (prefersReducedMotion()) {
+			gsap.set(lineRef, { scaleY: 1 });
+			gsap.set(stepRefs, { x: 0, autoAlpha: 1 });
+			return;
+		}
+
 		gsap.registerPlugin(ScrollTrigger);
 
 		gsap.fromTo(

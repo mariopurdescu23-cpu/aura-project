@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from "svelte";
 	import gsap from "gsap";
-	import ScrollToPlugin from "gsap/ScrollToPlugin";
 	import Logo from "./logo.svelte";
 	import Menu from "@lucide/svelte/icons/menu";
 	import X from "@lucide/svelte/icons/x";
@@ -10,6 +9,8 @@
 	import { fade } from "svelte/transition";
 	import { fillPress } from "$lib/actions/fillPress.js";
 	import { t, lang, setLang } from "$lib/i18n/index.js";
+	import { scrollToSection } from "$lib/scrollTo.js";
+	import { prefersReducedMotion } from "$lib/motion.js";
 
 	let headerRef = $state();
 	let navItemsRef = $state([]);
@@ -21,7 +22,6 @@
 
 	let lastScroll = 0;
 	let hidden = $state(false);
-	let scrolled = $state(false);
 
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen;
@@ -54,14 +54,11 @@
 		}
 	}
 
+	// Same anchor-navigation helper the rest of the page uses, so there is one
+	// implementation instead of two that can drift apart.
 	function scrollTo(evt, id, offsetY = 40) {
-		evt.preventDefault();
 		if (isMenuOpen) toggleMenu();
-		gsap.to(window, {
-			duration: 2.2,
-			scrollTo: { y: id, offsetY },
-			ease: "power3.inOut",
-		});
+		scrollToSection(evt, id, offsetY);
 	}
 
 	function pickLang(value) {
@@ -69,7 +66,15 @@
 	}
 
 	onMount(() => {
-		gsap.registerPlugin(ScrollToPlugin);
+		// Reduced motion: the header markup starts collapsed (`w-0 opacity-0`)
+		// because the intro tween expands it, so it has to be put into its
+		// final state explicitly rather than just skipping the animation.
+		if (prefersReducedMotion()) {
+			gsap.set(headerRef, { width: "100%", maxWidth: "920px", opacity: 1, overflow: "visible" });
+			gsap.set(mobileMenuRef, { clipPath: "inset(0% 100% 0% 0%)" });
+			return () => {};
+		}
+
 		let mm = gsap.matchMedia();
 
 		mm.add(
@@ -124,7 +129,6 @@
 
 		const onScroll = () => {
 			const current = window.scrollY;
-			scrolled = current > 40;
 			if (current > lastScroll && current > 200 && !isMenuOpen) {
 				hidden = true;
 			} else {

@@ -2,10 +2,12 @@
 	import { onMount } from "svelte";
 	import gsap from "gsap";
 	import { t } from "$lib/i18n/index.js";
+	import { runWhileVisible, prefersReducedMotion } from "$lib/motion.js";
 
 	let feedbacks = $derived($t.testimonials.feedbacks);
 
 	let currentIndex = $state(0);
+	let sectionRef = $state();
 	let quoteRef = $state();
 	let roleRef = $state();
 	let isAnimating = false;
@@ -65,12 +67,26 @@
 	}
 
 	onMount(() => {
-		timer = setInterval(nextQuote, 6000);
-		return () => timer && clearInterval(timer);
+		// The carousel used to advance every 6s for the entire session, running
+		// a crossfade tween (and the style writes that come with it) on a
+		// section nobody was looking at. It now only ticks while on screen.
+		if (prefersReducedMotion()) return;
+
+		return runWhileVisible(
+			sectionRef,
+			() => {
+				if (!timer) timer = setInterval(nextQuote, 6000);
+			},
+			() => {
+				if (timer) clearInterval(timer);
+				timer = null;
+			},
+		);
 	});
 </script>
 
 <section
+	bind:this={sectionRef}
 	id="testimonials"
 	class="w-full bg-[#EDE9FE] text-black py-32 md:py-48 flex items-center justify-center relative overflow-hidden"
 >
@@ -85,12 +101,12 @@
 
 		<blockquote
 			bind:this={quoteRef}
-			class="font-display text-2xl md:text-4xl leading-[1.35] tracking-tight mb-12 flex items-center justify-center will-change-transform min-h-[160px] md:min-h-[140px] -mt-16 m-0"
+			class="font-display text-2xl md:text-4xl leading-[1.35] tracking-tight mb-12 flex items-center justify-center min-h-[160px] md:min-h-[140px] -mt-16 m-0"
 		>
 			{feedbacks[currentIndex].text}
 		</blockquote>
 
-		<div bind:this={roleRef} class="flex flex-col items-center gap-1 will-change-transform">
+		<div bind:this={roleRef} class="flex flex-col items-center gap-1">
 			<span class="text-sm font-mono text-black/50 uppercase tracking-widest">{feedbacks[currentIndex].role}</span>
 		</div>
 

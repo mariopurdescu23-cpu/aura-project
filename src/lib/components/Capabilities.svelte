@@ -2,8 +2,10 @@
 	import { onMount } from "svelte";
 	import gsap from "gsap";
 	import { t } from "$lib/i18n/index.js";
+	import { pauseWhenHidden, prefersReducedMotion } from "$lib/motion.js";
 
 	let rowRef = $state();
+	let sectionRef = $state();
 
 	let tickerLoop = $derived([...$t.capabilities.ticker, ...$t.capabilities.ticker]);
 	let stack = $derived($t.capabilities.groups);
@@ -15,11 +17,22 @@
 	};
 
 	onMount(() => {
-		gsap.to(rowRef, { xPercent: -50, repeat: -1, duration: 26, ease: "none" });
+		if (prefersReducedMotion()) return;
+
+		// The marquee is an infinite tween: left running, it forces a compositor
+		// commit every frame for the whole life of the page, including while the
+		// section is thousands of pixels off-screen. Gated on visibility it only
+		// costs anything when it is actually being looked at.
+		const marquee = gsap.to(rowRef, { xPercent: -50, repeat: -1, duration: 26, ease: "none" });
+		return pauseWhenHidden(marquee, sectionRef);
 	});
 </script>
 
-<section id="capabilities" class="w-full bg-[#0A0A0A] text-white relative overflow-hidden">
+<section
+	bind:this={sectionRef}
+	id="capabilities"
+	class="w-full bg-[#0A0A0A] text-white relative overflow-hidden"
+>
 	<!-- Ticker band -->
 	<div class="border-b border-white/10 py-5 md:py-6 overflow-hidden flex">
 		<div bind:this={rowRef} class="flex whitespace-nowrap will-change-transform w-fit">

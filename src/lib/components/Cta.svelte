@@ -3,6 +3,7 @@
 	import gsap from "gsap";
 	import { fillPress } from "$lib/actions/fillPress.js";
 	import { t } from "$lib/i18n/index.js";
+	import { pauseWhenHidden, prefersReducedMotion } from "$lib/motion.js";
 
 	const CONTACT_EMAIL = "contact@weberescu.ro";
 	const GMAIL_COMPOSE_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${CONTACT_EMAIL}`;
@@ -15,17 +16,27 @@
 	onMount(() => {
 		isDesktop = !("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
-		gsap.to(glowRef, {
-			x: "+=60",
-			y: "-=40",
-			scale: 1.15,
-			duration: 8,
-			ease: "sine.inOut",
-			yoyo: true,
-			repeat: -1,
-		});
+		const reduced = prefersReducedMotion();
+		let stopGlow = () => {};
 
-		if (!isDesktop || !btnRef) return;
+		// A 900px circle with a 140px blur is the single most expensive thing on
+		// the page to rasterise, and this tween used to animate it forever from
+		// the moment the page loaded — while the contact section sits ~14000px
+		// below the fold. Now it only runs when it is on screen.
+		if (!reduced) {
+			const glow = gsap.to(glowRef, {
+				x: "+=60",
+				y: "-=40",
+				scale: 1.15,
+				duration: 8,
+				ease: "sine.inOut",
+				yoyo: true,
+				repeat: -1,
+			});
+			stopGlow = pauseWhenHidden(glow, sectionRef);
+		}
+
+		if (reduced || !isDesktop || !btnRef) return stopGlow;
 
 		const handleMove = (e) => {
 			const rect = btnRef.getBoundingClientRect();
@@ -41,6 +52,7 @@
 		btnRef.addEventListener("mouseleave", handleLeave);
 
 		return () => {
+			stopGlow();
 			btnRef?.removeEventListener("mousemove", handleMove);
 			btnRef?.removeEventListener("mouseleave", handleLeave);
 		};
@@ -74,7 +86,7 @@
 			rel={isDesktop ? "noopener noreferrer" : undefined}
 			use:fillPress
 			data-cursor-label={$t.cta.label}
-			class="magnetic-btn mt-12 md:mt-16 inline-flex items-center gap-3 px-8 md:px-10 py-5 md:py-6 rounded-full bg-white text-black font-sans font-medium text-base md:text-lg hover:bg-[#5B21F5] hover:text-white transition-colors duration-500 cursor-pointer will-change-transform"
+			class="magnetic-btn mt-12 md:mt-16 inline-flex items-center gap-3 px-8 md:px-10 py-5 md:py-6 rounded-full bg-white text-black font-sans font-medium text-base md:text-lg hover:bg-[#5B21F5] hover:text-white transition-colors duration-500 cursor-pointer hover:will-change-transform"
 		>
 			{$t.cta.button}
 			<span class="text-2xl">→</span>

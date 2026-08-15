@@ -8,6 +8,9 @@
 	<img
 		src={mark}
 		alt=""
+		width="298"
+		height="160"
+		fetchpriority="high"
 		class="h-6 md:h-7 w-auto object-contain select-none"
 		draggable="false"
 	/>

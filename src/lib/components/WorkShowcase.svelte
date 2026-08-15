@@ -9,21 +9,32 @@
 	import { fillPress } from "$lib/actions/fillPress.js";
 	import { scrollToSection } from "$lib/scrollTo.js";
 	import { t } from "$lib/i18n/index.js";
+	import { prefersReducedMotion } from "$lib/motion.js";
+	import { workSources } from "$lib/images.js";
 
 	// Layout-only data (images, sizing, asymmetric grid placement) stays
 	// static — only the copy (name/category/desc/tech/year/url) is translated.
 	const layout = [
-		{ image: imgCabana, height: "h-[62dvh] md:h-[78dvh]", colStart: "md:col-start-1", colSpan: "md:col-span-7", offsetTop: "" },
-		{ image: imgRodica, height: "h-[52dvh] md:h-[60dvh]", colStart: "md:col-start-6", colSpan: "md:col-span-7", offsetTop: "md:mt-24" },
-		{ image: imgSeeker, height: "h-[58dvh] md:h-[70dvh]", colStart: "md:col-start-1", colSpan: "md:col-span-6", offsetTop: "md:mt-32" },
-		{ image: imgMysticpuff, height: "h-[54dvh] md:h-[62dvh]", colStart: "md:col-start-7", colSpan: "md:col-span-6", offsetTop: "md:mt-4" },
+		{ image: imgCabana, sources: workSources("cabana-svinita"), height: "h-[62dvh] md:h-[78dvh]", colStart: "md:col-start-1", colSpan: "md:col-span-7", offsetTop: "" },
+		{ image: imgRodica, sources: workSources("rodica-chiriches"), height: "h-[52dvh] md:h-[60dvh]", colStart: "md:col-start-6", colSpan: "md:col-span-7", offsetTop: "md:mt-24" },
+		{ image: imgSeeker, sources: workSources("seeker"), height: "h-[58dvh] md:h-[70dvh]", colStart: "md:col-start-1", colSpan: "md:col-span-6", offsetTop: "md:mt-32" },
+		{ image: imgMysticpuff, sources: workSources("mysticpuff"), height: "h-[54dvh] md:h-[62dvh]", colStart: "md:col-start-7", colSpan: "md:col-span-6", offsetTop: "md:mt-4" },
 	];
+
+	// The image box is roughly half the 1600px grid on desktop and full-bleed
+	// on mobile; `sizes` lets the browser pick the smallest variant that still
+	// covers the slot at the device's pixel ratio.
+	const SIZES = "(min-width: 768px) 50vw, 100vw";
 
 	let projects = $derived($t.work.projects.map((p, i) => ({ ...p, ...layout[i] })));
 
 	let cardRefs = $state([]);
 
 	onMount(() => {
+		// Cards are visible in the markup; the tween only hides them to reveal
+		// them again, so skipping it needs no cleanup.
+		if (prefersReducedMotion()) return;
+
 		gsap.registerPlugin(ScrollTrigger);
 
 		cardRefs.forEach((card) => {
@@ -71,11 +82,19 @@
 				class="group col-span-1 {project.colSpan} {project.colStart} {project.offsetTop} block cursor-pointer"
 			>
 				<div class="relative overflow-hidden rounded-2xl {project.height} bg-[#F7F7F8]">
-					<img
-						src={project.image}
-						alt="{project.name} — {project.category}"
-						class="absolute inset-0 w-[112%] h-[112%] -left-[6%] -top-[6%] object-cover scale-105 group-hover:scale-110 transition-transform duration-700 will-change-transform"
-					/>
+					<picture class="contents">
+						<source type="image/avif" srcset={project.sources.avif} sizes={SIZES} />
+						<source type="image/webp" srcset={project.sources.webp} sizes={SIZES} />
+						<img
+							src={project.image}
+							alt="{project.name} — {project.category}"
+							width="960"
+							height="1200"
+							loading="lazy"
+							decoding="async"
+							class="absolute inset-0 w-[112%] h-[112%] -left-[6%] -top-[6%] object-cover scale-105 group-hover:scale-110 transition-transform duration-700 group-hover:will-change-transform"
+						/>
+					</picture>
 					<!-- On mobile there's no hover, so this overlay (and the tags below)
 					     stay permanently visible; on desktop it still only shows on hover. -->
 					<div

@@ -3,6 +3,7 @@
 	import gsap from "gsap";
 	import ScrollTrigger from "gsap/ScrollTrigger";
 	import { t } from "$lib/i18n/index.js";
+	import { prefersReducedMotion } from "$lib/motion.js";
 
 	let statsRef = $state();
 
@@ -10,9 +11,21 @@
 	let principles = $derived($t.about.principles);
 
 	onMount(() => {
+		const counters = statsRef.querySelectorAll(".counterData");
+
+		// The numeric stats render as `0` and count up on scroll. Skipping the
+		// animation without writing the final values would leave the section
+		// permanently showing zeros.
+		if (prefersReducedMotion()) {
+			counters.forEach((counter, i) => {
+				counter.innerText = stats[i].value;
+			});
+			gsap.set(counters, { autoAlpha: 1, scale: 1 });
+			return;
+		}
+
 		gsap.registerPlugin(ScrollTrigger);
 
-		const counters = statsRef.querySelectorAll(".counterData");
 		counters.forEach((counter, i) => {
 			const stat = stats[i];
 			if (!stat.isNumber) {

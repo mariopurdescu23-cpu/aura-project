@@ -12,6 +12,8 @@
     import { dev } from "$app/environment";
     import { injectAnalytics } from "@vercel/analytics/sveltekit";
     import { initLang } from "$lib/i18n/index.js";
+    import { registerLenis } from "$lib/scrollTo.js";
+    import { prefersReducedMotion } from "$lib/motion.js";
 
     injectAnalytics({ mode: dev ? "development" : "production" });
 
@@ -22,6 +24,13 @@
 
         gsap.registerPlugin(ScrollTrigger);
         ScrollTrigger.config({ ignoreMobileResize: true });
+
+        // Someone who has asked their OS for reduced motion should not get an
+        // inertial scroll hijack at all — native scrolling is the correct
+        // experience, and skipping Lenis also removes its rAF loop entirely.
+        if (prefersReducedMotion()) {
+            return;
+        }
 
         // Inițializăm Lenis (Smooth Scrolling) — autoRaf DEZACTIVAT
         // intenționat: îl conducem manual prin gsap.ticker mai jos,
@@ -48,7 +57,12 @@
 
         gsap.ticker.lagSmoothing(0);
 
+        // Anchor navigation goes through this same instance, so scrolling has
+        // exactly one authority instead of GSAP and Lenis both writing scroll.
+        registerLenis(lenis);
+
         return () => {
+            registerLenis(null);
             gsap.ticker.remove(update);
             lenis.destroy();
         };
@@ -61,7 +75,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@300;400;500&family=Space+Grotesk:wght@400;500;700&display=swap"
         rel="stylesheet"
     />
 </svelte:head>
