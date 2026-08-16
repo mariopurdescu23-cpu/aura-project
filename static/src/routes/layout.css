@@ -1,0 +1,160 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+/* --- GLOBAL DESIGN SYSTEM — WHITE x PURPLE x BLACK --- */
+:root {
+	/* Type */
+	--font-display: 'Space Grotesk', 'Inter', sans-serif;
+	--font-sans: 'Inter', sans-serif;
+	--font-serif: 'Instrument Serif', serif;
+
+	/* Palette */
+	--color-white: #ffffff;
+	--color-offwhite: #f7f7f8;
+	--color-black: #0a0a0a;
+	--color-purple: #5b21f5;
+	--color-purple-electric: #7c3aed;
+	--color-lavender: #ede9fe;
+
+	--color-bg-base: #ffffff;
+	--color-text-primary: #0a0a0a;
+	--color-text-secondary: rgba(10, 10, 10, 0.55);
+	--color-text-muted: rgba(10, 10, 10, 0.35);
+
+	--color-border: rgba(10, 10, 10, 0.1);
+	--color-accent: #5b21f5;
+}
+
+html,
+body {
+	/* THIS LINE WAS THE MOBILE-TOOLBAR JUMP.
+	   `overflow-x: hidden` looks harmless, but per the CSS overflow spec,
+	   when one axis is set to a non-`visible` value the OTHER axis's
+	   `visible` computes to `auto`. So `overflow-x: hidden` silently gave
+	   html and body `overflow-y: auto` — measured live in the browser:
+	   getComputedStyle(document.documentElement).overflowY === "auto", and
+	   documentElement.scrollHeight > clientHeight, i.e. the root element
+	   was an explicit scroll container rather than plain viewport
+	   scrolling.
+	   That matters specifically for the mobile toolbar. When the address
+	   bar / bottom toolbar shows or hides, the browser resizes the
+	   viewport and then compensates so the content the user is looking at
+	   stays put — but that compensation is implemented for the *root
+	   scroller in its natural state*. With the root turned into an
+	   explicit scroll container, the browser skips/mis-applies that
+	   compensation, so the viewport changes size and the content is left
+	   to land wherever the new box math puts it: the content visibly jumps
+	   while `window.scrollY` never changes. That matches the instrumented
+	   capture exactly — across the toolbar transition scrollY stayed
+	   11130 and every ScrollTrigger progress/transform stayed identical,
+	   yet the elements' getBoundingClientRect().top moved hundreds of
+	   pixels. The jump was never scroll position and never GSAP; it was
+	   the browser's own viewport-resize compensation being disabled by
+	   this declaration.
+	   `overflow-x: clip` clips exactly the same horizontal overflow, but
+	   is defined NOT to create a scroll container and NOT to force the
+	   other axis to `auto` — so the root stays a normal viewport scroller
+	   and the browser's toolbar compensation works again. The `hidden`
+	   line above it is the fallback for browsers predating `clip`. */
+	overflow-x: hidden;
+	overflow-x: clip;
+	width: 100%;
+	/* Chrome (and only Chrome — this is why Safari was already fine) turns
+	   on "scroll anchoring" by default: whenever it detects a layout shift
+	   above the viewport, it silently adjusts scrollY on its own to try to
+	   keep the same content visually in place. That's a second, independent
+	   system nudging scroll position outside of anything this page's own
+	   code does — GSAP/ScrollTrigger already own scroll-linked positioning
+	   end to end, so Chrome's own "helpful" correction on top of that is
+	   exactly the kind of second authority this whole scroll rework has
+	   been about removing. Turning it off is the standard, one-line way to
+	   opt out (there is no equivalent JS flag to fight this with instead). */
+	overflow-anchor: none;
+}
+body {
+	font-family: var(--font-sans);
+	color: var(--color-text-primary);
+	background-color: var(--color-bg-base);
+	margin: 0;
+	padding: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+.display-text {
+	font-family: var(--font-display);
+	font-weight: 500;
+	letter-spacing: -0.03em;
+	margin-top: 0;
+}
+
+.font-serif-italic {
+	font-family: var(--font-serif);
+	font-style: italic;
+	font-weight: 400;
+	letter-spacing: -0.01em;
+}
+
+button,
+input,
+textarea {
+	font-family: var(--font-sans);
+}
+
+::selection {
+	background: var(--color-purple);
+	color: var(--color-white);
+}
+
+.app-wrapper {
+	position: relative;
+	width: 100%;
+	min-height: 100vh;
+}
+
+/* --- Press-to-fill button effect ---
+   Buttons that only reveal their purple accent on CSS :hover never get
+   that feedback on touch devices. `.btn-fill` (paired with the fillPress
+   action) sweeps a purple circle out from the exact point pressed/tapped,
+   covering the button and turning the label white, then releases back —
+   giving a deliberate, visible "turns purple" moment on tap, not just an
+   instant color swap. */
+.btn-fill {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+}
+.btn-fill::before {
+	content: '';
+	position: absolute;
+	inset: -2px;
+	z-index: -1;
+	background: var(--color-purple);
+	clip-path: circle(0% at var(--fill-x, 50%) var(--fill-y, 50%));
+	transition: clip-path 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+	pointer-events: none;
+}
+.btn-fill.is-filled::before {
+	clip-path: circle(150% at var(--fill-x, 50%) var(--fill-y, 50%));
+}
+.btn-fill.is-filled {
+	color: #fff !important;
+	border-color: var(--color-purple) !important;
+	transition: color 0.4s ease 0.05s, border-color 0.4s ease 0.05s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
+}
