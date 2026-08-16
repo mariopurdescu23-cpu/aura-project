@@ -21,7 +21,7 @@
 		</div>
 
 		<div class="col-span-1 flex flex-col gap-3 md:gap-4">
-			<h4 class="font-mono text-xs uppercase tracking-widest text-[#a78bfa] mb-2">{$t.footer.navigate}</h4>
+			<h3 class="font-mono text-xs uppercase tracking-widest text-[#a78bfa] mb-2">{$t.footer.navigate}</h3>
 			<a href="#work" onclick={(e) => scrollToSection(e, "#work")} class="text-white/60 hover:text-white font-sans text-sm transition-colors">{$t.nav.work}</a>
 			<a href="#services" onclick={(e) => scrollToSection(e, "#services")} class="text-white/60 hover:text-white font-sans text-sm transition-colors">{$t.nav.services}</a>
 			<a href="#about" onclick={(e) => scrollToSection(e, "#about")} class="text-white/60 hover:text-white font-sans text-sm transition-colors">{$t.nav.about}</a>
@@ -29,17 +29,17 @@
 		</div>
 
 		<div class="col-span-1 flex flex-col gap-3 md:gap-4">
-			<h4 class="font-mono text-xs uppercase tracking-widest text-[#a78bfa] mb-2">{$t.footer.studio}</h4>
+			<h3 class="font-mono text-xs uppercase tracking-widest text-[#a78bfa] mb-2">{$t.footer.studio}</h3>
 			<span class="text-white/60 font-sans text-sm">{$t.footer.basedIn}</span>
 			<span class="text-white/60 font-sans text-sm">{$t.footer.workingGlobally}</span>
 			<a href="mailto:contact@weberescu.ro" class="text-white/60 hover:text-white font-sans text-sm transition-colors break-all">contact@weberescu.ro</a>
 		</div>
 
 		<div class="col-span-1 flex flex-col gap-3 md:gap-4">
-			<h4 class="font-mono text-xs uppercase tracking-widest text-[#a78bfa] mb-2">{$t.footer.social}</h4>
+			<h3 class="font-mono text-xs uppercase tracking-widest text-[#a78bfa] mb-2">{$t.footer.social}</h3>
 			<a href="https://instagram.com/weberescu" class="text-white/60 hover:text-white font-sans text-sm transition-colors">Instagram</a>
 			<a href="https://tiktok.com/@weberescu" class="text-white/60 hover:text-white font-sans text-sm transition-colors">TikTok</a>
-			<a href="https://www.facebook.com/profile.php?id=61592492747692" class="text-white/60 hover:text-white font-sans text-sm transition-colors">Facebook</a>
+			<a href="https://www.facebook.com/people/Weberescu/61592492747692/" class="text-white/60 hover:text-white font-sans text-sm transition-colors">Facebook</a>
 		</div>
 	</div>
 

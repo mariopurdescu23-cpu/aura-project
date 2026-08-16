@@ -15,6 +15,8 @@ export const ro = {
 		language: "Limbă",
 		langRO: "Română",
 		langEN: "Engleză",
+		openMenu: "Deschide meniul",
+		closeMenu: "Închide meniul",
 	},
 	hero: {
 		metaLeft: "Software / Design / Produse Digitale",

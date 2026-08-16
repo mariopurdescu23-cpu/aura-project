@@ -20,21 +20,28 @@
 		// their natural, visible state — nothing else to undo.
 		if (prefersReducedMotion()) return;
 
-		const tl = gsap.timeline({ delay: 0.15 });
+		// PageSpeed's LCP breakdown flagged this timeline directly: `lines`
+		// (the "SOFTWARE SHOULD FEEL different" headline) is the page's LCP
+		// element, but it used to be third in the sequence — behind the orb's
+		// 1.8s fade-in and a 1.4s negative-offset overlap — so its *final*,
+		// fully-painted state didn't land until ~1.3s after the timeline
+		// could start, all of which counts as LCP "render delay". Leading
+		// with `lines` (no initial delay, shorter duration, tighter stagger)
+		// gets the headline itself on screen first; the orb and the rest of
+		// the hero still animate in right alongside/after it via the "<"
+		// (same start time) and small positive offsets below, so the overall
+		// reveal still reads as one connected sequence, just headline-first.
+		const tl = gsap.timeline();
 
 		gsap.set(orbRef, { autoAlpha: 0, scale: 0.7 });
 		gsap.set(lines, { yPercent: 120, rotateZ: 1.5 });
 		gsap.set([metaTop, descRef, ctaContainer, scrollCue], { y: 16, autoAlpha: 0 });
 
-		tl.to(orbRef, { autoAlpha: 1, scale: 1, duration: 1.8, ease: "power3.out" })
-			.to(metaTop, { y: 0, autoAlpha: 1, duration: 0.9, ease: "power3.out" }, "-=1.4")
-			.to(
-				lines,
-				{ yPercent: 0, rotateZ: 0, duration: 1.3, stagger: 0.1, ease: "expo.out" },
-				"-=1.2",
-			)
-			.to(descRef, { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" }, "-=0.7")
-			.to(ctaContainer, { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" }, "-=0.7")
+		tl.to(lines, { yPercent: 0, rotateZ: 0, duration: 0.9, stagger: 0.08, ease: "expo.out" })
+			.to(orbRef, { autoAlpha: 1, scale: 1, duration: 1.4, ease: "power3.out" }, "<")
+			.to(metaTop, { y: 0, autoAlpha: 1, duration: 0.7, ease: "power3.out" }, "<0.1")
+			.to(descRef, { y: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, "-=0.5")
+			.to(ctaContainer, { y: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, "-=0.5")
 			.to(scrollCue, { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" }, "-=0.6");
 
 		// Slow autonomous drift so the orb feels alive even without the mouse.
@@ -180,7 +187,7 @@
 		<div class="max-w-md">
 			<p
 				bind:this={descRef}
-				class="text-base md:text-lg text-black/55 font-sans font-light leading-relaxed"
+				class="text-base md:text-lg text-black/65 font-sans font-light leading-relaxed"
 			>
 				{$t.hero.desc}
 			</p>

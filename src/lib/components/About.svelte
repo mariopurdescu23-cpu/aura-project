@@ -74,7 +74,7 @@
 						<div class="flex gap-6 items-start border-t border-black/10 pt-4">
 							<span class="font-mono text-xs text-black/30 mt-1">{p.n}</span>
 							<div>
-								<h4 class="font-display text-lg mb-1">{p.title}</h4>
+								<h3 class="font-display text-lg mb-1">{p.title}</h3>
 								<p class="text-black/50 font-sans text-sm font-light">{p.desc}</p>
 							</div>
 						</div>
@@ -89,9 +89,9 @@
 		>
 			{#each stats as stat}
 				<div class="flex flex-col gap-2">
-					<h4 class="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#5B21F5] flex items-baseline">
+					<h3 class="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#5B21F5] flex items-baseline">
 						<span class="counterData">{stat.isNumber ? 0 : stat.value}</span><span class="text-black/70">{stat.suffix}</span>
-					</h4>
+					</h3>
 					<p class="text-xs font-mono text-black/40 uppercase tracking-widest">{stat.label}</p>
 				</div>
 			{/each}

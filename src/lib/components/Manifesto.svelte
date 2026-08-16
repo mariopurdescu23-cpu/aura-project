@@ -53,7 +53,7 @@
 	id="manifesto"
 	class="w-full bg-white text-black py-32 md:py-48 px-6 md:px-24 flex flex-col items-center justify-center border-t border-black/5 relative"
 >
-	<span class="text-xs font-mono text-black/30 uppercase tracking-widest mb-16 text-center">
+	<span class="text-xs font-mono text-black/60 uppercase tracking-widest mb-16 text-center">
 		{$t.manifesto.label}
 	</span>
 

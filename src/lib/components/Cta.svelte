@@ -86,6 +86,7 @@
 			rel={isDesktop ? "noopener noreferrer" : undefined}
 			use:fillPress
 			data-cursor-label={$t.cta.label}
+			aria-label={`${$t.cta.button} — ${CONTACT_EMAIL}`}
 			class="magnetic-btn mt-12 md:mt-16 inline-flex items-center gap-3 px-8 md:px-10 py-5 md:py-6 rounded-full bg-white text-black font-sans font-medium text-base md:text-lg hover:bg-[#5B21F5] hover:text-white transition-colors duration-500 cursor-pointer hover:will-change-transform"
 		>
 			{$t.cta.button}

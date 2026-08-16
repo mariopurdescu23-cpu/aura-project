@@ -1,0 +1,28 @@
+# Weberescu
+
+> Weberescu is an independent software development and web design studio based in Romania, working with clients across Europe. We design and build websites, web platforms, and digital products for ambitious companies — from first draft through delivery.
+
+## Services
+
+- Software Development — custom applications and platforms engineered for scale.
+- Web Design — editorial, high-craft websites.
+- UI/UX Design — interfaces designed around clarity and speed.
+- SaaS & Platforms — end-to-end product design and engineering.
+- AI & Automation — practical AI integrations and workflow automation.
+- Digital Products — from first sketch to shipped product.
+
+## Selected work
+
+- [A-Frame Svinița](https://weberescu.ro/#work) — cabin booking website.
+- [Rodica Chiricheș](https://weberescu.ro/#work) — psychology practice website with CRM.
+
+## Contact
+
+- Email: contact@weberescu.ro
+- Instagram: https://instagram.com/weberescu
+- Facebook: https://www.facebook.com/people/Weberescu/61592492747692/
+- TikTok: https://tiktok.com/@weberescu
+
+## Notes
+
+The site is available in Romanian (default) and English via a language switcher; both languages are served from the same URL (https://weberescu.ro/).

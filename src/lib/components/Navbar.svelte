@@ -227,6 +227,8 @@
 		>
 		<button
 			onclick={toggleMenu}
+			aria-label={isMenuOpen ? $t.nav.closeMenu : $t.nav.openMenu}
+			aria-expanded={isMenuOpen}
 			class="cursor-pointer w-10 h-10 flex justify-center items-center rounded-full text-black/70 hover:text-black hover:bg-black/5 transition-colors md:hidden"
 		>
 			{#if isMenuOpen}
