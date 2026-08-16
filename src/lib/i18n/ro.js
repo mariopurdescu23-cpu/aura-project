@@ -13,7 +13,7 @@ export const ro = {
 		metaLeft: "Software / Design / Produse Digitale",
 		metaRight: "Agenție de software și design — cu sediul în Europa, activ global",
 		line1: "SOFTWARE",
-		line2: "FEELS",
+		line2: "SHOULD FEEL",
 		line3: "different.",
 		desc: "Proiectăm și construim produse digitale pentru companii ambițioase — software, platforme web și sistemele din spatele lor.",
 		ctaPrimary: "Hai să vorbim →",
