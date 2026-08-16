@@ -51,6 +51,54 @@
             autoRefreshEvents: "visibilitychange,DOMContentLoaded,load",
         });
 
+        // ---- FROZEN VIEWPORT HEIGHT UNIT (--app-vh) ----
+        //
+        // Measured on the actual reporting device (iPhone, Chrome iOS,
+        // innerW 430) via the ?debug=1 overlay, across a real toolbar
+        // transition:
+        //
+        //   toolbar shown:  innerH 739  100svh=739  100lvh=739  100dvh=739
+        //   toolbar hidden: innerH 839  100svh=839  100lvh=839  100dvh=839
+        //   docHeight 13891 -> 14091 (+200)   scrollY 9384 -> 9619 (+235)
+        //
+        // That kills the assumption every previous fix rested on. On this
+        // browser `svh`, `lvh` and `dvh` all resolve to the SAME number and
+        // all three track the CURRENT viewport. The spec says `svh` is the
+        // small viewport height and must stay put when browser chrome
+        // shows/hides — this engine does not implement that distinction, so
+        // the earlier `dvh` -> `svh` change was a no-op here. Any
+        // viewport-height unit is unusable for stable layout on this
+        // device, and no other unit-level choice fixes it.
+        //
+        // So the height gets frozen in JS instead: `--app-vh` is 1% of the
+        // viewport height, measured once, and deliberately NOT updated when
+        // the toolbar moves. It is only re-measured when `innerWidth`
+        // changes — a mobile toolbar overlays the viewport vertically and
+        // never changes its width, while a real resize (rotation, desktop
+        // window resize) always does. Sections that need to be viewport-tall
+        // use `calc(var(--app-vh, 1svh) * N)`, so the document's height
+        // becomes independent of the toolbar entirely: the remaining +200px
+        // of docHeight growth above is exactly Hero + Cta at 100svh each,
+        // and freezing the unit removes it at the source.
+        //
+        // The `1svh` fallback keeps server-rendered HTML and the first paint
+        // (before this runs) sized exactly as before, so nothing shifts on
+        // load. Desktop renders identically: with a stable viewport, the
+        // frozen value equals what the unit resolved to anyway.
+        const setViewportUnit = () => {
+            document.documentElement.style.setProperty("--app-vh", window.innerHeight / 100 + "px");
+        };
+        setViewportUnit();
+
+        let lastWidth = window.innerWidth;
+        const onResize = () => {
+            if (window.innerWidth === lastWidth) return;
+            lastWidth = window.innerWidth;
+            setViewportUnit();
+            ScrollTrigger.refresh();
+        };
+        window.addEventListener("resize", onResize, { passive: true });
+
         // Scroll architecture, compared directly against
         // github.com/mariopurdescu23-cpu/rodicachiriches (a site with no
         // scroll-hijacking library at all — just native browser scrolling,
@@ -85,7 +133,9 @@
         // supplies their own scroll input — so even there, only one thing
         // is ever driving scroll at a time.
         if (prefersReducedMotion()) {
-            return;
+            // The frozen viewport unit above applies to everyone, so its
+            // listener still needs tearing down on this path too.
+            return () => window.removeEventListener("resize", onResize);
         }
 
         // Layout stabilization after load: every section component creates
@@ -103,24 +153,6 @@
         const refreshTriggers = () => ScrollTrigger.refresh();
         document.fonts?.ready?.then(refreshTriggers);
         window.addEventListener("load", refreshTriggers, { once: true });
-
-        // Real resize handling, owned outright instead of left to GSAP's
-        // built-in (and, per above, insufficient) heuristic: a mobile
-        // toolbar showing/hiding changes `window.innerHeight` and nothing
-        // else — `innerWidth` is untouched, because the toolbar overlays
-        // the same-width viewport rather than narrowing it. An actual
-        // resize that should recompute trigger positions (rotating the
-        // phone, resizing a desktop window, folding/unfolding a device)
-        // always changes width. So: only refresh when width changes: never
-        // reacts to a toolbar-only height change, always reacts to a real
-        // one, no threshold, no per-device numbers.
-        let lastWidth = window.innerWidth;
-        const onResize = () => {
-            if (window.innerWidth === lastWidth) return;
-            lastWidth = window.innerWidth;
-            ScrollTrigger.refresh();
-        };
-        window.addEventListener("resize", onResize, { passive: true });
 
         // Deep-link entry (Instagram bio link, a shared "#services" URL,
         // etc.): the browser already jumps to the target element natively

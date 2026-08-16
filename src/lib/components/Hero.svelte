@@ -103,29 +103,38 @@
 </script>
 
 <!--
-	`min-h-[100svh]` here (and the `svh` used the same way in Cta, Services'
-	cards, and WorkShowcase's grid heights) used to be `dvh`. `dvh` tracks
-	the browser's *current* UI chrome state — on mobile, scrolling down
-	hides the address bar/bottom toolbar and the viewport (and every
-	`dvh`-sized box) grows; scrolling back up shows the chrome again and
-	everything shrinks back. That resize happens mid-scroll, on real
-	devices, on every up/down direction change — not from any bug in this
-	page's own JS. Every box sized with `dvh` was physically changing
-	height as a side effect of scroll direction, which shifted the whole
-	document's layout and every ScrollTrigger position computed against
-	it, at the exact moments (chrome showing/hiding on a direction change)
-	this was reported worst — the "teleport near the browser's bottom bar"
-	on real phones. `svh` ("small viewport height") is fixed to the
-	viewport's smallest possible size, as if the chrome were always shown,
-	so these boxes no longer resize while scrolling at all. Trade-off: a
-	sliver of extra space can appear below a full-height section once the
-	chrome is actually hidden — far cheaper than the page's layout moving
-	under the user's finger.
+	This was `min-h-[100dvh]`, then `min-h-[100svh]`, and both were wrong on
+	the device actually reporting the bug. Measured there (iPhone, Chrome
+	iOS, innerW 430) with the ?debug=1 overlay, across a real toolbar
+	transition:
+
+	  toolbar shown:  innerH 739   100svh=739  100lvh=739  100dvh=739
+	  toolbar hidden: innerH 839   100svh=839  100lvh=839  100dvh=839
+
+	All three units resolve to the same number, and all three follow the
+	current viewport. Per spec `svh` is the SMALL viewport height and must
+	not move when browser chrome shows/hides — this engine doesn't
+	implement that distinction, so switching `dvh` -> `svh` changed nothing
+	here. There is no viewport-height unit that is stable on this browser.
+
+	So the height is frozen in JS instead: `--app-vh` (set in
+	+layout.svelte) is 1% of the viewport height, measured once and
+	deliberately not updated when the toolbar moves — only when innerWidth
+	changes, i.e. a real rotation/resize, since a toolbar never changes
+	width. This section and Cta were the last two contributors to the
+	document growing/shrinking mid-scroll (+100px each, matching the +200px
+	docHeight change captured on device); with the unit frozen, the
+	document's height no longer depends on the toolbar at all.
+
+	The `1svh` fallback means server-rendered HTML and the first paint
+	(before the script runs) size exactly as before, so nothing shifts on
+	load. Desktop is unchanged: with a stable viewport the frozen value
+	equals what the unit resolved to anyway.
 -->
 <section
 	bind:this={heroRef}
 	id="hero"
-	class="w-full min-h-[100svh] flex flex-col justify-between relative overflow-hidden bg-white pt-32 md:pt-36 pb-10 px-6 md:px-12"
+	class="w-full min-h-[calc(var(--app-vh,1svh)*100)] flex flex-col justify-between relative overflow-hidden bg-white pt-32 md:pt-36 pb-10 px-6 md:px-12"
 >
 	<!-- Signature purple visual element -->
 	<div
