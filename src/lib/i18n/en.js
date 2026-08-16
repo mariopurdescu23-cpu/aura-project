@@ -1,3 +1,6 @@
+import peiuPhoto from "$lib/assets/testimonials/peiu-laurentiu.jpg";
+import rodicaPhoto from "$lib/assets/testimonials/rodica-chiriches.jpg";
+
 export const en = {
 	seo: {
 		title: "Weberescu — Software Development & Web Design Studio",
@@ -213,12 +216,14 @@ export const en = {
 			{
 				name: "Peiu Laurentiu",
 				initials: "PL",
+				photo: peiuPhoto,
 				role: "Founder, A-Frame Svinița",
 				text: "We needed a site that would turn curious visitors into real bookings — and that's exactly what they delivered. It looks just as good as the experience we offer at the cabin, and the bookings followed.",
 			},
 			{
 				name: "Rodica Chiricheș",
 				initials: "RC",
+				photo: rodicaPhoto,
 				role: "Psychologist, private practice",
 				text: "I wanted patients to feel trust from the first second on the site, not just read information. They understood that perfectly, and the CRM built specifically for my practice made managing appointments so much easier.",
 			},

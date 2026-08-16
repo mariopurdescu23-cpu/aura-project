@@ -1,3 +1,6 @@
+import peiuPhoto from "$lib/assets/testimonials/peiu-laurentiu.jpg";
+import rodicaPhoto from "$lib/assets/testimonials/rodica-chiriches.jpg";
+
 export const ro = {
 	seo: {
 		title: "Weberescu — Dezvoltare Software & Web Design | România",
@@ -213,12 +216,14 @@ export const ro = {
 			{
 				name: "Peiu Laurentiu",
 				initials: "PL",
+				photo: peiuPhoto,
 				role: "Fondator, A-Frame Svinița",
 				text: "Aveam nevoie de un site care să transforme vizitatorii curioși în rezervări reale — și exact asta au livrat. Arată la fel de bine ca experiența pe care o oferim la cabană, iar rezervările au venit de la sine.",
 			},
 			{
 				name: "Rodica Chiricheș",
 				initials: "RC",
+				photo: rodicaPhoto,
 				role: "Psiholog, cabinet individual",
 				text: "Voiam ca pacienții să simtă încredere din prima secundă pe site, nu doar să citească informații. Au înțeles asta perfect, iar CRM-ul construit special pentru cabinet mi-a simplificat enorm gestionarea programărilor.",
 			},

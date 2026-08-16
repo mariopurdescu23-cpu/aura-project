@@ -116,11 +116,20 @@
 					{feedbacks[currentIndex].text}
 				</p>
 
-				<!-- Named clients (a real, delivered project behind them) get an
-				     initials badge; unattributed feedback would stay text-only,
+				<!-- Named clients (a real, delivered project behind them) get a
+				     photo when we have one, otherwise an initials badge as a
+				     fallback; unattributed feedback would stay text-only,
 				     though this carousel currently only holds named ones. -->
 				<div class="flex items-center gap-3 pt-6 border-t border-black/8">
-					{#if feedbacks[currentIndex].initials}
+					{#if feedbacks[currentIndex].photo}
+						<img
+							src={feedbacks[currentIndex].photo}
+							alt={feedbacks[currentIndex].name}
+							width="44"
+							height="44"
+							class="w-11 h-11 shrink-0 rounded-full object-cover"
+						/>
+					{:else if feedbacks[currentIndex].initials}
 						<div
 							class="w-11 h-11 shrink-0 rounded-full bg-[#5B21F5]/10 text-[#5B21F5] flex items-center justify-center font-display text-sm"
 						>
