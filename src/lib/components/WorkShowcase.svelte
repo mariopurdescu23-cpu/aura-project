@@ -103,8 +103,18 @@
 						     :hover "stuck" on until the user taps elsewhere, so the
 						     image could end up permanently zoomed-in/cropped-looking
 						     on mobile — reported as part of the Work section "breaking".
-						     The image no longer moves at all; scale-105 stays only to
-						     cover the 112%-oversized crop box below, not as motion. -->
+						     The image no longer moves at all.
+
+						     object-contain, not object-cover: the mobile boxes
+						     (aspect-[3/4] etc) and the desktop boxes (fixed md:h-[Nsvh]
+						     against a much wider column) have very different aspect
+						     ratios from each other and from the source photos. `cover`
+						     filled every box but cropped the photo differently at each
+						     breakpoint — on the widest desktop cards that cropped into
+						     the phone itself. `contain` always shows the whole photo,
+						     letterboxed on the card's own bg-[#F7F7F8] where the aspect
+						     doesn't match, so nothing is ever cut off on phone or on
+						     desktop. -->
 						<img
 							src={project.image}
 							alt="{project.name} — {project.category}"
@@ -112,7 +122,7 @@
 							height="1200"
 							loading="lazy"
 							decoding="async"
-							class="absolute inset-0 w-[112%] h-[112%] -left-[6%] -top-[6%] object-cover scale-105"
+							class="absolute inset-0 w-full h-full object-contain"
 						/>
 					</picture>
 					<!-- On mobile there's no hover, so this overlay (and the tags below)
