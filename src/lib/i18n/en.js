@@ -1,4 +1,11 @@
 export const en = {
+	seo: {
+		title: "Weberescu — Software Development & Web Design Studio",
+		description:
+			"Independent software and web design studio based in Romania, working globally. We design and build websites, web platforms and digital products for ambitious companies.",
+		keywords:
+			"software development, web design, web development agency, SvelteKit, web applications, UI/UX design, digital products, AI integrations, Romania",
+	},
 	nav: {
 		work: "Work",
 		services: "Services",

@@ -1,4 +1,11 @@
 export const ro = {
+	seo: {
+		title: "Weberescu — Dezvoltare Software & Web Design | România",
+		description:
+			"Studio independent de software și web design din România. Construim site-uri, platforme web și produse digitale pentru afaceri ambițioase — de la primul draft până la livrare.",
+		keywords:
+			"dezvoltare software, creare site web, web design, agenție web România, SvelteKit, aplicații web, UI/UX, produse digitale, automatizări AI",
+	},
 	nav: {
 		work: "Lucrări",
 		services: "Servicii",

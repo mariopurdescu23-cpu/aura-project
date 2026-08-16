@@ -6,22 +6,30 @@ import { ro } from "./ro.js";
 const dictionaries = { en, ro };
 const STORAGE_KEY = "weberescu-lang";
 
+// Romanian is the neutral default (this is a .ro business whose examples and
+// primary market are Romanian) — English is only served to visitors who show
+// a clear signal of being elsewhere. That default also has to match what
+// `lang` below starts as, since that starting value is what search engines
+// see in the prerendered HTML.
 function heuristicLang() {
-	if (!browser) return "en";
+	if (!browser) return "ro";
 	try {
 		const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 		if (tz === "Europe/Bucharest" || tz === "Europe/Chisinau") return "ro";
 	} catch (e) {
 		/* noop */
 	}
-	if (navigator.language && navigator.language.toLowerCase().startsWith("ro")) {
-		return "ro";
-	}
-	return "en";
+	const nav = navigator.language ? navigator.language.toLowerCase() : "";
+	if (nav.startsWith("ro")) return "ro";
+	if (nav.startsWith("en")) return "en";
+	return "ro";
 }
 
-export const lang = writable("en");
-export const t = derived(lang, ($lang) => dictionaries[$lang] || dictionaries.en);
+// Starting value doubles as the language search engines index: this store's
+// initial state is what gets baked into the prerendered HTML at build time,
+// before any client-side detection below ever runs.
+export const lang = writable("ro");
+export const t = derived(lang, ($lang) => dictionaries[$lang] || dictionaries.ro);
 
 let initialized = false;
 
@@ -52,7 +60,7 @@ export function initLang() {
 		.then((data) => {
 			if (localStorage.getItem(STORAGE_KEY)) return; // a manual choice happened meanwhile
 			const code = (data && data.country_code ? data.country_code : "").toUpperCase();
-			if (code) lang.set(code === "RO" ? "ro" : "en");
+			if (code) lang.set(code === "RO" || code === "MD" ? "ro" : "en");
 		})
 		.catch(() => {
 			/* network unavailable or blocked — keep the heuristic guess */

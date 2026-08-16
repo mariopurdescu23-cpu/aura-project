@@ -10,12 +10,20 @@
     import ScrollDebug from "$lib/components/ScrollDebug.svelte";
     import { dev } from "$app/environment";
     import { injectAnalytics } from "@vercel/analytics/sveltekit";
-    import { initLang } from "$lib/i18n/index.js";
+    import { initLang, lang } from "$lib/i18n/index.js";
     import { prefersReducedMotion } from "$lib/motion.js";
 
     injectAnalytics({ mode: dev ? "development" : "production" });
 
     let { children } = $props();
+
+    // Keeps <html lang> truthful once the client picks a language (manual
+    // choice, timezone heuristic, or the IP lookup in initLang) — the
+    // prerendered markup already ships lang="ro" for crawlers, this just
+    // keeps it in sync for real visitors after hydration.
+    $effect(() => {
+        document.documentElement.lang = $lang;
+    });
 
     onMount(() => {
         initLang();

@@ -173,7 +173,7 @@
 								<source type="image/webp" srcset={service.sources.webp} sizes={SIZES} />
 								<img
 									src={service.image}
-									alt=""
+									alt={service.title}
 									width="600"
 									height="750"
 									loading="lazy"
