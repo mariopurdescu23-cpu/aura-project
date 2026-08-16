@@ -10,11 +10,49 @@
 
 	// Layout-only data (images, sizing, asymmetric grid placement) stays
 	// static — only the copy (name/category/desc/tech/year/url) is translated.
+	// MOBILE HEIGHTS ARE ASPECT-RATIO, NOT VIEWPORT-HEIGHT — this is the fix
+	// for the toolbar jump, and it is the element the report points at.
+	//
+	// Instrumented ancestor walk from `#work img` up to `html`, captured
+	// across a viewport-height change with the width held constant, showed
+	// the chain moving like this:
+	//
+	//   img.absolute        top 200 -> 125   height 615 -> 557
+	//   div.relative        top 246 -> 166   height 523 -> 474   <-- the box
+	//   a.group             top 246 -> 166   height 611 -> 562
+	//   div.px-4            top 246 -> 166   height 2451 -> 2271
+	//   section#work        top -131 -> -211 height 3042 -> 2862
+	//   main.app-wrapper    top unchanged    height 13969 -> 13628
+	//
+	// `div.relative` is this box, and it was the first element in the chain
+	// to change height — everything above it in the list only moved because
+	// this shrank. Its height was `h-[62svh]` etc: a viewport-height unit.
+	// Any viewport-height unit is, by definition, a value the browser is
+	// entitled to recompute when it decides the viewport changed — and the
+	// toolbar showing/hiding is exactly that. When four of these boxes each
+	// lose height at once, the section collapses by ~180px and every pixel
+	// of the document below it slides up, while `window.scrollY` never
+	// changes and no GSAP value changes. That is precisely the captured
+	// signature of this bug: scrollY identical, transform identical,
+	// getBoundingClientRect().top moved.
+	//
+	// `aspect-[…]` sizes these boxes from their own WIDTH instead. A mobile
+	// toolbar overlays the viewport vertically; it never changes the
+	// viewport's width. So a width-derived height cannot move when the
+	// toolbar appears — not "usually doesn't", cannot, regardless of how a
+	// given browser or in-app WebView implements svh/lvh/dvh. The ratios
+	// are picked to match the previous rendered heights at a typical phone
+	// width (390px): 3/4 -> 520px vs 62svh -> 523px, 8/9 -> 439 vs 439,
+	// 4/5 -> 487 vs 490, 6/7 -> 455 vs 456 — visually the same layout.
+	//
+	// Desktop is deliberately untouched: `md:aspect-auto md:h-[…svh]` keeps
+	// the exact previous desktop sizing, and desktop browsers never resize
+	// the viewport mid-scroll anyway.
 	const layout = [
-		{ image: imgCabana, sources: workSources("cabana-svinita"), height: "h-[62svh] md:h-[78svh]", colStart: "md:col-start-1", colSpan: "md:col-span-7", offsetTop: "" },
-		{ image: imgRodica, sources: workSources("rodica-chiriches"), height: "h-[52svh] md:h-[60svh]", colStart: "md:col-start-6", colSpan: "md:col-span-7", offsetTop: "md:mt-24" },
-		{ image: imgSeeker, sources: workSources("seeker"), height: "h-[58svh] md:h-[70svh]", colStart: "md:col-start-1", colSpan: "md:col-span-6", offsetTop: "md:mt-32" },
-		{ image: imgMysticpuff, sources: workSources("mysticpuff"), height: "h-[54svh] md:h-[62svh]", colStart: "md:col-start-7", colSpan: "md:col-span-6", offsetTop: "md:mt-4" },
+		{ image: imgCabana, sources: workSources("cabana-svinita"), height: "aspect-[3/4] md:aspect-auto md:h-[78svh]", colStart: "md:col-start-1", colSpan: "md:col-span-7", offsetTop: "" },
+		{ image: imgRodica, sources: workSources("rodica-chiriches"), height: "aspect-[8/9] md:aspect-auto md:h-[60svh]", colStart: "md:col-start-6", colSpan: "md:col-span-7", offsetTop: "md:mt-24" },
+		{ image: imgSeeker, sources: workSources("seeker"), height: "aspect-[4/5] md:aspect-auto md:h-[70svh]", colStart: "md:col-start-1", colSpan: "md:col-span-6", offsetTop: "md:mt-32" },
+		{ image: imgMysticpuff, sources: workSources("mysticpuff"), height: "aspect-[6/7] md:aspect-auto md:h-[62svh]", colStart: "md:col-start-7", colSpan: "md:col-span-6", offsetTop: "md:mt-4" },
 	];
 
 	// The image box is roughly half the 1600px grid on desktop and full-bleed

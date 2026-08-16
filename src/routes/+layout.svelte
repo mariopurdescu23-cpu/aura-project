@@ -7,6 +7,7 @@
     import appleTouchIcon from "$lib/assets/favicon-apple-touch.png";
     import Navbar from "$lib/components/Navbar.svelte";
     import Cursor from "$lib/components/Cursor.svelte";
+    import ScrollDebug from "$lib/components/ScrollDebug.svelte";
     import { dev } from "$app/environment";
     import { injectAnalytics } from "@vercel/analytics/sveltekit";
     import { initLang } from "$lib/i18n/index.js";
@@ -181,6 +182,7 @@
     />
 </svelte:head>
 
+<ScrollDebug />
 <Cursor />
 <Navbar />
 
