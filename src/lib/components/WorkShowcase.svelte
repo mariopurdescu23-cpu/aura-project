@@ -1,8 +1,6 @@
 <script>
 	import imgCabana from "$lib/assets/work/cabana-svinita.jpg";
 	import imgRodica from "$lib/assets/work/rodica-chiriches.jpg";
-	import imgSeeker from "$lib/assets/work/seeker.jpg";
-	import imgMysticpuff from "$lib/assets/work/mysticpuff.jpg";
 	import { fillPress } from "$lib/actions/fillPress.js";
 	import { scrollToSection } from "$lib/scrollTo.js";
 	import { t } from "$lib/i18n/index.js";
@@ -48,11 +46,15 @@
 	// Desktop is deliberately untouched: `md:aspect-auto md:h-[…svh]` keeps
 	// the exact previous desktop sizing, and desktop browsers never resize
 	// the viewport mid-scroll anyway.
+	// Only 2 projects now (Seeker and MysticPuff pulled — no real
+	// screenshots existed for either, so their cards were fake placeholder
+	// covers rather than actual work). Kept the first two entries exactly
+	// as they were rather than re-tuning the grid: with only 2 items, CSS
+	// Grid's default auto-placement still staggers card 2 onto its own row
+	// below-right of card 1, same as it already rendered.
 	const layout = [
 		{ image: imgCabana, sources: workSources("cabana-svinita"), height: "aspect-[3/4] md:aspect-auto md:h-[78svh]", colStart: "md:col-start-1", colSpan: "md:col-span-7", offsetTop: "" },
 		{ image: imgRodica, sources: workSources("rodica-chiriches"), height: "aspect-[8/9] md:aspect-auto md:h-[60svh]", colStart: "md:col-start-6", colSpan: "md:col-span-7", offsetTop: "md:mt-24" },
-		{ image: imgSeeker, sources: workSources("seeker"), height: "aspect-[4/5] md:aspect-auto md:h-[70svh]", colStart: "md:col-start-1", colSpan: "md:col-span-6", offsetTop: "md:mt-32" },
-		{ image: imgMysticpuff, sources: workSources("mysticpuff"), height: "aspect-[6/7] md:aspect-auto md:h-[62svh]", colStart: "md:col-start-7", colSpan: "md:col-span-6", offsetTop: "md:mt-4" },
 	];
 
 	// The image box is roughly half the 1600px grid on desktop and full-bleed
@@ -105,16 +107,16 @@
 						     on mobile — reported as part of the Work section "breaking".
 						     The image no longer moves at all.
 
-						     object-contain, not object-cover: the mobile boxes
-						     (aspect-[3/4] etc) and the desktop boxes (fixed md:h-[Nsvh]
-						     against a much wider column) have very different aspect
-						     ratios from each other and from the source photos. `cover`
-						     filled every box but cropped the photo differently at each
-						     breakpoint — on the widest desktop cards that cropped into
-						     the phone itself. `contain` always shows the whole photo,
-						     letterboxed on the card's own bg-[#F7F7F8] where the aspect
-						     doesn't match, so nothing is ever cut off on phone or on
-						     desktop. -->
+						     Back to object-cover: the source images now carry their
+						     own purple background extended well past the phone+hand on
+						     every side (see the compositing notes next to the source
+						     files), so cropping to any card's aspect ratio — mobile's
+						     narrow aspect-[3/4] up through desktop's much wider
+						     md:h-[Nsvh] boxes — only ever eats into that extra
+						     background margin, never the phone. That gets the photo to
+						     fill the card edge-to-edge again (no bg-[#F7F7F8] letterbox
+						     bars) without reintroducing the old crop-into-the-phone bug
+						     that object-contain was added to avoid. -->
 						<img
 							src={project.image}
 							alt="{project.name} — {project.category}"
@@ -122,7 +124,7 @@
 							height="1200"
 							loading="lazy"
 							decoding="async"
-							class="absolute inset-0 w-full h-full object-contain"
+							class="absolute inset-0 w-full h-full object-cover"
 						/>
 					</picture>
 					<!-- On mobile there's no hover, so this overlay (and the tags below)
