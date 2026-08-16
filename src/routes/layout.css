@@ -28,7 +28,37 @@
 
 html,
 body {
+	/* THIS LINE WAS THE MOBILE-TOOLBAR JUMP.
+	   `overflow-x: hidden` looks harmless, but per the CSS overflow spec,
+	   when one axis is set to a non-`visible` value the OTHER axis's
+	   `visible` computes to `auto`. So `overflow-x: hidden` silently gave
+	   html and body `overflow-y: auto` — measured live in the browser:
+	   getComputedStyle(document.documentElement).overflowY === "auto", and
+	   documentElement.scrollHeight > clientHeight, i.e. the root element
+	   was an explicit scroll container rather than plain viewport
+	   scrolling.
+	   That matters specifically for the mobile toolbar. When the address
+	   bar / bottom toolbar shows or hides, the browser resizes the
+	   viewport and then compensates so the content the user is looking at
+	   stays put — but that compensation is implemented for the *root
+	   scroller in its natural state*. With the root turned into an
+	   explicit scroll container, the browser skips/mis-applies that
+	   compensation, so the viewport changes size and the content is left
+	   to land wherever the new box math puts it: the content visibly jumps
+	   while `window.scrollY` never changes. That matches the instrumented
+	   capture exactly — across the toolbar transition scrollY stayed
+	   11130 and every ScrollTrigger progress/transform stayed identical,
+	   yet the elements' getBoundingClientRect().top moved hundreds of
+	   pixels. The jump was never scroll position and never GSAP; it was
+	   the browser's own viewport-resize compensation being disabled by
+	   this declaration.
+	   `overflow-x: clip` clips exactly the same horizontal overflow, but
+	   is defined NOT to create a scroll container and NOT to force the
+	   other axis to `auto` — so the root stays a normal viewport scroller
+	   and the browser's toolbar compensation works again. The `hidden`
+	   line above it is the fallback for browsers predating `clip`. */
 	overflow-x: hidden;
+	overflow-x: clip;
 	width: 100%;
 	/* Chrome (and only Chrome — this is why Safari was already fine) turns
 	   on "scroll anchoring" by default: whenever it detects a layout shift
