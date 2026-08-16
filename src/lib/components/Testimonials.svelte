@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from "svelte";
 	import gsap from "gsap";
+	import CircleCheck from "@lucide/svelte/icons/circle-check";
 	import { t } from "$lib/i18n/index.js";
 	import { runWhileVisible, prefersReducedMotion } from "$lib/motion.js";
 
@@ -8,44 +9,44 @@
 
 	let currentIndex = $state(0);
 	let sectionRef = $state();
-	let quoteRef = $state();
-	let roleRef = $state();
+	let cardRef = $state();
 	let isAnimating = false;
 	let timer;
 
-	function nextQuote() {
+	function nextCard() {
 		if (isAnimating) return;
-		goToQuote((currentIndex + 1) % feedbacks.length);
+		goToCard((currentIndex + 1) % feedbacks.length);
 	}
-	function prevQuote() {
+	function prevCard() {
 		if (isAnimating) return;
-		goToQuote((currentIndex - 1 + feedbacks.length) % feedbacks.length);
+		goToCard((currentIndex - 1 + feedbacks.length) % feedbacks.length);
 	}
 
-	function goToQuote(index) {
+	function goToCard(index) {
 		if (index === currentIndex || isAnimating) return;
 		isAnimating = true;
 		if (timer) clearInterval(timer);
 
-		gsap.to([quoteRef, roleRef], {
+		gsap.to(cardRef, {
 			autoAlpha: 0,
 			y: 10,
-			duration: 0.5,
+			scale: 0.98,
+			duration: 0.4,
 			ease: "power2.inOut",
 			onComplete: () => {
 				currentIndex = index;
 				gsap.fromTo(
-					[quoteRef, roleRef],
-					{ autoAlpha: 0, y: -10 },
+					cardRef,
+					{ autoAlpha: 0, y: -10, scale: 0.98 },
 					{
 						autoAlpha: 1,
 						y: 0,
-						duration: 0.8,
-						stagger: 0.15,
+						scale: 1,
+						duration: 0.6,
 						ease: "power2.out",
 						onComplete: () => {
 							isAnimating = false;
-							timer = setInterval(nextQuote, 6000);
+							timer = setInterval(nextCard, 6000);
 						},
 					},
 				);
@@ -63,19 +64,18 @@
 		const dx = e.changedTouches[0].clientX - touchStartX;
 		const dy = e.changedTouches[0].clientY - touchStartY;
 		if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
-		dx < 0 ? nextQuote() : prevQuote();
+		dx < 0 ? nextCard() : prevCard();
 	}
 
 	onMount(() => {
-		// The carousel used to advance every 6s for the entire session, running
-		// a crossfade tween (and the style writes that come with it) on a
-		// section nobody was looking at. It now only ticks while on screen.
 		if (prefersReducedMotion()) return;
 
+		// Only ticks while the section is actually on screen, same as the
+		// carousel this replaced.
 		return runWhileVisible(
 			sectionRef,
 			() => {
-				if (!timer) timer = setInterval(nextQuote, 6000);
+				if (!timer && feedbacks.length > 1) timer = setInterval(nextCard, 6000);
 			},
 			() => {
 				if (timer) clearInterval(timer);
@@ -88,38 +88,72 @@
 <section
 	bind:this={sectionRef}
 	id="testimonials"
-	class="w-full bg-[#EDE9FE] text-black py-32 md:py-48 flex items-center justify-center relative overflow-hidden"
+	class="w-full bg-[#EDE9FE] text-black py-24 md:py-40 relative overflow-hidden"
 >
-	<div
-		class="max-w-4xl mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center text-center touch-pan-y"
-		role="group"
-		aria-label="Client testimonials"
-		ontouchstart={handleTouchStart}
-		ontouchend={handleTouchEnd}
-	>
-		<span class="font-display text-8xl md:text-[10rem] leading-none text-[#5B21F5]/20 mb-4 select-none">"</span>
-
-		<blockquote
-			bind:this={quoteRef}
-			class="font-display text-2xl md:text-4xl leading-[1.35] tracking-tight mb-12 flex items-center justify-center min-h-[160px] md:min-h-[140px] -mt-16 m-0"
-		>
-			{feedbacks[currentIndex].text}
-		</blockquote>
-
-		<div bind:this={roleRef} class="flex flex-col items-center gap-1">
-			<span class="text-sm font-mono text-black/50 uppercase tracking-widest">{feedbacks[currentIndex].role}</span>
+	<div class="max-w-2xl mx-auto px-6 md:px-12">
+		<div class="mb-14 md:mb-16 text-center">
+			<span class="text-xs font-mono text-black/40 uppercase tracking-widest mb-6 block"
+				>{$t.testimonials.label}</span
+			>
+			<h2 class="font-display text-4xl md:text-6xl leading-[1.05]">
+				{$t.testimonials.title1} <span class="font-serif-italic text-[#5B21F5]">{$t.testimonials.title2}</span>
+			</h2>
 		</div>
 
-		<div class="flex gap-4 mt-14">
-			{#each feedbacks as _, i}
-				<button
-					class="w-2 h-2 rounded-full transition-all duration-500 cursor-pointer {currentIndex === i
-						? 'bg-[#5B21F5] scale-125'
-						: 'bg-black/15 hover:bg-black/40'}"
-					aria-label="Go to slide {i + 1}"
-					onclick={() => goToQuote(i)}
-				></button>
-			{/each}
+		<div
+			class="touch-pan-y"
+			role="group"
+			aria-label="Client testimonials"
+			ontouchstart={handleTouchStart}
+			ontouchend={handleTouchEnd}
+		>
+			<div
+				bind:this={cardRef}
+				class="bg-white rounded-[24px] md:rounded-[28px] border border-black/8 shadow-[0_20px_60px_rgba(10,10,10,0.06)] p-8 md:p-12"
+			>
+				<span class="font-display text-6xl leading-none text-[#5B21F5]/20 mb-4 block select-none">"</span>
+				<p class="font-display text-xl md:text-2xl leading-[1.4] tracking-tight mb-8 min-h-[130px] md:min-h-[110px]">
+					{feedbacks[currentIndex].text}
+				</p>
+
+				<!-- Named clients (a real, delivered project behind them) get an
+				     initials badge; unattributed feedback would stay text-only,
+				     though this carousel currently only holds named ones. -->
+				<div class="flex items-center gap-3 pt-6 border-t border-black/8">
+					{#if feedbacks[currentIndex].initials}
+						<div
+							class="w-11 h-11 shrink-0 rounded-full bg-[#5B21F5]/10 text-[#5B21F5] flex items-center justify-center font-display text-sm"
+						>
+							{feedbacks[currentIndex].initials}
+						</div>
+					{/if}
+					<div class="flex flex-col gap-0.5 min-w-0">
+						{#if feedbacks[currentIndex].name}
+							<span class="text-sm font-medium text-black flex items-center gap-1.5">
+								{feedbacks[currentIndex].name}
+								<CircleCheck class="w-3.5 h-3.5 text-[#5B21F5] shrink-0" aria-hidden="true" />
+							</span>
+						{/if}
+						<span class="text-xs font-mono text-black/40 uppercase tracking-widest"
+							>{feedbacks[currentIndex].role}</span
+						>
+					</div>
+				</div>
+			</div>
+
+			{#if feedbacks.length > 1}
+				<div class="flex justify-center gap-4 mt-10">
+					{#each feedbacks as _, i}
+						<button
+							class="w-2 h-2 rounded-full transition-all duration-500 cursor-pointer {currentIndex === i
+								? 'bg-[#5B21F5] scale-125'
+								: 'bg-black/15 hover:bg-black/40'}"
+							aria-label="Go to testimonial {i + 1}"
+							onclick={() => goToCard(i)}
+						></button>
+					{/each}
+				</div>
+			{/if}
 		</div>
 	</div>
 </section>

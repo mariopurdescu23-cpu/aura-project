@@ -202,18 +202,25 @@ export const en = {
 		],
 	},
 	testimonials: {
+		label: "Testimonials",
+		title1: "What clients",
+		title2: "are saying.",
+		// DRAFT: the two named testimonials (Peiu Laurentiu, Rodica
+		// Chiricheș) are written by us based on the delivered projects, not
+		// quotes obtained from the clients. Confirm with them before this
+		// goes live.
 		feedbacks: [
 			{
-				role: "Founder, early-stage SaaS",
-				text: "They didn't just build us a website — they built the digital backbone of our company. Every decision was deliberate.",
+				name: "Peiu Laurentiu",
+				initials: "PL",
+				role: "Founder, A-Frame Svinița",
+				text: "We needed a site that would turn curious visitors into real bookings — and that's exactly what they delivered. It looks just as good as the experience we offer at the cabin, and the bookings followed.",
 			},
 			{
-				role: "Head of Product, B2B software",
-				text: "Working with them felt like adding a senior product team overnight. Fast, opinionated, and always for the right reasons.",
-			},
-			{
-				role: "CMO, fintech startup",
-				text: "Meticulous, fast, and obsessed with the details that actually matter — not the ones that just look good in a deck.",
+				name: "Rodica Chiricheș",
+				initials: "RC",
+				role: "Psychologist, private practice",
+				text: "I wanted patients to feel trust from the first second on the site, not just read information. They understood that perfectly, and the CRM built specifically for my practice made managing appointments so much easier.",
 			},
 		],
 	},

@@ -202,18 +202,25 @@ export const ro = {
 		],
 	},
 	testimonials: {
+		label: "Testimoniale",
+		title1: "Ce spun",
+		title2: "clienții noștri.",
+		// DRAFT: cele două testimoniale cu nume real (Peiu Laurentiu, Rodica
+		// Chiricheș) sunt scrise de noi pe baza proiectelor livrate, nu sunt
+		// citate obținute de la clienți. Trebuie confirmate cu ei înainte de
+		// publicare pe site-ul live.
 		feedbacks: [
 			{
-				role: "Fondator, SaaS la început de drum",
-				text: "Nu ne-au construit doar un site — au construit coloana vertebrală digitală a companiei noastre. Fiecare decizie a fost deliberată.",
+				name: "Peiu Laurentiu",
+				initials: "PL",
+				role: "Fondator, A-Frame Svinița",
+				text: "Aveam nevoie de un site care să transforme vizitatorii curioși în rezervări reale — și exact asta au livrat. Arată la fel de bine ca experiența pe care o oferim la cabană, iar rezervările au venit de la sine.",
 			},
 			{
-				role: "Head of Product, software B2B",
-				text: "Colaborarea cu ei a fost ca și cum am fi adăugat o echipă de produs senior peste noapte. Rapizi, cu opinii clare, mereu din motivele corecte.",
-			},
-			{
-				role: "CMO, startup fintech",
-				text: "Meticuloși, rapizi și obsedați de detaliile care chiar contează — nu de cele care arată bine doar într-o prezentare.",
+				name: "Rodica Chiricheș",
+				initials: "RC",
+				role: "Psiholog, cabinet individual",
+				text: "Voiam ca pacienții să simtă încredere din prima secundă pe site, nu doar să citească informații. Au înțeles asta perfect, iar CRM-ul construit special pentru cabinet mi-a simplificat enorm gestionarea programărilor.",
 			},
 		],
 	},
