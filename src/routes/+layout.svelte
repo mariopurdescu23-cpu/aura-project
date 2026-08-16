@@ -19,6 +19,25 @@
     import "@fontsource/space-grotesk/500.css";
     import "@fontsource/space-grotesk/700.css";
     import "@fontsource/instrument-serif/400-italic.css";
+    // Self-hosting fixed the external DNS/connection round trip, but
+    // PageSpeed's network dependency tree showed a *new* bottleneck: the
+    // browser can't know these font URLs exist until it has downloaded
+    // *and parsed* the CSS bundle they're declared in (the @font-face
+    // rules live inside it), so all 8 fonts used above the fold queued up
+    // strictly after that CSS finished — a fully serial HTML -> CSS ->
+    // fonts chain. Preloading the exact files the first paint actually
+    // needs (headline weight, body-copy weight, the italic "different.")
+    // tells the browser to start fetching them immediately, in parallel
+    // with the CSS instead of hundreds of ms behind it. Each family ships
+    // Latin and Latin-Extended as separate files (Romanian's ă/â/î/ș/ț
+    // need Latin-Extended; the headline's plain ASCII only needs Latin),
+    // so both are preloaded per weight.
+    import spaceGroteskLatin from "@fontsource/space-grotesk/files/space-grotesk-latin-500-normal.woff2?url";
+    import spaceGroteskLatinExt from "@fontsource/space-grotesk/files/space-grotesk-latin-ext-500-normal.woff2?url";
+    import interLatin from "@fontsource/inter/files/inter-latin-300-normal.woff2?url";
+    import interLatinExt from "@fontsource/inter/files/inter-latin-ext-300-normal.woff2?url";
+    import instrumentSerifLatin from "@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2?url";
+    import instrumentSerifLatinExt from "@fontsource/instrument-serif/files/instrument-serif-latin-ext-400-italic.woff2?url";
     import Navbar from "$lib/components/Navbar.svelte";
     import Cursor from "$lib/components/Cursor.svelte";
     import ScrollDebug from "$lib/components/ScrollDebug.svelte";
@@ -226,8 +245,19 @@
 </script>
 
 <svelte:head>
+    <link rel="preload" as="font" type="font/woff2" href={spaceGroteskLatin} crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={spaceGroteskLatinExt} crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={interLatin} crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={interLatinExt} crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={instrumentSerifLatin} crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={instrumentSerifLatinExt} crossorigin="anonymous" />
     <link rel="icon" type="image/png" href={favicon} />
     <link rel="apple-touch-icon" href={appleTouchIcon} />
+    <!-- initLang()'s IP-based region lookup (index.js) hits this origin on
+         every fresh visit; PageSpeed flagged it as an uncontacted origin
+         worth preconnecting so that request doesn't pay a fresh
+         DNS/TLS/TCP handshake on top of its own round trip. -->
+    <link rel="preconnect" href="https://get.geojs.io" />
 </svelte:head>
 
 <ScrollDebug />
