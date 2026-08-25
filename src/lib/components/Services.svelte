@@ -71,32 +71,44 @@
 		// wrapper and animating a transform-only child instead removes the
 		// conflict entirely — sticky positioning is computed from a stable
 		// element, and GSAP is free to scale the child however it wants.
-		cardsRef.forEach((card, i) => {
-			if (i === cardsRef.length - 1) return;
-			const target = innerRef[i] || card;
-			gsap.to(target, {
-				scale: 0.94,
-				ease: "none",
-				scrollTrigger: {
-					trigger: card,
-					start: "top 88px",
-					end: "bottom top",
-					scrub: 0.3,
-				},
-			});
-			if (dimRef[i]) {
-				gsap.to(dimRef[i], {
-					opacity: 0.18,
+		//
+		// This section unmounts on navigation away from `/` (a `/servicii/[slug]`
+		// visit), so every ScrollTrigger created below has to be torn down or
+		// it keeps listening on scroll forever against detached DOM — up to
+		// two per card. `gsap.context` tracks everything created inside it and
+		// `.revert()` kills all of it in one call.
+		const ctx = gsap.context(() => {
+			cardsRef.forEach((card, i) => {
+				if (i === cardsRef.length - 1) return;
+				const target = innerRef[i] || card;
+				gsap.to(target, {
+					scale: 0.94,
 					ease: "none",
 					scrollTrigger: {
 						trigger: card,
 						start: "top 88px",
 						end: "bottom top",
 						scrub: 0.3,
+						onToggle: (self) => gsap.set(target, { willChange: self.isActive ? "transform" : "auto" }),
 					},
 				});
-			}
-		});
+				if (dimRef[i]) {
+					gsap.to(dimRef[i], {
+						opacity: 0.18,
+						ease: "none",
+						scrollTrigger: {
+							trigger: card,
+							start: "top 88px",
+							end: "bottom top",
+							scrub: 0.3,
+							onToggle: (self) => gsap.set(dimRef[i], { willChange: self.isActive ? "opacity" : "auto" }),
+						},
+					});
+				}
+			});
+		}, sectionRef);
+
+		return () => ctx.revert();
 	});
 </script>
 
@@ -121,7 +133,7 @@
 			>
 				<div
 					bind:this={innerRef[i]}
-					class="group rounded-[24px] md:rounded-[36px] bg-white border border-black/8 shadow-[0_30px_80px_rgba(10,10,10,0.08)] px-6 md:px-16 py-10 md:py-16 min-h-[calc(var(--app-vh,1svh)*58)] md:min-h-[calc(var(--app-vh,1svh)*64)] flex flex-col justify-between overflow-hidden relative isolate origin-top will-change-transform"
+					class="group rounded-[24px] md:rounded-[36px] bg-white border border-black/8 shadow-[0_30px_80px_rgba(10,10,10,0.08)] px-6 md:px-16 py-10 md:py-16 min-h-[calc(var(--app-vh,1svh)*58)] md:min-h-[calc(var(--app-vh,1svh)*64)] flex flex-col justify-between overflow-hidden relative isolate origin-top"
 				>
 					<!-- Hover-only glow, so it is desktop-only: on touch it can never be
 					     shown, but a 340px box with an 80px blur still sat in every
@@ -133,10 +145,15 @@
 					     the one element whose opacity is scrubbed continuously while the
 					     card is in range. Promoting it lets the compositor fade it
 					     without re-rasterising the card underneath. Measured over 3 runs:
-					     46.4 -> 49.3 fps through this section, jank frames 28% -> 20%. -->
+					     46.4 -> 49.3 fps through this section, jank frames 28% -> 20%.
+					     Toggled on/off via the ScrollTrigger's onToggle below (same for
+					     the card's own scale tween) rather than left on permanently —
+					     with up to 6 cards that's up to 12 always-on compositor layers
+					     for the section's entire lifetime otherwise, most of them for a
+					     card nowhere near the active scroll range. -->
 					<div
 						bind:this={dimRef[i]}
-						class="absolute inset-0 bg-[#0A0A0A] opacity-0 pointer-events-none z-30 will-change-[opacity]"
+						class="absolute inset-0 bg-[#0A0A0A] opacity-0 pointer-events-none z-30"
 					></div>
 
 					<div class="flex justify-between items-start relative z-10">

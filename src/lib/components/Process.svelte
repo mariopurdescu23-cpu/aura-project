@@ -58,38 +58,47 @@
 		// the same measured technique as the dim scrim in Services.svelte,
 		// just applied here instead of dropping the scrub-tied fill (which
 		// reads as "loads all at once" once removed, not scroll-progressive).
-		gsap.fromTo(
-			lineRef,
-			{ scaleY: 0 },
-			{
-				scaleY: 1,
-				ease: "none",
-				transformOrigin: "top",
-				scrollTrigger: {
-					trigger: stepRefs[0],
-					start: "top bottom",
-					endTrigger: stepRefs[stepRefs.length - 1],
-					end: "bottom top",
-					scrub: 0.6,
-					onToggle: (self) => gsap.set(lineRef, { willChange: self.isActive ? "transform" : "auto" }),
-				},
-			},
-		);
-
-		stepRefs.forEach((step) => {
-			if (!step) return;
+		//
+		// This section unmounts on navigation away from `/` (a `/servicii/[slug]`
+		// visit), so every ScrollTrigger created here has to be torn down or it
+		// keeps listening on scroll forever against detached DOM. `gsap.context`
+		// tracks everything created inside it and `.revert()` kills all of it.
+		const ctx = gsap.context(() => {
 			gsap.fromTo(
-				step,
-				{ x: -24, autoAlpha: 0 },
+				lineRef,
+				{ scaleY: 0 },
 				{
-					x: 0,
-					autoAlpha: 1,
-					duration: 0.9,
-					ease: "power3.out",
-					scrollTrigger: { trigger: step, start: "top 82%" },
+					scaleY: 1,
+					ease: "none",
+					transformOrigin: "top",
+					scrollTrigger: {
+						trigger: stepRefs[0],
+						start: "top bottom",
+						endTrigger: stepRefs[stepRefs.length - 1],
+						end: "bottom top",
+						scrub: 0.6,
+						onToggle: (self) => gsap.set(lineRef, { willChange: self.isActive ? "transform" : "auto" }),
+					},
 				},
 			);
-		});
+
+			stepRefs.forEach((step) => {
+				if (!step) return;
+				gsap.fromTo(
+					step,
+					{ x: -24, autoAlpha: 0 },
+					{
+						x: 0,
+						autoAlpha: 1,
+						duration: 0.9,
+						ease: "power3.out",
+						scrollTrigger: { trigger: step, start: "top 82%" },
+					},
+				);
+			});
+		}, sectionRef);
+
+		return () => ctx.revert();
 	});
 </script>
 

@@ -26,33 +26,43 @@
 
 		gsap.registerPlugin(ScrollTrigger);
 
-		counters.forEach((counter, i) => {
-			const stat = stats[i];
-			if (!stat.isNumber) {
-				gsap.fromTo(
-					counter,
-					{ autoAlpha: 0, scale: 0.6 },
-					{
-						autoAlpha: 1,
-						scale: 1,
-						duration: 0.8,
-						ease: "back.out(2)",
-						scrollTrigger: { trigger: statsRef, start: "top 80%" },
+		// This section unmounts whenever navigation leaves `/` (e.g. to a
+		// `/servicii/[slug]` page) — without a scoped, reverted context, every
+		// ScrollTrigger created below would keep listening on scroll forever,
+		// pointed at DOM nodes that no longer exist. `gsap.context` tracks
+		// everything created inside it and `.revert()` tears all of it down
+		// (tweens, ScrollTriggers) in one call.
+		const ctx = gsap.context(() => {
+			counters.forEach((counter, i) => {
+				const stat = stats[i];
+				if (!stat.isNumber) {
+					gsap.fromTo(
+						counter,
+						{ autoAlpha: 0, scale: 0.6 },
+						{
+							autoAlpha: 1,
+							scale: 1,
+							duration: 0.8,
+							ease: "back.out(2)",
+							scrollTrigger: { trigger: statsRef, start: "top 80%" },
+						},
+					);
+					return;
+				}
+				let obj = { val: 0 };
+				gsap.to(obj, {
+					val: stat.value,
+					duration: 1.8,
+					ease: "power2.out",
+					scrollTrigger: { trigger: statsRef, start: "top 80%" },
+					onUpdate: () => {
+						counter.innerText = Math.ceil(obj.val);
 					},
-				);
-				return;
-			}
-			let obj = { val: 0 };
-			gsap.to(obj, {
-				val: stat.value,
-				duration: 1.8,
-				ease: "power2.out",
-				scrollTrigger: { trigger: statsRef, start: "top 80%" },
-				onUpdate: () => {
-					counter.innerText = Math.ceil(obj.val);
-				},
+				});
 			});
-		});
+		}, statsRef);
+
+		return () => ctx.revert();
 	});
 </script>
 
