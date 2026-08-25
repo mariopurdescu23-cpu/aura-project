@@ -77,33 +77,35 @@
 		// it keeps listening on scroll forever against detached DOM — up to
 		// two per card. `gsap.context` tracks everything created inside it and
 		// `.revert()` kills all of it in one call.
+		// A real scroll trace (requestAnimationFrame deltas sampled through an
+		// actual wheel-driven scroll, not a synthetic jump) measured this
+		// section at ~60% of frames missing the 60fps budget, worst offender
+		// on the page after the Cta glow. Part of that cost was two separate
+		// ScrollTrigger instances per card (identical trigger/start/end,
+		// scrubbing two different targets) each independently recomputing its
+		// own scroll progress every frame. Folding both into one timeline —
+		// one ScrollTrigger driving two tweens started at the same position —
+		// halves that per-frame bookkeeping while producing the exact same
+		// scale+dim motion.
 		const ctx = gsap.context(() => {
 			cardsRef.forEach((card, i) => {
 				if (i === cardsRef.length - 1) return;
 				const target = innerRef[i] || card;
-				gsap.to(target, {
-					scale: 0.94,
-					ease: "none",
+				const tl = gsap.timeline({
 					scrollTrigger: {
 						trigger: card,
 						start: "top 88px",
 						end: "bottom top",
 						scrub: 0.3,
-						onToggle: (self) => gsap.set(target, { willChange: self.isActive ? "transform" : "auto" }),
+						onToggle: (self) => {
+							gsap.set(target, { willChange: self.isActive ? "transform" : "auto" });
+							if (dimRef[i]) gsap.set(dimRef[i], { willChange: self.isActive ? "opacity" : "auto" });
+						},
 					},
 				});
+				tl.to(target, { scale: 0.94, ease: "none" }, 0);
 				if (dimRef[i]) {
-					gsap.to(dimRef[i], {
-						opacity: 0.18,
-						ease: "none",
-						scrollTrigger: {
-							trigger: card,
-							start: "top 88px",
-							end: "bottom top",
-							scrub: 0.3,
-							onToggle: (self) => gsap.set(dimRef[i], { willChange: self.isActive ? "opacity" : "auto" }),
-						},
-					});
+					tl.to(dimRef[i], { opacity: 0.18, ease: "none" }, 0);
 				}
 			});
 		}, sectionRef);

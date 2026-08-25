@@ -20,17 +20,18 @@
 		// their natural, visible state — nothing else to undo.
 		if (prefersReducedMotion()) return;
 
-		// PageSpeed's LCP breakdown flagged this timeline directly: `lines`
-		// (the "SOFTWARE SHOULD FEEL different" headline) is the page's LCP
-		// element, but it used to be third in the sequence — behind the orb's
-		// 1.8s fade-in and a 1.4s negative-offset overlap — so its *final*,
-		// fully-painted state didn't land until ~1.3s after the timeline
-		// could start, all of which counts as LCP "render delay". Leading
-		// with `lines` (no initial delay, shorter duration, tighter stagger)
-		// gets the headline itself on screen first; the orb and the rest of
-		// the hero still animate in right alongside/after it via the "<"
-		// (same start time) and small positive offsets below, so the overall
-		// reveal still reads as one connected sequence, just headline-first.
+			// A PageSpeed run against the live site pins the LCP element down to
+			// the specific node now: the intro paragraph (`descRef`), not the
+			// headline -- reporting a 3.1s render delay, because this timeline
+			// used to reveal it fifth, after the headline (0.9s) and overlapping
+			// the orb full 1.4s fade-in, so `descRef` did not reach its final,
+			// fully-painted opacity until ~1.7s in even once the timeline itself
+			// could start. It now starts at the same instant as the headline
+			// (position 0, same as lines and orbRef below) with a shorter
+			// duration, so it is the fastest thing in the sequence to finish
+			// painting -- everything else still animates in right alongside it,
+			// same overall reveal, just LCP-element-first instead of last.
+			//
 		//
 		// This section unmounts on navigation away from `/` (a `/servicii/[slug]`
 		// visit). None of what's below uses ScrollTrigger, so it was never the
@@ -46,11 +47,11 @@
 			gsap.set(lines, { yPercent: 120, rotateZ: 1.5 });
 			gsap.set([metaTop, descRef, ctaContainer, scrollCue], { y: 16, autoAlpha: 0 });
 
-			tl.to(lines, { yPercent: 0, rotateZ: 0, duration: 0.9, stagger: 0.08, ease: "expo.out" })
-				.to(orbRef, { autoAlpha: 1, scale: 1, duration: 1.4, ease: "power3.out" }, "<")
-				.to(metaTop, { y: 0, autoAlpha: 1, duration: 0.7, ease: "power3.out" }, "<0.1")
-				.to(descRef, { y: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, "-=0.5")
-				.to(ctaContainer, { y: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, "-=0.5")
+			tl.to(descRef, { y: 0, autoAlpha: 1, duration: 0.6, ease: "power3.out" }, 0)
+				.to(lines, { yPercent: 0, rotateZ: 0, duration: 0.9, stagger: 0.08, ease: "expo.out" }, 0)
+				.to(orbRef, { autoAlpha: 1, scale: 1, duration: 1.4, ease: "power3.out" }, 0)
+				.to(metaTop, { y: 0, autoAlpha: 1, duration: 0.7, ease: "power3.out" }, 0.1)
+				.to(ctaContainer, { y: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, "-=0.3")
 				.to(scrollCue, { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" }, "-=0.6");
 		}, heroRef);
 

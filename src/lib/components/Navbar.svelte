@@ -66,11 +66,11 @@
 	}
 
 	onMount(() => {
-		// Reduced motion: the header markup starts collapsed (`w-0 opacity-0`)
-		// because the intro tween expands it, so it has to be put into its
-		// final state explicitly rather than just skipping the animation.
+		// Reduced motion: the header's width/max-width are always their final
+		// value (static Tailwind classes, not animated) — only opacity and
+		// clip-path need setting to their finished state here.
 		if (prefersReducedMotion()) {
-			gsap.set(headerRef, { width: "100%", maxWidth: "920px", opacity: 1, overflow: "visible" });
+			gsap.set(headerRef, { opacity: 1, clipPath: "inset(0% 0% 0% 0%)" });
 			gsap.set(mobileMenuRef, { clipPath: "inset(0% 100% 0% 0%)" });
 			return () => {};
 		}
@@ -83,10 +83,21 @@
 				isDesktop: "(min-width: 768px)",
 			},
 			(context) => {
-				let { isMobile, isDesktop } = context.conditions;
+				let { isDesktop } = context.conditions;
 				const tl = gsap.timeline({ delay: 0.2 });
 
-				gsap.set(headerRef, { width: "0px", opacity: 0, overflow: "hidden" });
+				// This used to animate `width`/`maxWidth` directly to grow the pill
+				// open — a layout-triggering property, so GSAP was forcing a full
+				// reflow on every one of this tween's frames, for its whole 1.2s,
+				// during the exact window LCP is trying to settle in (confirmed by
+				// a real PageSpeed run: "Forced reflow" flagged during initial
+				// load, and the LCP paragraph showing a 3.1s render-delay). The
+				// header's width/max-width are now static classes (their final
+				// value from the start), and `clip-path` does the reveal instead —
+				// same technique already used a few lines down for the mobile
+				// menu's own open animation, and compositor-only: no layout read
+				// or write involved.
+				gsap.set(headerRef, { clipPath: "inset(0% 50% 0% 50%)", opacity: 0 });
 				gsap.set(logoRef, { autoAlpha: 0, y: 15, scale: 0.95 });
 				gsap.set(iconsRef, { autoAlpha: 0, x: 10 });
 				gsap.set(mobileMenuRef, { clipPath: "inset(0% 100% 0% 0%)" });
@@ -96,18 +107,15 @@
 				}
 
 				tl.to(headerRef, {
-					width: isMobile ? "calc(100% - 2rem)" : "100%",
-					maxWidth: "920px",
+					clipPath: "inset(0% 0% 0% 0%)",
 					opacity: 1,
 					duration: 1.2,
 					ease: "expo.inOut",
-				})
-					.set(headerRef, { overflow: "visible" })
-					.to(
-						logoRef,
-						{ autoAlpha: 1, y: 0, scale: 1, duration: 1.2, ease: "expo.out" },
-						"-=0.2",
-					);
+				}).to(
+					logoRef,
+					{ autoAlpha: 1, y: 0, scale: 1, duration: 1.2, ease: "expo.out" },
+					"-=0.2",
+				);
 
 				if (isDesktop) {
 					tl.to(
@@ -147,7 +155,7 @@
 
 <div
 	bind:this={headerRef}
-	class="header opacity-0 w-0 z-60 fixed top-4 left-1/2 -translate-x-1/2 bg-white/80 border border-black/10 h-[60px] pl-6 pr-2 whitespace-nowrap flex justify-between items-center backdrop-blur-xl shadow-[0_8px_30px_rgba(10,10,10,0.05)] transition-transform duration-500 {hidden
+	class="header opacity-0 w-[calc(100%-2rem)] md:w-full max-w-[920px] z-60 fixed top-4 left-1/2 -translate-x-1/2 bg-white/80 border border-black/10 h-[60px] pl-6 pr-2 whitespace-nowrap flex justify-between items-center backdrop-blur-xl shadow-[0_8px_30px_rgba(10,10,10,0.05)] transition-transform duration-500 {hidden
 		? '-translate-y-[calc(100%+2rem)]'
 		: 'translate-y-0'}"
 	style="translate: -50% 0;"

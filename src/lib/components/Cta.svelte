@@ -23,6 +23,16 @@
 		// the page to rasterise, and this tween used to animate it forever from
 		// the moment the page loaded — while the contact section sits ~14000px
 		// below the fold. Now it only runs when it is on screen.
+		//
+		// It's also the worst frame-time spot found in a real scroll trace
+		// (80-100ms frames right at this section, vs a 16.7ms budget): a blur
+		// filter needs its raster surface padded well past the element's own
+		// box to blend correctly, so re-rasterising this on every transform
+		// tick is expensive regardless of the transform itself being cheap.
+		// `will-change: transform` (static class on the div below) promotes it
+		// to its own layer once, so subsequent x/y/scale updates are pure
+		// GPU recomposites — safe to leave on permanently since it's a single
+		// element, already gated to only animate while the section is visible.
 		if (!reduced) {
 			const glow = gsap.to(glowRef, {
 				x: "+=60",
@@ -66,7 +76,7 @@
 >
 	<div
 		bind:this={glowRef}
-		class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[900px] md:h-[900px] rounded-full opacity-25 blur-[140px]"
+		class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[900px] md:h-[900px] rounded-full opacity-25 blur-[140px] will-change-transform"
 		style="background: radial-gradient(circle, #7C3AED 0%, #5B21F5 55%, transparent 75%);"
 	></div>
 
