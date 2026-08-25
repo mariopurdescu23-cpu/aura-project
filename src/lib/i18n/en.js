@@ -117,14 +117,6 @@ export const en = {
 		],
 	},
 	capabilities: {
-		ticker: [
-			"Software Development",
-			"Web Design",
-			"UI / UX",
-			"SaaS & Platforms",
-			"AI & Automation",
-			"Digital Products",
-		],
 		label: "Capabilities",
 		title1: "The tools we reach for",
 		title2: "when it matters.",
@@ -252,8 +244,6 @@ export const en = {
 		navigate: "Navigate",
 		studio: "Studio",
 		social: "Social",
-		basedIn: "Based in Europe",
-		workingGlobally: "Working globally",
 		rights: "All rights reserved.",
 		credit: "Design & code, Weberescu.",
 	},

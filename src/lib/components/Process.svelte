@@ -43,22 +43,47 @@
 		// not yet visible" to "step 4 has been completely read and passed"
 		// — proportional to how much the user actually has to scroll
 		// through the content, not to an arbitrary container edge.
-		gsap.fromTo(
-			lineRef,
-			{ scaleY: 0 },
-			{
-				scaleY: 1,
-				ease: "none",
-				transformOrigin: "top",
-				scrollTrigger: {
-					trigger: stepRefs[0],
-					start: "top bottom",
-					endTrigger: stepRefs[stepRefs.length - 1],
-					end: "bottom top",
-					scrub: 0.6,
+		//
+		// `scrub` recomputes and writes the tween's value on every scroll
+		// callback for that whole distance — cheap on desktop, but on
+		// mobile it was competing every frame with Lenis's own rAF loop and
+		// dropping frames. Desktop keeps the scrubbed fill; mobile gets the
+		// same one-shot reveal pattern as the step blocks below (fires once,
+		// no per-scroll-frame work) timed to the last step appearing.
+		const mm = gsap.matchMedia();
+
+		mm.add("(min-width: 768px)", () => {
+			gsap.fromTo(
+				lineRef,
+				{ scaleY: 0 },
+				{
+					scaleY: 1,
+					ease: "none",
+					transformOrigin: "top",
+					scrollTrigger: {
+						trigger: stepRefs[0],
+						start: "top bottom",
+						endTrigger: stepRefs[stepRefs.length - 1],
+						end: "bottom top",
+						scrub: 0.6,
+					},
 				},
-			},
-		);
+			);
+		});
+
+		mm.add("(max-width: 767px)", () => {
+			gsap.fromTo(
+				lineRef,
+				{ scaleY: 0 },
+				{
+					scaleY: 1,
+					duration: 0.9,
+					ease: "power2.out",
+					transformOrigin: "top",
+					scrollTrigger: { trigger: stepRefs[stepRefs.length - 1], start: "top 82%" },
+				},
+			);
+		});
 
 		stepRefs.forEach((step) => {
 			if (!step) return;

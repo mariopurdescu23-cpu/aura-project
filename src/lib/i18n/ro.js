@@ -117,14 +117,6 @@ export const ro = {
 		],
 	},
 	capabilities: {
-		ticker: [
-			"Dezvoltare Software",
-			"Web Design",
-			"UI / UX",
-			"SaaS & Platforme",
-			"AI & Automatizare",
-			"Produse Digitale",
-		],
 		label: "Capabilități",
 		title1: "Uneltele la care apelăm",
 		title2: "când contează.",
@@ -252,8 +244,6 @@ export const ro = {
 		navigate: "Navigare",
 		studio: "Studio",
 		social: "Social",
-		basedIn: "Cu sediul în Europa",
-		workingGlobally: "Activi global",
 		rights: "Toate drepturile rezervate.",
 		credit: "Design & cod, Weberescu.",
 	},
