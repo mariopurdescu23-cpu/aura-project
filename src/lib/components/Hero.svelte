@@ -5,6 +5,7 @@
 	import { fillPress } from "$lib/actions/fillPress.js";
 	import { t } from "$lib/i18n/index.js";
 	import { pauseWhenHidden, prefersReducedMotion } from "$lib/motion.js";
+	import mark from "$lib/assets/weberescu-mark-purple.png";
 
 	let lines = $state([]);
 	let metaTop = $state();
@@ -161,12 +162,31 @@
 	id="hero"
 	class="w-full min-h-[calc(var(--app-vh,1svh)*100)] flex flex-col justify-between relative overflow-hidden bg-white pt-32 md:pt-36 pb-10 px-6 md:px-12"
 >
-	<!-- Signature purple visual element -->
+	<!-- Signature visual element: the brand mark itself, glowing, rather
+	     than an unrelated abstract ball. `orbRef` (still the thing GSAP
+	     scales/drifts/parallaxes) is now a container — the blurred gradient
+	     behind is a child so it moves/scales as one unit with the crisp mark
+	     sitting on top of it. The mark PNG is only 165x89 natively, so it's
+	     sized here at a modest ~1.5x upscale (safe, still crisp) rather than
+	     stretched to fill the whole glow — a `drop-shadow` glow separates its
+	     edges from the purple blob behind it instead. -->
 	<div
 		bind:this={orbRef}
-		class="pointer-events-none absolute top-[8%] right-[2%] md:right-[10%] w-[280px] h-[280px] md:w-[480px] md:h-[480px] rounded-full will-change-transform z-0"
-		style="background: radial-gradient(circle at 35% 30%, #b39ffb 0%, #7C3AED 35%, #5B21F5 62%, rgba(91,33,245,0) 78%); filter: blur(6px);"
-	></div>
+		class="pointer-events-none absolute top-[8%] right-[2%] md:right-[10%] w-[280px] h-[280px] md:w-[480px] md:h-[480px] will-change-transform z-0 flex items-center justify-center"
+	>
+		<div
+			class="absolute inset-0 rounded-full"
+			style="background: radial-gradient(circle at 35% 30%, #b39ffb 0%, #7C3AED 35%, #5B21F5 62%, rgba(91,33,245,0) 78%); filter: blur(6px);"
+		></div>
+		<img
+			src={mark}
+			alt=""
+			width="298"
+			height="160"
+			class="relative w-[55%] h-auto drop-shadow-[0_0_28px_rgba(255,255,255,0.65)]"
+			draggable="false"
+		/>
+	</div>
 	<div
 		class="pointer-events-none absolute top-[8%] right-[2%] md:right-[10%] w-[280px] h-[280px] md:w-[480px] md:h-[480px] rounded-full opacity-40 blur-[90px] z-0"
 		style="background: #5B21F5;"
