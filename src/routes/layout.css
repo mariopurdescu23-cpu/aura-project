@@ -147,14 +147,3 @@ textarea {
 	border-color: var(--color-purple) !important;
 	transition: color 0.4s ease 0.05s, border-color 0.4s ease 0.05s;
 }
-
-@media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		animation-duration: 0.001ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.001ms !important;
-		scroll-behavior: auto !important;
-	}
-}

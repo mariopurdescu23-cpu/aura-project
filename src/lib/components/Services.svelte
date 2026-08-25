@@ -5,29 +5,13 @@
 	import ArrowUpRight from "@lucide/svelte/icons/arrow-up-right";
 	import { t } from "$lib/i18n/index.js";
 	import { prefersReducedMotion } from "$lib/motion.js";
-	import { serviceSources } from "$lib/images.js";
-	import imgSoftware from "$lib/assets/services/software-development.jpg";
-	import imgWebDesign from "$lib/assets/services/web-design.jpg";
-	import imgUiUx from "$lib/assets/services/ui-ux.jpg";
-	import imgSaas from "$lib/assets/services/saas-platforms.jpg";
-	import imgAi from "$lib/assets/services/ai-automation.jpg";
-	import imgDigitalProducts from "$lib/assets/services/digital-products.jpg";
+	import { serviceSlugs, getServiceImage } from "$lib/serviceImages.js";
 
-	const images = [imgSoftware, imgWebDesign, imgUiUx, imgSaas, imgAi, imgDigitalProducts];
-	const sources = [
-		serviceSources("software-development"),
-		serviceSources("web-design"),
-		serviceSources("ui-ux"),
-		serviceSources("saas-platforms"),
-		serviceSources("ai-automation"),
-		serviceSources("digital-products"),
-	];
-
-	// The panel is at most 300px wide on desktop and ~full width on mobile.
-	const SIZES = "(min-width: 768px) 300px, 90vw";
+	// The panel is at most 460px wide on desktop and ~full width on mobile.
+	const SIZES = "(min-width: 768px) 460px, 90vw";
 
 	let services = $derived(
-		$t.services.items.map((s, i) => ({ ...s, image: images[i], sources: sources[i] })),
+		$t.services.items.map((s, i) => ({ ...s, slug: serviceSlugs[i], ...getServiceImage(serviceSlugs[i]) })),
 	);
 	let cardsRef = $state([]);
 	let innerRef = $state([]);
@@ -157,15 +141,22 @@
 
 					<div class="flex justify-between items-start relative z-10">
 						<span class="font-display text-2xl md:text-4xl text-black/25">{service.num}</span>
-						<ArrowUpRight
-							class="w-8 h-8 md:w-10 md:h-10 text-black/20 group-hover:text-[#5B21F5] group-hover:rotate-45 transition-all duration-500"
-						/>
+						<a
+							href="/servicii/{service.slug}"
+							data-cursor-label={$t.services.viewMore}
+							aria-label="{$t.services.viewMore} — {service.title}"
+							class="p-1 -m-1 rounded-full hover:bg-black/5 transition-colors duration-300"
+						>
+							<ArrowUpRight
+								class="w-8 h-8 md:w-10 md:h-10 text-black/20 hover:text-[#5B21F5] hover:rotate-45 transition-all duration-500"
+							/>
+						</a>
 					</div>
 
 					<!-- Visual panel -->
 					<div class="relative z-10 flex justify-center md:justify-end my-6 md:my-4">
 						<div
-							class="w-full md:w-[36%] md:max-w-[300px] aspect-[16/9] md:aspect-[4/5] rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(10,10,10,0.12)] isolate"
+							class="w-full md:w-[58%] md:max-w-[460px] aspect-[16/9] rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(10,10,10,0.12)] isolate"
 							style="transform: translateZ(0);"
 						>
 							<picture class="contents">
@@ -174,8 +165,8 @@
 								<img
 									src={service.image}
 									alt={service.title}
-									width="600"
-									height="750"
+									width="800"
+									height="450"
 									loading="lazy"
 									decoding="async"
 									class="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700 group-hover:will-change-transform"

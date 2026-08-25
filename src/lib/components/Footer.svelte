@@ -22,10 +22,10 @@
 
 		<div class="col-span-1 flex flex-col gap-3 md:gap-4">
 			<h3 class="font-mono text-xs uppercase tracking-widest text-[#a78bfa] mb-2">{$t.footer.navigate}</h3>
-			<a href="#work" onclick={(e) => scrollToSection(e, "#work")} class="text-white/60 hover:text-white font-sans text-sm transition-colors">{$t.nav.work}</a>
-			<a href="#services" onclick={(e) => scrollToSection(e, "#services")} class="text-white/60 hover:text-white font-sans text-sm transition-colors">{$t.nav.services}</a>
-			<a href="#about" onclick={(e) => scrollToSection(e, "#about")} class="text-white/60 hover:text-white font-sans text-sm transition-colors">{$t.nav.about}</a>
-			<a href="#contact" onclick={(e) => scrollToSection(e, "#contact")} class="text-white/60 hover:text-white font-sans text-sm transition-colors">{$t.nav.contact}</a>
+			<a href="/#work" onclick={(e) => scrollToSection(e, "#work")} class="text-white/60 hover:text-white font-sans text-sm transition-colors">{$t.nav.work}</a>
+			<a href="/#services" onclick={(e) => scrollToSection(e, "#services")} class="text-white/60 hover:text-white font-sans text-sm transition-colors">{$t.nav.services}</a>
+			<a href="/#about" onclick={(e) => scrollToSection(e, "#about")} class="text-white/60 hover:text-white font-sans text-sm transition-colors">{$t.nav.about}</a>
+			<a href="/#contact" onclick={(e) => scrollToSection(e, "#contact")} class="text-white/60 hover:text-white font-sans text-sm transition-colors">{$t.nav.contact}</a>
 		</div>
 
 		<div class="col-span-1 flex flex-col gap-3 md:gap-4">

@@ -1,11 +1,18 @@
 /**
  * Shared motion helpers.
  *
- * `prefersReducedMotion()` — the CSS media query in layout.css only neutralises
- * CSS animations and transitions. GSAP writes inline styles and drives its own
- * ticker, so it never sees that rule; every entrance tween and ScrollTrigger
- * kept running for someone who explicitly asked their OS for less motion.
- * Components check this and jump straight to the final state instead.
+ * `prefersReducedMotion()` — deliberately always reports `false`. This site's
+ * motion (the Hero/Process/Manifesto/Services scroll choreography, card
+ * reveals, the navbar intro) is core to the brand, and the call was made to
+ * always play it rather than fall back to a static layout for visitors whose
+ * OS has "reduce motion" turned on. Every component still calls this (rather
+ * than assuming motion is safe outright) so that decision lives in one place
+ * and the reduced-motion code paths already written throughout the app stay
+ * intact if that call is ever reversed. The matching CSS override
+ * (`@media (prefers-reduced-motion: reduce)` in layout.css, which used to
+ * force every transition/animation duration to ~0) was removed for the same
+ * reason — it was neutralising CSS transitions/animations regardless of what
+ * this function returned.
  *
  * `pauseWhenHidden()` — decorative loops (`repeat: -1`) keep the compositor
  * committing a frame 60 times a second forever, even when the element they
@@ -14,14 +21,8 @@
  * Gating each loop on an IntersectionObserver lets the page actually go idle.
  */
 
-let cached = null;
-
 export function prefersReducedMotion() {
-	if (typeof window === "undefined") return false;
-	if (cached === null) {
-		cached = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-	}
-	return cached;
+	return false;
 }
 
 /**

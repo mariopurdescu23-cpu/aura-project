@@ -154,7 +154,7 @@
 >
 	<a
 		id="logo"
-		href="#hero"
+		href="/#hero"
 		onclick={(e) => scrollTo(e, "#hero")}
 		bind:this={logoRef}
 		data-cursor-label="Home"
@@ -167,16 +167,16 @@
 	<div id="nav" class="absolute left-1/2 -translate-x-1/2 hidden md:block">
 		<ul class="flex space-x-8 text-sm font-medium text-black/60">
 			<li bind:this={navItemsRef[0]}>
-				<a href="#work" onclick={(e) => scrollTo(e, "#work")} class="hover:text-black transition-colors">{$t.nav.work}</a>
+				<a href="/#work" onclick={(e) => scrollTo(e, "#work")} class="hover:text-black transition-colors">{$t.nav.work}</a>
 			</li>
 			<li bind:this={navItemsRef[1]}>
-				<a href="#services" onclick={(e) => scrollTo(e, "#services")} class="hover:text-black transition-colors">{$t.nav.services}</a>
+				<a href="/#services" onclick={(e) => scrollTo(e, "#services")} class="hover:text-black transition-colors">{$t.nav.services}</a>
 			</li>
 			<li bind:this={navItemsRef[2]}>
-				<a href="#about" onclick={(e) => scrollTo(e, "#about")} class="hover:text-black transition-colors">{$t.nav.about}</a>
+				<a href="/#about" onclick={(e) => scrollTo(e, "#about")} class="hover:text-black transition-colors">{$t.nav.about}</a>
 			</li>
 			<li bind:this={navItemsRef[3]}>
-				<a href="#contact" onclick={(e) => scrollTo(e, "#contact")} class="hover:text-black transition-colors">{$t.nav.contact}</a>
+				<a href="/#contact" onclick={(e) => scrollTo(e, "#contact")} class="hover:text-black transition-colors">{$t.nav.contact}</a>
 			</li>
 		</ul>
 	</div>
@@ -219,7 +219,7 @@
 		</div>
 
 		<a
-			href="#contact"
+			href="/#contact"
 			onclick={(e) => scrollTo(e, "#contact")}
 			data-cursor-label={$t.cta.label}
 			class="hidden md:flex items-center justify-center text-sm font-medium bg-[#5B21F5] text-white hover:bg-[#0A0A0A] transition-colors duration-300 px-6 py-2 rounded-full"
@@ -261,7 +261,7 @@
 			<li class="overflow-hidden">
 				<a
 					bind:this={mobileLinksRef[0]}
-					href="#work"
+					href="/#work"
 					onclick={(e) => scrollTo(e, "#work")}
 					use:fillPress
 					class="block text-[11vw] sm:text-5xl font-display font-medium text-[#0A0A0A] hover:text-[#5B21F5] transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
@@ -271,7 +271,7 @@
 			<li class="overflow-hidden">
 				<a
 					bind:this={mobileLinksRef[1]}
-					href="#services"
+					href="/#services"
 					onclick={(e) => scrollTo(e, "#services", -170)}
 					use:fillPress
 					class="block text-[11vw] sm:text-5xl font-display font-medium text-[#0A0A0A] hover:text-[#5B21F5] transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
@@ -281,7 +281,7 @@
 			<li class="overflow-hidden">
 				<a
 					bind:this={mobileLinksRef[2]}
-					href="#about"
+					href="/#about"
 					onclick={(e) => scrollTo(e, "#about")}
 					use:fillPress
 					class="block text-[11vw] sm:text-5xl font-display font-medium text-[#0A0A0A] hover:text-[#5B21F5] transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
@@ -291,7 +291,7 @@
 			<li class="overflow-hidden">
 				<a
 					bind:this={mobileLinksRef[3]}
-					href="#contact"
+					href="/#contact"
 					onclick={(e) => scrollTo(e, "#contact")}
 					use:fillPress
 					class="block text-[11vw] sm:text-5xl font-display font-medium text-[#0A0A0A] hover:text-[#5B21F5] transition-colors will-change-transform px-1 -mx-1 rounded-2xl"
@@ -301,7 +301,7 @@
 			<li class="overflow-hidden mt-2 pt-6 border-t border-black/10">
 				<a
 					bind:this={mobileLinksRef[4]}
-					href="#contact"
+					href="/#contact"
 					onclick={(e) => scrollTo(e, "#contact")}
 					use:fillPress
 					class="inline-block text-lg sm:text-xl font-sans text-[#5B21F5] font-medium hover:text-[#0A0A0A] transition-colors will-change-transform px-3 -mx-3 py-1 rounded-full"

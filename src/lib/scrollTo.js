@@ -71,10 +71,13 @@ function attachCancelListeners() {
 }
 
 export function scrollToSection(evt, target, offsetY = 40) {
-	evt?.preventDefault();
-
 	const el = typeof target === "string" ? document.querySelector(target) : target;
+	// Not found means this section doesn't exist on the current page (e.g. a
+	// `/#work` link clicked from a `/servicii/[slug]` subpage) — leave the
+	// event alone so the browser's/SvelteKit's normal navigation to that href
+	// runs instead. Only intercept for the in-page smooth-scroll case.
 	if (!el) return;
+	evt?.preventDefault();
 
 	const destination = el.getBoundingClientRect().top + window.scrollY - offsetY;
 
