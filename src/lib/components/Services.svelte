@@ -145,11 +145,10 @@
 							href="/servicii/{service.slug}"
 							data-cursor-label={$t.services.viewMore}
 							aria-label="{$t.services.viewMore} — {service.title}"
-							class="p-1 -m-1 rounded-full hover:bg-black/5 transition-colors duration-300"
+							class="flex items-center gap-1.5 rounded-full bg-[#5B21F5] text-white text-xs font-mono uppercase tracking-widest px-3.5 py-2 md:bg-transparent md:text-black/20 md:hover:text-[#5B21F5] md:hover:bg-black/5 md:p-1 md:-m-1 md:normal-case md:tracking-normal md:font-sans transition-colors duration-300"
 						>
-							<ArrowUpRight
-								class="w-8 h-8 md:w-10 md:h-10 text-black/20 hover:text-[#5B21F5] hover:rotate-45 transition-all duration-500"
-							/>
+							<span class="md:hidden">{$t.services.viewMore}</span>
+							<ArrowUpRight class="w-3.5 h-3.5 md:w-10 md:h-10 md:hover:rotate-45 transition-transform duration-500" />
 						</a>
 					</div>
 
