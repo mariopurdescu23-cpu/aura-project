@@ -67,10 +67,14 @@
 
 	onMount(() => {
 		// Reduced motion: the header's width/max-width are always their final
-		// value (static Tailwind classes, not animated) — only opacity and
-		// clip-path need setting to their finished state here.
+		// value (static Tailwind classes, not animated) — only opacity needs
+		// setting to its finished state. `clipPath` is left alone (its CSS
+		// default, "none") rather than set to a fully-open inset(0 0 0 0):
+		// that inset still *is* a clip region pinned exactly to the header's
+		// own box, which would permanently clip anything positioned to
+		// overflow it — the language dropdown below, for one.
 		if (prefersReducedMotion()) {
-			gsap.set(headerRef, { opacity: 1, clipPath: "inset(0% 0% 0% 0%)" });
+			gsap.set(headerRef, { opacity: 1 });
 			gsap.set(mobileMenuRef, { clipPath: "inset(0% 100% 0% 0%)" });
 			return () => {};
 		}
@@ -111,11 +115,21 @@
 					opacity: 1,
 					duration: 1.2,
 					ease: "expo.inOut",
-				}).to(
-					logoRef,
-					{ autoAlpha: 1, y: 0, scale: 1, duration: 1.2, ease: "expo.out" },
-					"-=0.2",
-				);
+				})
+					// A fully-open inset(0 0 0 0) is still an active clip region
+					// pinned exactly to the header's own box — it doesn't clip
+					// anything *yet* since nothing overflows during the intro, but
+					// it silently clips the language dropdown the instant someone
+					// hovers it later (`top-full`, rendered below the pill's own
+					// bounds). Clearing it to `"none"` once the reveal is done
+					// is the clip-path equivalent of the old width-based version's
+					// `overflow: hidden` -> `visible` step.
+					.set(headerRef, { clipPath: "none" })
+					.to(
+						logoRef,
+						{ autoAlpha: 1, y: 0, scale: 1, duration: 1.2, ease: "expo.out" },
+						"-=0.2",
+					);
 
 				if (isDesktop) {
 					tl.to(
