@@ -43,6 +43,8 @@ export const ro = {
 		title2: "pe scurt.",
 		viewMore: "Vezi detalii",
 		backToServices: "Servicii",
+		whatYouGet: "Ce primești",
+		processLeadIn: "Indiferent de serviciu, colaborarea urmează același proces clar, în patru pași:",
 		items: [
 			{
 				num: "01",

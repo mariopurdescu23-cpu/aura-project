@@ -5,6 +5,7 @@
 	import { getServiceImage, serviceSlugs } from "$lib/serviceImages.js";
 	import Seo from "$lib/components/Seo.svelte";
 	import Process from "$lib/components/Process.svelte";
+	import Testimonials from "$lib/components/Testimonials.svelte";
 	import Cta from "$lib/components/Cta.svelte";
 
 	let { slug } = $props();
@@ -60,7 +61,8 @@
 			</picture>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-10 md:gap-y-12">
+		<h2 class="font-mono text-xs uppercase tracking-widest text-black/40 mb-8">{$t.services.whatYouGet}</h2>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-10 md:gap-y-12 mb-20 md:mb-28">
 			{#each service.features as feature}
 				<div class="flex gap-4">
 					<div
@@ -75,8 +77,11 @@
 				</div>
 			{/each}
 		</div>
+
+		<p class="text-black/45 font-sans text-base md:text-lg max-w-xl">{$t.services.processLeadIn}</p>
 	</div>
 </section>
 
 <Process />
+<Testimonials />
 <Cta />

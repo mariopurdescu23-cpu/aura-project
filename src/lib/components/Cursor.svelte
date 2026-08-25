@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from "svelte";
+	import { beforeNavigate } from "$app/navigation";
 	import gsap from "gsap";
 
 	let cursorRef = $state();
@@ -7,6 +8,22 @@
 	let isTouchDevice = $state(false);
 	let isActive = $state(false);
 	let labelText = $state("");
+
+	// A SvelteKit client-side route change (e.g. clicking a Services card's
+	// "view details" link) swaps the page content without the browser ever
+	// firing `mouseleave` on the link that was hovered — the element is just
+	// gone. `handleLeave` below, which normally clears the label on a real
+	// mouseleave, never runs, so the label tween was left sitting at
+	// `autoAlpha: 1` showing stale text ("VEZI DETALII") on whatever the
+	// cursor happened to be over next. Resetting on every navigation start
+	// closes that gap regardless of which link triggered it.
+	beforeNavigate(() => {
+		if (!cursorRef || !labelRef) return;
+		gsap.killTweensOf(labelRef, "scale,autoAlpha");
+		gsap.killTweensOf(cursorRef, "autoAlpha");
+		gsap.to(labelRef, { scale: 0.4, autoAlpha: 0, duration: 0.2, ease: "power2.in" });
+		gsap.to(cursorRef, { autoAlpha: 1, duration: 0.2 });
+	});
 
 	onMount(() => {
 		isTouchDevice =

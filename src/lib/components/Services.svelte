@@ -152,10 +152,13 @@
 						</a>
 					</div>
 
-					<!-- Visual panel -->
-					<div class="relative z-10 flex justify-center md:justify-end my-6 md:my-4">
+					<!-- Visual panel — sized to actually fill the card's height on desktop
+					     (justify-between otherwise leaves a lot of dead white space between
+					     the number/arrow row and the title row, since 16:9 at a modest width
+					     is short). Mobile keeps its own 16:9/full-width treatment untouched. -->
+					<div class="relative z-10 flex justify-center md:justify-end my-6 md:my-4 md:flex-1 md:min-h-0">
 						<div
-							class="w-full md:w-[58%] md:max-w-[460px] aspect-[16/9] rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(10,10,10,0.12)] isolate"
+							class="w-full md:w-[70%] md:max-w-[620px] aspect-[16/9] md:aspect-auto md:h-full rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(10,10,10,0.12)] isolate"
 							style="transform: translateZ(0);"
 						>
 							<picture class="contents">

@@ -43,6 +43,8 @@ export const en = {
 		title2: "said plainly.",
 		viewMore: "View details",
 		backToServices: "Services",
+		whatYouGet: "What you get",
+		processLeadIn: "Whatever the service, working with us follows the same clear, four-step process:",
 		items: [
 			{
 				num: "01",
