@@ -44,46 +44,37 @@
 		// — proportional to how much the user actually has to scroll
 		// through the content, not to an arbitrary container edge.
 		//
-		// `scrub` recomputes and writes the tween's value on every scroll
-		// callback for that whole distance — cheap on desktop, but on
-		// mobile it was competing every frame with Lenis's own rAF loop and
-		// dropping frames. Desktop keeps the scrubbed fill; mobile gets the
-		// same one-shot reveal pattern as the step blocks below (fires once,
-		// no per-scroll-frame work) timed to the last step appearing.
-		const mm = gsap.matchMedia();
-
-		mm.add("(min-width: 768px)", () => {
-			gsap.fromTo(
-				lineRef,
-				{ scaleY: 0 },
-				{
-					scaleY: 1,
-					ease: "none",
-					transformOrigin: "top",
-					scrollTrigger: {
-						trigger: stepRefs[0],
-						start: "top bottom",
-						endTrigger: stepRefs[stepRefs.length - 1],
-						end: "bottom top",
-						scrub: 0.6,
-					},
+		// A numeric `scrub` already interpolates through GSAP's own rAF
+		// ticker rather than writing on every raw scroll event (that
+		// per-event write is only what `scrub: true` does — see the note
+		// on Services' card scale/dim tweens) so the scrub itself isn't
+		// what was dropping frames on mobile. The actual cost is
+		// rasterising this element fresh on every one of those rAF writes:
+		// it's a plain `position: absolute` div with no layer of its own,
+		// so each `scaleY` write forces the browser to repaint it against
+		// the page underneath. `will-change: transform` promotes it to its
+		// own compositor layer for the scroll's duration, so `scaleY` after
+		// that is a compositor-only transform update — the same fix and
+		// the same measured technique as the dim scrim in Services.svelte,
+		// just applied here instead of dropping the scrub-tied fill (which
+		// reads as "loads all at once" once removed, not scroll-progressive).
+		gsap.fromTo(
+			lineRef,
+			{ scaleY: 0 },
+			{
+				scaleY: 1,
+				ease: "none",
+				transformOrigin: "top",
+				scrollTrigger: {
+					trigger: stepRefs[0],
+					start: "top bottom",
+					endTrigger: stepRefs[stepRefs.length - 1],
+					end: "bottom top",
+					scrub: 0.6,
+					onToggle: (self) => gsap.set(lineRef, { willChange: self.isActive ? "transform" : "auto" }),
 				},
-			);
-		});
-
-		mm.add("(max-width: 767px)", () => {
-			gsap.fromTo(
-				lineRef,
-				{ scaleY: 0 },
-				{
-					scaleY: 1,
-					duration: 0.9,
-					ease: "power2.out",
-					transformOrigin: "top",
-					scrollTrigger: { trigger: stepRefs[stepRefs.length - 1], start: "top 82%" },
-				},
-			);
-		});
+			},
+		);
 
 		stepRefs.forEach((step) => {
 			if (!step) return;
