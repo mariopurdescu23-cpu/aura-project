@@ -31,18 +31,28 @@
 		// the hero still animate in right alongside/after it via the "<"
 		// (same start time) and small positive offsets below, so the overall
 		// reveal still reads as one connected sequence, just headline-first.
-		const tl = gsap.timeline();
+		//
+		// This section unmounts on navigation away from `/` (a `/servicii/[slug]`
+		// visit). None of what's below uses ScrollTrigger, so it was never the
+		// class of leak Process/Services/About had (a permanent scroll listener
+		// on detached DOM) — but the intro timeline and the quickTo tweens were
+		// still untracked, so a very fast navigate-away-mid-intro left them
+		// running orphaned until they finished. `gsap.context` scopes and
+		// reverts all of it in one call, same pattern as the other sections.
+		const ctx = gsap.context(() => {
+			const tl = gsap.timeline();
 
-		gsap.set(orbRef, { autoAlpha: 0, scale: 0.7 });
-		gsap.set(lines, { yPercent: 120, rotateZ: 1.5 });
-		gsap.set([metaTop, descRef, ctaContainer, scrollCue], { y: 16, autoAlpha: 0 });
+			gsap.set(orbRef, { autoAlpha: 0, scale: 0.7 });
+			gsap.set(lines, { yPercent: 120, rotateZ: 1.5 });
+			gsap.set([metaTop, descRef, ctaContainer, scrollCue], { y: 16, autoAlpha: 0 });
 
-		tl.to(lines, { yPercent: 0, rotateZ: 0, duration: 0.9, stagger: 0.08, ease: "expo.out" })
-			.to(orbRef, { autoAlpha: 1, scale: 1, duration: 1.4, ease: "power3.out" }, "<")
-			.to(metaTop, { y: 0, autoAlpha: 1, duration: 0.7, ease: "power3.out" }, "<0.1")
-			.to(descRef, { y: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, "-=0.5")
-			.to(ctaContainer, { y: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, "-=0.5")
-			.to(scrollCue, { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" }, "-=0.6");
+			tl.to(lines, { yPercent: 0, rotateZ: 0, duration: 0.9, stagger: 0.08, ease: "expo.out" })
+				.to(orbRef, { autoAlpha: 1, scale: 1, duration: 1.4, ease: "power3.out" }, "<")
+				.to(metaTop, { y: 0, autoAlpha: 1, duration: 0.7, ease: "power3.out" }, "<0.1")
+				.to(descRef, { y: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, "-=0.5")
+				.to(ctaContainer, { y: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, "-=0.5")
+				.to(scrollCue, { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out" }, "-=0.6");
+		}, heroRef);
 
 		// Slow autonomous drift so the orb feels alive even without the mouse.
 		// Paused once the hero scrolls away: it is a blurred gradient circle, so
@@ -102,7 +112,14 @@
 		}
 
 		return () => {
+			ctx.revert();
 			stopDrift();
+			// `quickTo` tweens live outside the context above (they're
+			// long-lived, retargeted-in-place on every mousemove rather than
+			// recreated), so they need killing explicitly rather than via
+			// `ctx.revert()`.
+			gsap.killTweensOf(orbRef);
+			gsap.killTweensOf(lines);
 			window.removeEventListener("resize", refreshRect);
 			window.removeEventListener("mousemove", handleMouseMove);
 		};
