@@ -99,9 +99,7 @@
 	<div class="px-4 md:px-8 max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-x-6 gap-y-16 md:gap-y-6">
 		{#each projects as project, i}
 			<a
-				href={project.url}
-				target="_blank"
-				rel="noopener noreferrer"
+				href="/lucrari/{project.slug}"
 				data-cursor-label={$t.work.viewProject}
 				class="group col-span-1 {project.colSpan} {project.colStart} {project.offsetTop} block cursor-pointer"
 			>
