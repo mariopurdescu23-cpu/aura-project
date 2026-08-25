@@ -105,6 +105,15 @@ export const ro = {
 				tech: "SvelteKit · CRM propriu",
 				url: "https://rodicachiriches.ro",
 			},
+			{
+				id: "03",
+				name: "Recenziata.ro",
+				category: "Platformă recenzii Google + carduri NFC",
+				year: "2026",
+				desc: "O platformă cu carduri NFC și cod QR pentru afaceri locale, care transformă clienții mulțumiți în recenzii Google în doar 10 secunde — cu dashboard propriu și aplicație PWA.",
+				tech: "Next.js · PWA · NFC/QR",
+				url: "https://recenziata.vercel.app",
+			},
 		],
 	},
 	capabilities: {
