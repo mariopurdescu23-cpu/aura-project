@@ -48,6 +48,7 @@ export const ro = {
 				num: "01",
 				title: "Dezvoltare Software",
 				desc: "Aplicații și platforme personalizate, construite pentru scalare, pe o arhitectură care rămâne mentenabilă pe măsură ce creșteți.",
+				intro: "Lucrăm cu companii care au deja un produs sau un proces intern greoi și au nevoie de software construit corect de la bază — nu un prototip rapid care se destramă la prima creștere. Fiecare decizie tehnică e discutată deschis, cu argumente, nu impusă din spatele unui contract.",
 				tags: ["Aplicații web", "Instrumente interne", "API-uri"],
 				features: [
 					{ title: "Arhitectură curată", desc: "Cod structurat de la prima linie, gândit să rămână ușor de întreținut și extins pe măsură ce echipa și produsul cresc." },
@@ -60,6 +61,7 @@ export const ro = {
 				num: "02",
 				title: "Web Design",
 				desc: "Site-uri de nivel editorial, lucrate cu grijă, care lasă o primă impresie de neuitat — și se încarcă la fel de rapid.",
+				intro: "Un site bun nu e doar frumos — trebuie să convertească, să se încarce rapid și să reziste în timp fără să pară învechit peste un an. Combinăm direcție de artă originală cu inginerie front-end solidă, ca rezultatul să arate la fel de bine cum se și comportă.",
 				tags: ["Direcție de artă", "Motion", "Sisteme de design"],
 				features: [
 					{ title: "Direcție de artă proprie", desc: "Fiecare site pleacă de la o direcție vizuală originală, nu de la un șablon reciclat." },
@@ -72,6 +74,7 @@ export const ro = {
 				num: "03",
 				title: "UI / UX",
 				desc: "Interfețe gândite pentru claritate, viteză și modul real în care gândesc oamenii — nu cum presupune un șablon că gândesc.",
+				intro: "Nu desenăm ecrane izolate — construim fluxuri complete, testate cu oameni reali înainte să ajungă în producție. Scopul nu e un portofoliu frumos de mockup-uri, ci o interfață pe care utilizatorii chiar o înțeleg din prima.",
 				tags: ["Design de produs", "Prototipare", "Cercetare"],
 				features: [
 					{ title: "Cercetare înainte de pixeli", desc: "Înțelegem utilizatorii și obiectivele de business înainte de a desena primul ecran." },
@@ -84,6 +87,7 @@ export const ro = {
 				num: "04",
 				title: "SaaS & Platforme",
 				desc: "Design și inginerie completă pentru companii de software care construiesc chiar produsul pe care se bazează întreaga afacere.",
+				intro: "Lucrăm cu fondatori și echipe tehnice care construiesc produsul central al afacerii lor, nu un site de prezentare. Arhitectura, autentificarea și facturarea sunt gândite corect din prima versiune, ca să nu fie nevoie de o rescriere costisitoare peste un an.",
 				tags: ["De la MVP la scalare", "Dashboard-uri", "Facturare & autentificare"],
 				features: [
 					{ title: "De la MVP la scalare", desc: "Arhitectură pregătită să crească de la primii utilizatori la mii de conturi active." },
@@ -96,6 +100,7 @@ export const ro = {
 				num: "05",
 				title: "AI & Automatizare",
 				desc: "Integrări AI și automatizări practice care elimină frecarea din fluxuri de lucru reale — nu AI de dragul AI-ului.",
+				intro: "Nu pornim de la „hai să băgăm AI undeva” — pornim de la un proces real care consumă timp și încercăm să vedem dacă un model sau o automatizare chiar îl rezolvă. Dacă răspunsul e nu, spunem asta direct, în loc să vindem o funcționalitate inutilă.",
 				tags: ["Integrări LLM", "Automatizare", "Copiloți interni"],
 				features: [
 					{ title: "Integrări LLM practice", desc: "Funcționalități AI care rezolvă o problemă reală de business, nu un chatbot decorativ." },
@@ -108,6 +113,7 @@ export const ro = {
 				num: "06",
 				title: "Produse Digitale",
 				desc: "De la prima schiță la produsul livrat: sisteme de design, prototipuri și cod de producție, sub același acoperiș.",
+				intro: "Potrivit pentru echipe care pornesc de la zero sau relansează un produs și au nevoie de un singur partener pentru tot procesul — cercetare, design, dezvoltare și lansare — în loc să coordoneze trei furnizori diferiți care nu comunică între ei.",
 				tags: ["Branding", "Sisteme de design", "Livrare completă"],
 				features: [
 					{ title: "De la schiță la lansare", desc: "Acoperim tot procesul — cercetare, design, dezvoltare și lansare — sub același acoperiș." },
@@ -202,8 +208,8 @@ export const ro = {
 	},
 	about: {
 		label: "Despre noi",
-		headline: ["15 ANI.", "100+ PROIECTE", "livrate."],
-		desc: "Weberescu este o agenție consacrată de software și design, cu peste 15 ani de experiență în industrie și peste 100 de proiecte livrate pentru companii ambițioase. Aducem procesul, profunzimea și fiabilitatea unui studio la scară largă — echipe senior, livrare dovedită și experiența necesară pentru a duce fiecare proiect până la capăt.",
+		headline: ["5 ANI.", "100+ PROIECTE", "livrate."],
+		desc: "Weberescu este o agenție consacrată de software și design, cu peste 5 ani de experiență în industrie și peste 100 de proiecte livrate pentru companii ambițioase. Aducem procesul, profunzimea și fiabilitatea unui studio la scară largă — echipe senior, livrare dovedită și experiența necesară pentru a duce fiecare proiect până la capăt.",
 		principles: [
 			{ n: "01", title: "Măiestria înaintea vitezei", desc: "Preferăm să livrăm cu o săptămână mai târziu, dar corect." },
 			{ n: "02", title: "Design și cod, împreună", desc: "Aceiași oameni care proiectează ajută și la construcție." },
@@ -211,7 +217,7 @@ export const ro = {
 		],
 		stats: [
 			{ label: "Proiecte livrate", value: 100, suffix: "+", isNumber: true },
-			{ label: "Ani de experiență", value: 15, suffix: "+", isNumber: true },
+			{ label: "Ani de experiență", value: 5, suffix: "+", isNumber: true },
 			{ label: "Echipă internă", value: 100, suffix: "%", isNumber: true },
 			{ label: "Satisfacția clienților", value: 98, suffix: "%", isNumber: true },
 		],
@@ -270,17 +276,18 @@ export const ro = {
 	},
 	cta: {
 		label: "Hai să vorbim",
-		line1: "HAI SĂ FACEM",
+		line1: "HAI SĂ CREĂM",
 		line2: "CEVA",
 		line3: "de neuitat.",
 		button: "Hai să vorbim",
 		note: "Sau scrie-ne la",
 	},
 	footer: {
-		desc: "Agenție de software și web design cu peste 15 ani de experiență, care proiectează și construiește produse digitale pentru companii ambițioase.",
+		desc: "Agenție de software și web design cu peste 5 ani de experiență, care proiectează și construiește produse digitale pentru companii ambițioase.",
 		booking: "Programări deschise pentru Q4 2026",
 		navigate: "Navigare",
 		studio: "Studio",
+		location: "București, România",
 		social: "Social",
 		rights: "Toate drepturile rezervate.",
 		credit: "Design & cod, Weberescu.",

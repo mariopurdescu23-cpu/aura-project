@@ -48,6 +48,7 @@ export const en = {
 				num: "01",
 				title: "Software Development",
 				desc: "Custom applications and platforms engineered for scale, built on architecture that stays maintainable as you grow.",
+				intro: "We work with companies that already have a product, or a clunky internal process, and need software built correctly from the ground up — not a quick prototype that falls apart at the first sign of growth. Every technical decision is discussed openly, with reasoning, not imposed from behind a contract.",
 				tags: ["Web apps", "Internal tools", "APIs"],
 				features: [
 					{ title: "Clean architecture", desc: "Code structured from the first line to stay maintainable and extendable as your team and product grow." },
@@ -60,6 +61,7 @@ export const en = {
 				num: "02",
 				title: "Web Design",
 				desc: "Editorial, high-craft websites that make a first impression impossible to forget — and just as fast to load.",
+				intro: "A good site isn't just beautiful — it has to convert, load fast, and hold up over time without looking dated a year later. We pair original art direction with solid front-end engineering, so the result looks as good as it performs.",
 				tags: ["Art direction", "Motion", "Design systems"],
 				features: [
 					{ title: "Original art direction", desc: "Every site starts from a genuine visual direction, not a recycled template." },
@@ -72,6 +74,7 @@ export const en = {
 				num: "03",
 				title: "UI / UX",
 				desc: "Interfaces designed around clarity, speed, and how people actually think — not how a template assumes they do.",
+				intro: "We don't design screens in isolation — we build complete flows, tested with real people before they ever reach production. The goal isn't a pretty portfolio of mockups; it's an interface people actually understand on the first try.",
 				tags: ["Product design", "Prototyping", "Research"],
 				features: [
 					{ title: "Research before pixels", desc: "We understand your users and business goals before the first screen gets drawn." },
@@ -84,6 +87,7 @@ export const en = {
 				num: "04",
 				title: "SaaS & Platforms",
 				desc: "End-to-end product design and engineering for software companies building the thing their whole business runs on.",
+				intro: "We work with founders and technical teams building the core product their business runs on, not a brochure site. Architecture, authentication, and billing are done right from version one, so you're not stuck with a costly rewrite a year in.",
 				tags: ["MVP to scale", "Dashboards", "Billing & auth"],
 				features: [
 					{ title: "MVP to scale", desc: "Architecture built to grow from your first users to thousands of active accounts." },
@@ -96,6 +100,7 @@ export const en = {
 				num: "05",
 				title: "AI & Automation",
 				desc: "Practical AI integrations and automation that remove friction from real workflows — not AI for its own sake.",
+				intro: "We don't start from \"let's add AI somewhere\" — we start from a real process that's wasting time and figure out whether a model or an automation actually fixes it. If the answer is no, we say so directly instead of selling a feature you don't need.",
 				tags: ["LLM integrations", "Automation", "Internal copilots"],
 				features: [
 					{ title: "Practical LLM integrations", desc: "AI features that solve a real business problem, not a decorative chatbot." },
@@ -108,6 +113,7 @@ export const en = {
 				num: "06",
 				title: "Digital Products",
 				desc: "From first sketch to shipped product: design systems, prototypes, and production-grade code, under one roof.",
+				intro: "A fit for teams starting from scratch or relaunching a product who want a single partner across the whole process — research, design, development, and launch — instead of coordinating three different vendors who don't talk to each other.",
 				tags: ["Branding", "Design systems", "Full delivery"],
 				features: [
 					{ title: "From sketch to launch", desc: "We cover the whole process — research, design, development, and launch — under one roof." },
@@ -202,8 +208,8 @@ export const en = {
 	},
 	about: {
 		label: "About",
-		headline: ["15 YEARS.", "100+ PROJECTS", "delivered."],
-		desc: "Weberescu is an established software and design agency with over 15 years in the industry and 100+ projects delivered for ambitious companies. We bring the process, depth and reliability of a full-scale studio — senior teams, proven delivery, and the experience to see every project through end to end.",
+		headline: ["5 YEARS.", "100+ PROJECTS", "delivered."],
+		desc: "Weberescu is an established software and design agency with over 5 years in the industry and 100+ projects delivered for ambitious companies. We bring the process, depth and reliability of a full-scale studio — senior teams, proven delivery, and the experience to see every project through end to end.",
 		principles: [
 			{ n: "01", title: "Craft over speed", desc: "We'd rather ship a week later and get it right." },
 			{ n: "02", title: "Design and code together", desc: "The same people who design it help build it." },
@@ -211,7 +217,7 @@ export const en = {
 		],
 		stats: [
 			{ label: "Projects delivered", value: 100, suffix: "+", isNumber: true },
-			{ label: "Years of experience", value: 15, suffix: "+", isNumber: true },
+			{ label: "Years of experience", value: 5, suffix: "+", isNumber: true },
 			{ label: "In-house delivery", value: 100, suffix: "%", isNumber: true },
 			{ label: "Client satisfaction", value: 98, suffix: "%", isNumber: true },
 		],
@@ -277,10 +283,11 @@ export const en = {
 		note: "Or write to",
 	},
 	footer: {
-		desc: "Software and web design agency with 15+ years of experience, designing and building digital products for ambitious companies.",
+		desc: "Software and web design agency with 5+ years of experience, designing and building digital products for ambitious companies.",
 		booking: "Booking Q4 2026",
 		navigate: "Navigate",
 		studio: "Studio",
+		location: "Bucharest, Romania",
 		social: "Social",
 		rights: "All rights reserved.",
 		credit: "Design & code, Weberescu.",

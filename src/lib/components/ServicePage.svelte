@@ -34,8 +34,11 @@
 
 		<span class="font-mono text-sm text-black/30 mb-4 block">{service.num}</span>
 		<h1 class="font-display text-5xl sm:text-6xl md:text-7xl leading-[0.95] mb-8">{service.title}</h1>
-		<p class="text-black/55 font-sans font-light text-lg md:text-xl leading-relaxed max-w-2xl mb-16 md:mb-20">
+		<p class="text-black/55 font-sans font-light text-lg md:text-xl leading-relaxed max-w-2xl mb-5">
 			{service.desc}
+		</p>
+		<p class="text-black/55 font-sans font-light text-base md:text-lg leading-relaxed max-w-2xl mb-16 md:mb-20">
+			{service.intro}
 		</p>
 
 		<div

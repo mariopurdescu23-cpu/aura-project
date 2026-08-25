@@ -30,6 +30,7 @@
 
 		<div class="col-span-1 flex flex-col gap-3 md:gap-4">
 			<h3 class="font-mono text-xs uppercase tracking-widest text-[#a78bfa] mb-2">{$t.footer.studio}</h3>
+			<span class="text-white/60 font-sans text-sm">{$t.footer.location}</span>
 			<a href="mailto:contact@weberescu.ro" class="text-white/60 hover:text-white font-sans text-sm transition-colors break-all">contact@weberescu.ro</a>
 		</div>
 
