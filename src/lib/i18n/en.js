@@ -265,7 +265,7 @@ export const en = {
 		note: "Or write to",
 	},
 	footer: {
-		desc: "Software and web design agency with 5+ years of experience, designing and building digital products for ambitious companies.",
+		desc: "Independent project dedicated to building websites, software solutions and digital concepts.",
 		booking: "Booking Q4 2026",
 		navigate: "Navigate",
 		studio: "Studio",

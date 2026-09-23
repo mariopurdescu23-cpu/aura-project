@@ -265,7 +265,7 @@ export const ro = {
 		note: "Sau scrie-ne la",
 	},
 	footer: {
-		desc: "Agenție de software și web design cu peste 5 ani de experiență, care proiectează și construiește produse digitale pentru companii ambițioase.",
+		desc: "Proiect independent dedicat dezvoltării de website-uri, soluții software și concepte digitale.",
 		booking: "Programări deschise pentru Q4 2026",
 		navigate: "Navigare",
 		studio: "Studio",
