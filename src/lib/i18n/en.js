@@ -200,18 +200,16 @@ export const en = {
 	},
 	about: {
 		label: "About",
-		headline: ["5 YEARS.", "100+ PROJECTS", "delivered."],
-		desc: "Weberescu is an established software and design agency with over 5 years in the industry and 100+ projects delivered for ambitious companies. We bring the process, depth and reliability of a full-scale studio — senior teams, proven delivery, and the experience to see every project through end to end.",
+		title: "About Weberescu",
+		paragraphs: [
+			"Weberescu is an independent project dedicated to building websites, software solutions and digital concepts.",
+			"We build and test projects to explore ideas, technologies and design directions, with a focus on user experience, functionality and performance.",
+			"Our portfolio includes projects and concepts we've developed for demonstration or experimental purposes.",
+		],
 		principles: [
 			{ n: "01", title: "Craft over speed", desc: "We'd rather ship a week later and get it right." },
 			{ n: "02", title: "Design and code together", desc: "The same people who design it help build it." },
 			{ n: "03", title: "No filler, no fluff", desc: "Every screen, sentence and animation earns its place." },
-		],
-		stats: [
-			{ label: "Projects delivered", value: 100, suffix: "+", isNumber: true },
-			{ label: "Years of experience", value: 5, suffix: "+", isNumber: true },
-			{ label: "In-house delivery", value: 100, suffix: "%", isNumber: true },
-			{ label: "Client satisfaction", value: 98, suffix: "%", isNumber: true },
 		],
 	},
 	process: {

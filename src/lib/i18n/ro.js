@@ -200,18 +200,16 @@ export const ro = {
 	},
 	about: {
 		label: "Despre noi",
-		headline: ["5 ANI.", "100+ PROIECTE", "livrate."],
-		desc: "Weberescu este o agenție consacrată de software și design, cu peste 5 ani de experiență în industrie și peste 100 de proiecte livrate pentru companii ambițioase. Aducem procesul, profunzimea și fiabilitatea unui studio la scară largă — echipe senior, livrare dovedită și experiența necesară pentru a duce fiecare proiect până la capăt.",
+		title: "Despre Weberescu",
+		paragraphs: [
+			"Weberescu este un proiect independent dedicat dezvoltării de website-uri, soluții software și concepte digitale.",
+			"Construim și testăm proiecte pentru a explora idei, tehnologii și direcții de design, cu accent pe experiența utilizatorului, funcționalitate și performanță.",
+			"Portofoliul nostru include proiecte și concepte dezvoltate de noi în scop demonstrativ sau experimental.",
+		],
 		principles: [
 			{ n: "01", title: "Măiestria înaintea vitezei", desc: "Preferăm să livrăm cu o săptămână mai târziu, dar corect." },
 			{ n: "02", title: "Design și cod, împreună", desc: "Aceiași oameni care proiectează ajută și la construcție." },
 			{ n: "03", title: "Fără umplutură inutilă", desc: "Fiecare ecran, propoziție și animație își are rostul." },
-		],
-		stats: [
-			{ label: "Proiecte livrate", value: 100, suffix: "+", isNumber: true },
-			{ label: "Ani de experiență", value: 5, suffix: "+", isNumber: true },
-			{ label: "Echipă internă", value: 100, suffix: "%", isNumber: true },
-			{ label: "Satisfacția clienților", value: 98, suffix: "%", isNumber: true },
 		],
 	},
 	process: {
