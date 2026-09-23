@@ -5,15 +5,11 @@
  */
 import { workSources } from "./images.js";
 import imgCabana from "$lib/assets/work/cabana-svinita.jpg";
-import imgRodica from "$lib/assets/work/rodica-chiriches.jpg";
-import imgRecenziata from "$lib/assets/work/recenziata.jpg";
 
-export const workSlugs = ["cabana-svinita", "rodica-chiriches", "recenziata"];
+export const workSlugs = ["cabana-svinita"];
 
 const images = {
 	"cabana-svinita": imgCabana,
-	"rodica-chiriches": imgRodica,
-	recenziata: imgRecenziata,
 };
 
 /** `slug` is one of `workSlugs`. */

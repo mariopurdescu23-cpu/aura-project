@@ -1,5 +1,4 @@
 import peiuPhoto from "$lib/assets/testimonials/peiu-laurentiu.jpg";
-import rodicaPhoto from "$lib/assets/testimonials/rodica-chiriches.jpg";
 
 export const ro = {
 	seo: {
@@ -151,38 +150,6 @@ export const ro = {
 					{ title: "Optimizat pentru mobil", desc: "Majoritatea vizitatorilor descoperă cabana de pe telefon, deci acolo trebuia să funcționeze impecabil." },
 				],
 			},
-			{
-				id: "02",
-				slug: "rodica-chiriches",
-				name: "Rodica Chiricheș",
-				category: "Cabinet de psihologie + CRM",
-				year: "2026",
-				desc: "Un site calm, orientat spre încredere, pentru un cabinet de psihologie, însoțit de un panou de administrare CRM propriu pentru gestionarea clienților și a ședințelor.",
-				intro: "Cabinetul avea nevoie de un site care să transmită încredere din prima secundă, dar și de un sistem intern pentru gestionarea clienților și a programărilor — două proiecte diferite, livrate ca unul singur.",
-				tech: "SvelteKit · CRM propriu",
-				url: "https://rodicachiriches.ro",
-				highlights: [
-					{ title: "CRM propriu", desc: "Panou de administrare construit special pentru cabinet, pentru clienți, ședințe și programări." },
-					{ title: "Ton calm, orientat spre încredere", desc: "Design gândit pentru un vizitator care caută ajutor, nu pentru a vinde agresiv." },
-					{ title: "Programări simplificate", desc: "Pacienții își pot programa ședința direct din site, fără telefoane." },
-				],
-			},
-			{
-				id: "03",
-				slug: "recenziata",
-				name: "Recenziata.ro",
-				category: "Platformă recenzii Google + carduri NFC",
-				year: "2026",
-				desc: "O platformă cu carduri NFC și cod QR pentru afaceri locale, care transformă clienții mulțumiți în recenzii Google în doar 10 secunde — cu dashboard propriu și aplicație PWA.",
-				intro: "Afacerile locale pierdeau recenzii bune pentru că procesul de a le lăsa era prea greoi — Recenziata.ro rezolvă asta cu un card NFC și un formular de 10 secunde, plus un dashboard din care afacerea își vede evoluția.",
-				tech: "Next.js · PWA · NFC/QR",
-				url: "https://recenziata.vercel.app",
-				highlights: [
-					{ title: "Carduri NFC + cod QR", desc: "Clienții ating cardul cu telefonul sau scanează codul, fără aplicație de instalat." },
-					{ title: "Aplicație PWA", desc: "Dashboard mobil pentru afaceri, cu notificări la feedback negativ, fără cost de App Store." },
-					{ title: "Verificare abonament automată", desc: "Sistem backend care validează abonamentul activ la fiecare scanare." },
-				],
-			},
 		],
 	},
 	capabilities: {
@@ -278,10 +245,9 @@ export const ro = {
 		label: "Testimoniale",
 		title1: "Ce spun",
 		title2: "clienții noștri.",
-		// DRAFT: cele două testimoniale cu nume real (Peiu Laurentiu, Rodica
-		// Chiricheș) sunt scrise de noi pe baza proiectelor livrate, nu sunt
-		// citate obținute de la clienți. Trebuie confirmate cu ei înainte de
-		// publicare pe site-ul live.
+		// DRAFT: testimonialul cu nume real (Peiu Laurentiu) e scris de noi pe
+		// baza proiectului livrat, nu e citat obținut de la client. Trebuie
+		// confirmat cu el înainte de publicare pe site-ul live.
 		feedbacks: [
 			{
 				name: "Peiu Laurentiu",
@@ -289,13 +255,6 @@ export const ro = {
 				photo: peiuPhoto,
 				role: "Fondator, A-Frame Svinița",
 				text: "Aveam nevoie de un site care să transforme vizitatorii curioși în rezervări reale — și exact asta au livrat. Arată la fel de bine ca experiența pe care o oferim la cabană, iar rezervările au venit de la sine.",
-			},
-			{
-				name: "Rodica Chiricheș",
-				initials: "RC",
-				photo: rodicaPhoto,
-				role: "Psiholog, cabinet individual",
-				text: "Voiam ca pacienții să simtă încredere din prima secundă pe site, nu doar să citească informații. Au înțeles asta perfect, iar CRM-ul construit special pentru cabinet mi-a simplificat enorm gestionarea programărilor.",
 			},
 		],
 	},

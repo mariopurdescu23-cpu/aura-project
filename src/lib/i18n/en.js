@@ -1,5 +1,4 @@
 import peiuPhoto from "$lib/assets/testimonials/peiu-laurentiu.jpg";
-import rodicaPhoto from "$lib/assets/testimonials/rodica-chiriches.jpg";
 
 export const en = {
 	seo: {
@@ -151,38 +150,6 @@ export const en = {
 					{ title: "Built mobile-first", desc: "Most visitors find the cabin from their phone, so that's where it had to work flawlessly." },
 				],
 			},
-			{
-				id: "02",
-				slug: "rodica-chiriches",
-				name: "Rodica Chiricheș",
-				category: "Psychology Practice + CRM",
-				year: "2026",
-				desc: "A calm, trust-first website for a psychology practice, paired with a custom CRM admin panel to manage clients and sessions.",
-				intro: "The practice needed a site that built trust from the first second, plus an internal system to manage clients and appointments — two different projects, delivered as one.",
-				tech: "SvelteKit · Custom CRM",
-				url: "https://rodicachiriches.ro",
-				highlights: [
-					{ title: "Custom CRM", desc: "An admin panel built specifically for the practice — clients, sessions, and appointments." },
-					{ title: "Calm, trust-first tone", desc: "Designed for a visitor looking for help, not for aggressive selling." },
-					{ title: "Simplified booking", desc: "Patients can book a session directly from the site, no phone calls needed." },
-				],
-			},
-			{
-				id: "03",
-				slug: "recenziata",
-				name: "Recenziata.ro",
-				category: "Google Review Platform + NFC Cards",
-				year: "2026",
-				desc: "An NFC and QR-card platform for local businesses that turns happy customers into Google reviews in 10 seconds — with its own dashboard and a PWA app.",
-				intro: "Local businesses were losing good reviews because leaving one was too much friction — Recenziata.ro fixes that with an NFC card and a 10-second form, plus a dashboard the business can watch grow.",
-				tech: "Next.js · PWA · NFC/QR",
-				url: "https://recenziata.vercel.app",
-				highlights: [
-					{ title: "NFC cards + QR code", desc: "Customers tap the card with their phone or scan the code — no app to install." },
-					{ title: "PWA app", desc: "A mobile dashboard for businesses, with notifications on negative feedback, no App Store cost." },
-					{ title: "Automatic subscription checks", desc: "A backend system that validates the active subscription on every scan." },
-				],
-			},
 		],
 	},
 	capabilities: {
@@ -278,10 +245,9 @@ export const en = {
 		label: "Testimonials",
 		title1: "What clients",
 		title2: "are saying.",
-		// DRAFT: the two named testimonials (Peiu Laurentiu, Rodica
-		// Chiricheș) are written by us based on the delivered projects, not
-		// quotes obtained from the clients. Confirm with them before this
-		// goes live.
+		// DRAFT: the named testimonial (Peiu Laurentiu) is written by us
+		// based on the delivered project, not a quote obtained from the
+		// client. Confirm with him before this goes live.
 		feedbacks: [
 			{
 				name: "Peiu Laurentiu",
@@ -289,13 +255,6 @@ export const en = {
 				photo: peiuPhoto,
 				role: "Founder, A-Frame Svinița",
 				text: "We needed a site that would turn curious visitors into real bookings — and that's exactly what they delivered. It looks just as good as the experience we offer at the cabin, and the bookings followed.",
-			},
-			{
-				name: "Rodica Chiricheș",
-				initials: "RC",
-				photo: rodicaPhoto,
-				role: "Psychologist, private practice",
-				text: "I wanted patients to feel trust from the first second on the site, not just read information. They understood that perfectly, and the CRM built specifically for my practice made managing appointments so much easier.",
 			},
 		],
 	},

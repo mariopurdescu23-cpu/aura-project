@@ -1,7 +1,5 @@
 <script>
 	import imgCabana from "$lib/assets/work/cabana-svinita.jpg";
-	import imgRodica from "$lib/assets/work/rodica-chiriches.jpg";
-	import imgRecenziata from "$lib/assets/work/recenziata.jpg";
 	import { fillPress } from "$lib/actions/fillPress.js";
 	import { scrollToSection } from "$lib/scrollTo.js";
 	import { t } from "$lib/i18n/index.js";
@@ -47,23 +45,8 @@
 	// Desktop is deliberately untouched: `md:aspect-auto md:h-[…svh]` keeps
 	// the exact previous desktop sizing, and desktop browsers never resize
 	// the viewport mid-scroll anyway.
-	// Seeker and MysticPuff stay pulled (no real screenshots existed for
-	// either). Kept the first two entries exactly as they were rather than
-	// re-tuning their grid placement.
-	//
-	// Card 3 (Recenziata.ro) is a portrait hand+phone photo (1086x1448,
-	// exactly 3/4) rather than the landscape framing the other two use — so
-	// unlike them it keeps a fixed aspect-ratio box (no md:h-[Nsvh]) at every
-	// breakpoint. Sizing the box from viewport height would force
-	// object-cover to crop into the photo's sides on desktop, since this
-	// portrait source can't fill a wide svh-tall box without losing its
-	// edges. aspect-[3/4] matches the source exactly, so it renders
-	// uncropped, and a narrower md:col-span keeps the resulting tall card
-	// from ballooning.
 	const layout = [
-		{ image: imgCabana, sources: workSources("cabana-svinita"), height: "aspect-[3/4] md:aspect-auto md:h-[78svh]", colStart: "md:col-start-1", colSpan: "md:col-span-7", offsetTop: "" },
-		{ image: imgRodica, sources: workSources("rodica-chiriches"), height: "aspect-[8/9] md:aspect-auto md:h-[60svh]", colStart: "md:col-start-6", colSpan: "md:col-span-7", offsetTop: "md:mt-24" },
-		{ image: imgRecenziata, sources: workSources("recenziata"), height: "aspect-[3/4]", colStart: "md:col-start-1", colSpan: "md:col-span-5", offsetTop: "md:mt-32" },
+		{ image: imgCabana, sources: workSources("cabana-svinita"), height: "aspect-[3/4] md:aspect-auto md:h-[78svh]", colStart: "md:col-start-1", colSpan: "md:col-span-12", offsetTop: "" },
 	];
 
 	// The image box is roughly half the 1600px grid on desktop and full-bleed
